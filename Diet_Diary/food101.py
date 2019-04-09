@@ -60,7 +60,7 @@ def load_data():
             # Format image
             # TODO: process
             image = Image.open("E:/Downloads/food-101/images/" + v[i] + ".jpg")
-            image = image.resize((50, 50), Image.ANTIALIAS)
+            image = image.resize((200, 200), Image.ANTIALIAS)
 
             image.load()
             data = numpy.asarray(image, dtype="uint8")

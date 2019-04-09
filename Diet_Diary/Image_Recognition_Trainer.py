@@ -24,7 +24,7 @@ new_Y_train = np_utils.to_categorical(y_train)
 #
 # #
 model = Sequential()
-model.add(Conv2D(32, (3, 3), input_shape=(50, 50, 3), activation='relu', padding='same', kernel_constraint=maxnorm(3)))
+model.add(Conv2D(32, (3, 3), input_shape=(200, 200, 3), activation='relu', padding='same', kernel_constraint=maxnorm(3)))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(1024, activation='relu', kernel_constraint=maxnorm(3)))
