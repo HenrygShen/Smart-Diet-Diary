@@ -3,6 +3,8 @@ from keras.models import load_model
 import tensorflow as tf
 
 
+# Credit to stackoverflow user jdehesa:
+# https://stackoverflow.com/questions/45466020/how-to-export-keras-h5-to-tensorflow-pb
 def freeze_session(session, keep_var_names=None, output_names=None, clear_devices=True):
     """
     Freezes the state of a session into a pruned computation graph.
