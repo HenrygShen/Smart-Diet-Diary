@@ -1,4 +1,7 @@
 const fs = require('fs');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 
 const parser = () => {
@@ -24,27 +27,27 @@ const parser = () => {
     
 }
 
-const PATH = 'E:/Downloads/fruit/images/';
+const IMAGE_PATH = process.env.IMAGE_PATH;
 
 
 const train = () => {
 
 
-    fs.readdir(PATH, function(err, dirs) {
+    fs.readdir(IMAGE_PATH, function(err, dirs) {
 
         /* Loop through all of the categories */
         for (var subdir of dirs) {
 
             let count = 1;
             /* Get all images in one category */
-            const images = fs.readdirSync(PATH+subdir);
+            const images = fs.readdirSync(IMAGE_PATH+subdir);
             for (var image of images) {
 
                 /* If not named properly */
                 var cleanString = image.substring(0, image.length - 4);
                 if (cleanString.match(/[a-z]/i)) {
 
-                    fs.rename(`${PATH}${subdir}/${image}`, `${PATH}${subdir}/${count}.jpg`, function(err) {
+                    fs.rename(`${IMAGE_PATH}${subdir}/${image}`, `${IMAGE_PATH}${subdir}/${count}.jpg`, function(err) {
                         
                         if (err) {
                             console.log(err);
@@ -61,9 +64,11 @@ const train = () => {
     })
 }
 
-const ROOT_PATH = 'E:/Downloads/fruit';
+const ROOT_PATH = process.env.ROOT_PATH;
+
+
 const addLabel = (type, name) => {
-    let contents = fs.readFileSync(`${ROOT_PATH}/meta/train.json`);
+    let contents = fs.readFileSync(`${ROOT_PATH}meta/train.json`);
     let jsonContent = JSON.parse(contents.toString('utf8'));
 
     if (jsonContent[type]) {
