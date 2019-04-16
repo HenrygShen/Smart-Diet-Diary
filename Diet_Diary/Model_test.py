@@ -29,7 +29,7 @@ model = load_model(filepath='models/Trained_model.h5')
 data = np.asarray(x_test[1])
 
 
-image = Image.open("C:/Users/linco/Downloads/apple.jpg")
+image = Image.open("C:/Users/linco/Downloads/ban.jpg")
 # image = Image.open("C:/Users/Henry/Desktop/12.jpg")
 image = image.resize((50, 50), Image.ANTIALIAS)
 
