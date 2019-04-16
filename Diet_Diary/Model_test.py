@@ -18,7 +18,7 @@ y_test = utils.to_categorical(y_test)
 
 labels = food101.get_class_labels()
 
-model = load_model(filepath='Trained_model.h5')
+model = load_model(filepath='models/Trained_model.h5')
 #
 # results = model.evaluate(x=x_test,y=y_test)
 #
@@ -27,9 +27,10 @@ model = load_model(filepath='Trained_model.h5')
 # print("Test acc",results[1])
 
 data = np.asarray(x_test[1])
-# "C:/Users/Henry/Desktop/image.jpg"
-# E:/Downloads/fruit/images/apple/11.jpg
-image = Image.open("C:/Users/Henry/Desktop/12.jpg")
+
+
+image = Image.open("C:/Users/linco/Downloads/apple.jpg")
+# image = Image.open("C:/Users/Henry/Desktop/12.jpg")
 image = image.resize((50, 50), Image.ANTIALIAS)
 
 image.load()
