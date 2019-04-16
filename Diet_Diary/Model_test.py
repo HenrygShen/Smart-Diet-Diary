@@ -29,7 +29,7 @@ model = load_model(filepath='models/fruit.h5')
 data = np.asarray(x_test[1])
 # "C:/Users/Henry/Desktop/image.jpg"
 # E:/Downloads/fruit/images/apple/11.jpg
-image = Image.open("C:/Users/Henry/Desktop/apple2.jpg")
+image = Image.open("C:/Users/Henry/Desktop/wow.jpg")
 image = image.resize((50, 50), Image.ANTIALIAS)
 
 image.load()
@@ -42,7 +42,7 @@ image.close()
 data2 = data2.reshape(-1, 50, 50, 3)
 # plt.imshow(data)
 # plt.show()
-prediction = (model.predict(x=data2))
+prediction = model.predict(x=data2)
 
 print(prediction)
 max_index = np.argmax(prediction[0])
