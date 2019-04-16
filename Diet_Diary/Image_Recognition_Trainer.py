@@ -17,7 +17,7 @@ from keras.datasets import cifar10
 
 # Dataset Settings
 image_size = 50
-categories = 101
+categories = 5
 
 (X_train, y_train) = food101.load_data()
 new_X_train = X_train.astype('float32')
@@ -37,7 +37,7 @@ model.add(Dropout(0.5))
 model.add(Dense(categories, activation='softmax'))
 #
 model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01), metrics=['accuracy'])
-model.fit(new_X_train, new_Y_train, epochs=15, batch_size=16)
+model.fit(new_X_train, new_Y_train, epochs=50, batch_size=5)
 #
 #
 import h5py

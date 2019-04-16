@@ -18,7 +18,7 @@ y_test = utils.to_categorical(y_test)
 
 labels = food101.get_class_labels()
 
-model = load_model(filepath='models/fruit.h5')
+model = load_model(filepath='Trained_model.h5')
 #
 # results = model.evaluate(x=x_test,y=y_test)
 #
@@ -29,7 +29,7 @@ model = load_model(filepath='models/fruit.h5')
 data = np.asarray(x_test[1])
 # "C:/Users/Henry/Desktop/image.jpg"
 # E:/Downloads/fruit/images/apple/11.jpg
-image = Image.open("C:/Users/Henry/Desktop/wow.jpg")
+image = Image.open("C:/Users/Henry/Desktop/12.jpg")
 image = image.resize((50, 50), Image.ANTIALIAS)
 
 image.load()
@@ -47,4 +47,8 @@ prediction = model.predict(x=data2)
 print(prediction)
 max_index = np.argmax(prediction[0])
 print("prediction label index = " + str(max_index))
+
 print(labels)
+for key, value in labels.items():
+    if value == max_index:
+        print(key)
