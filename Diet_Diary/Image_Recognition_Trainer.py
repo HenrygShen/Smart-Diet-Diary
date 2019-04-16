@@ -37,8 +37,8 @@ model.add(Dropout(0.5))
 model.add(Dense(categories, activation='softmax'))
 #
 model.compile(loss='categorical_crossentropy', optimizer=SGD(lr=0.01), metrics=['accuracy'])
-model.fit(new_X_train, new_Y_train, epochs=50, batch_size=5)
+model.fit(new_X_train, new_Y_train, epochs=20, batch_size=5)
 #
 #
 import h5py
-model.save('Trained_model.h5')
+model.save('models/Trained_model.h5')
