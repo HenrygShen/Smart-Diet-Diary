@@ -16,9 +16,9 @@ const startTabs = () => {
 
                 tabs: [
                     {
-                        screen: "places.SharePlaceScreen",
-                        label: "Share place",
-                        title: "Share place",
+                        screen: "sdd.DiaryScreen",
+                        label: "Diet diary",
+                        title: "Diet Diary",
                         icon: icons[0],
                         navigatorButtons: {
                             leftButtons: [
@@ -32,9 +32,9 @@ const startTabs = () => {
                         }
                     },
                     {
-                        screen: "places.FindPlaceScreen",
-                        label: "Find place",
-                        title: "Find place",
+                        screen: "sdd.PhotoScreen",
+                        label: "Photo",
+                        title: "Take a photo",
                         icon: icons[1],
                         navigatorButtons: {
                             leftButtons: [
@@ -58,7 +58,7 @@ const startTabs = () => {
                 },
                 drawer: {
                     left: {
-                        screen: "places.SideDrawer"
+                        screen: "sdd.SideDrawer"
                     }
                 }
             });

@@ -6,6 +6,7 @@ from keras.optimizers import SGD
 from keras.constraints import maxnorm
 import food101
 import tensorflow as tf
+# import tensorflowjs as tfjs
 import keras
 from keras.utils import np_utils
 
@@ -42,3 +43,4 @@ model.fit(new_X_train, new_Y_train, epochs=20, batch_size=5)
 #
 import h5py
 model.save('models/Trained_model.h5')
+# tfjs.converters.save_keras_model(model, 'models/Trained_model.json')

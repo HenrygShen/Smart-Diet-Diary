@@ -14,7 +14,7 @@ import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
 import HeadingText from '../../components/UI/HeadingText/HeadingText';
 import MainText from '../../components/UI/MainText/MainText';
 import Button from '../../components/UI/Button/Button';
-// import startMainTabs from '../maintabs/startMainTabs';
+import startMainTabs from '../mainTabs/startMainTabs';
 
 import validate from '../../utility/validation';
 
@@ -90,7 +90,7 @@ class LoginScreen extends React.Component {
             password: this.state.controls.password.value
         }
         // this.props.onLogin(authData);
-        // startMainTabs();
+        startMainTabs();
     }
 
     updateInputState = (key, value) => {
@@ -180,7 +180,7 @@ class LoginScreen extends React.Component {
 			<View style = {styles.container}>
 				<View style={styles.titleContainer}>
 					<MainText>
-						<HeadingText style={styles.title}>Smart Diet Diary</HeadingText>
+						<HeadingText style={styles.title}>Smart Dsiet Diary</HeadingText>
 					</MainText>
 				</View>
 				<Button 
