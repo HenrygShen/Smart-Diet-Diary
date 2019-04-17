@@ -20,9 +20,10 @@ def freeze_graph(session, keep_var_names=  None, output_names = None, clear_devi
     return frozen_graph
 
 
-model = load_model(filepath='Image_Classifier.h5')
+model = load_model(filepath='models/Trained_model.h5')
 
 k.set_learning_phase(1)
 
 frozen_graph = freeze_graph(k.get_session(), output_names=[model.output.op.name])
-tf.train.write_graph(frozen_graph, '.', 'Image_Classifier.pb', False)
+tf.train.write_graph(frozen_graph, '.', 'models/'
+                                        'Trained_model.pb', False)

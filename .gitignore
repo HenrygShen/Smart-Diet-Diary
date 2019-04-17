@@ -8,3 +8,9 @@ models/
 node_modules/
 
 .env
+
+
+Trained_models/
+
+*.pb
+*.h5

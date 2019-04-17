@@ -180,7 +180,7 @@ class LoginScreen extends React.Component {
 			<View style = {styles.container}>
 				<View style={styles.titleContainer}>
 					<MainText>
-						<HeadingText style={styles.title}>Smart Dieta Diary</HeadingText>
+						<HeadingText style={styles.title}>Smart Dsiet Diary</HeadingText>
 					</MainText>
 				</View>
 				<Button 
