@@ -10,7 +10,7 @@ node_modules/
 .env
 
 
-Trained_models/
+Trained_model/
 
 *.pb
 *.h5
