@@ -68,6 +68,7 @@ const ROOT_PATH = process.env.ROOT_PATH;
 
 
 const addLabel = (type, name) => {
+    
     let contents = fs.readFileSync(`${ROOT_PATH}meta/train.json`);
     let jsonContent = JSON.parse(contents.toString('utf8'));
 

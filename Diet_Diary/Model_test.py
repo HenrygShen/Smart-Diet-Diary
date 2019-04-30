@@ -6,6 +6,10 @@ import numpy as np
 import food101
 import matplotlib.pyplot as plt
 
+import sys
+import numpy
+numpy.set_printoptions(threshold=sys.maxsize)
+
 # labels = ['airplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
 #
 (_, _), (x_test, y_test) = cifar10.load_data()
@@ -29,8 +33,8 @@ model = load_model(filepath='models/Trained_model.h5')
 data = np.asarray(x_test[1])
 
 
-image = Image.open("C:/Users/linco/Downloads/ban.jpg")
-# image = Image.open("C:/Users/Henry/Desktop/12.jpg")
+# image = Image.open("C:/Users/linco/Downloads/ban.jpg")
+image = Image.open("C:/Users/Henry/Desktop/123.jpg")
 image = image.resize((50, 50), Image.ANTIALIAS)
 
 image.load()
@@ -38,9 +42,15 @@ data2 = np.asarray(image)
 data2 = data2.astype("float32")
 data2 /= 255
 image.close()
+# print(data2)
+
 # data2.reshape([-1,200, 200,1])
 # np.resize(data2, (-1, 200, 200))
 data2 = data2.reshape(-1, 50, 50, 3)
+
+f = open("guru100.txt","w+")
+f.write(str(list(data2)))
+f.close()
 # plt.imshow(data)
 # plt.show()
 prediction = model.predict(x=data2)

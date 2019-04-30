@@ -4,9 +4,6 @@ import PickImage from '../../components/PickImage/PickImage';
 
 import { TfImageRecognition } from 'react-native-tensorflow';
 
-import model from './../../assets/Trained_model.pb';
-import labels from './../../assets/labels.txt';
-
 class PhotoScreen extends React.Component {
 
     static navigatorStyle = {
@@ -26,13 +23,13 @@ class PhotoScreen extends React.Component {
         }
 
         /* Set up TF */  
-        this.tfImageRecognition = new TfImageRecognition({
-            model: model,
-            labels: labels,
+        const tfImageRecognition = new TfImageRecognition({
+            model: require('./../../assets/fruit.pb'),
+            labels: labels('./../../assets/labels.txt'),
             imageMean: 117, // Optional, defaults to 117
             imageStd: 1 // Optional, defaults to 1
         });
-
+        
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }

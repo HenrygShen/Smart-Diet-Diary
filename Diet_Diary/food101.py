@@ -11,10 +11,10 @@ from PIL import Image
 # fpath = "E:/Downloads/food-101/"
 
 # Henry's fruit path
-# fpath = "E:/Downloads/fruit/"
+fpath = "E:/Downloads/fruit/"
 
 # Lincoln's fruit path
-fpath = "H:/Coding/P4Project/fruit/"
+# fpath = "H:/Coding/P4Project/fruit/"
 
 image_size = 50
 
