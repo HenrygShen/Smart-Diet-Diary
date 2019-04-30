@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const nj = require('numjs');
 const tf = require('@tensorflow/tfjs-node');
+const fs = require('fs');
 
 global.fetch = require('node-fetch');
 
@@ -29,7 +30,7 @@ parseImage = async() => {
     try {
         const model = await tf.loadLayersModel('file://Trained_model/model.json');
 
-        let imData = nj.images.read('./12.jpg');
+        let imData = nj.images.read('./please.jpg');
         imData = nj.images.resize(imData,50,50);
         imData.dtype = 'float32';
         
@@ -92,13 +93,22 @@ parseImage = async() => {
         // const example = tf.fromPixels('test');  // for example
         let data = tf.tensor(newData);
         const prediction = model.predict(data);
-        console.log(prediction.dataSync());
+        let labels = readLabels();
+        let maxPred = prediction.argMax().dataSync()[0];
+        console.log(labels[maxPred]);
     }
     catch(e) {
         console.log(e)
     }
     
 
+}
+
+
+readLabels = () => {
+    let contents = fs.readFileSync(`labels.json`);
+    let jsonContent = JSON.parse(contents.toString('utf8'));
+    return jsonContent['labels'];
 }
 
 app.listen(process.env.PORT || 3001, () => {
