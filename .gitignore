@@ -14,3 +14,5 @@ Trained_model/
 
 *.pb
 *.h5
+
+*.jpg
