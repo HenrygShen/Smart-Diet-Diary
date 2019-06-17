@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet, ActivityIndicator, TouchableNativeFeedback } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../UI/Button/Button';
 import ImagePicker from 'react-native-image-picker';
 
@@ -28,9 +29,15 @@ class PickImage extends React.Component {
             }
         });
     }
+
+    saveToDiary = () => {
+        this.setState({ pickedImage : null });
+        this.props.saveToDiary();
+    }
     
 
     render() {
+
 
         return (
             <View style = {styles.container }>
@@ -38,7 +45,14 @@ class PickImage extends React.Component {
                     <TouchableNativeFeedback
                         onPress = {this.pickImageHandler}
                     >
-                        <Image source = {this.state.pickedImage} style = {styles.previewImage} />
+                        {(this.state.pickedImage) ?
+                            <Image source = {this.state.pickedImage} style = {styles.previewImage} />
+                            :
+                            <View style = {styles.icon}>
+                                <Icon name = {'ios-camera'} size = {100} />
+                            </View>
+                            
+                        }
                     </TouchableNativeFeedback>
                     
                 </View>
@@ -46,7 +60,8 @@ class PickImage extends React.Component {
                     { !this.props.isProcessing ? 
                             <Button 
                                 onPress = {this.props.processImage}
-                                disabled = {this.props.buttonDisabled}
+                                disabled = {this.props.processDisabled}
+                                color = {'orange'}
                                 style = { styles.button }
                             >Process</Button>
                        
@@ -56,7 +71,10 @@ class PickImage extends React.Component {
                     }
                     <Button 
                         style = { styles.button}
-                        onPress = {this.props.saveToDiary}
+                        color = {'#32CD32'}
+                        textColor = { this.props.saveDisabled ? '#aaa' : 'white'}
+                        onPress = {this.saveToDiary}
+                        disabled = {this.props.saveDisabled}
                     >Save</Button>
                 </View>
             </View>
@@ -83,6 +101,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
+    icon: {
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     button: {
         height: '45%',
         aspectRatio: 1
@@ -92,8 +115,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         backgroundColor: '#eee',
-        width: '79%',
-        height: '79%'
+        height: '79%',
+        aspectRatio: 1
     },
     previewImage: {
         width: '100%',

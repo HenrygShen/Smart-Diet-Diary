@@ -11,7 +11,7 @@ import { uiStopLoading } from '../../store/actions/ui';
 
 import { CLEAR_IMAGE_RESULT } from '../../store/constants';
 
-import { insertData } from '../Diary/database';
+import { insertData } from '../../utility/database';
 
 
 const mapStateToProps = (state) => {
@@ -116,9 +116,26 @@ class PhotoScreen extends React.Component {
     saveToDiary = () => {
 
         const { name, calories } = this.state.answer;
+
         //TODO
         // Save name and results to sqlite and clear thing
         insertData(name, calories);
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                answer: {
+                    name: null,
+                    calories: null
+                },
+                controls: {
+                    ...prevState.controls,
+                    image: {
+                        value: null,
+                        valid: false
+                    }
+                }
+            }
+        })
         alert('Saved');
     }
 
@@ -132,7 +149,8 @@ class PhotoScreen extends React.Component {
 
                 <PickImage 
                     onImagePicked = {this.imagePickedHandler} 
-                    buttonDisabled = {this.state.controls.image.value === null}
+                    processDisabled = {this.state.controls.image.value === null}
+                    saveDisabled = {this.state.answer.name === null}
                     processImage = {this.processImage}
                     isProcessing = {this.props.isLoading}
                     saveToDiary = {this.saveToDiary}
