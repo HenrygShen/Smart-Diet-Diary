@@ -29,22 +29,15 @@ app.post('/processImage', (req, res) => {
 })
 
 
-app.get('/check', (req, res) => {
-    parseImage();
-    res.json({ code : 'hi'})
-})
-
 parseImage = async(picture, res) => {
 
     try {
-        console.log('start');
-        // const id = "image";
 
         const id = Math.random();
         fs.writeFileSync(`${id}.jpg`, picture, 'base64', function(err) {
             console.log(err);
         });
-        console.log('start2');
+
         const model = await tf.loadLayersModel('file://Trained_model/model.json');
 
         fs.readFileSync(`${id}.jpg`, function(err) {
