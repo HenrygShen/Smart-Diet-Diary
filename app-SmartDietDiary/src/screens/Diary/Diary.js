@@ -1,12 +1,27 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, FlatList, ScrollView } from 'react-native';
-import { initDB, resetDB, getEntries } from '../../utility/database';
+import { initDB, resetDB, getEntries, removeItemWithKey } from '../../utility/database';
 import DiaryEntry from './DiaryEntry';
 import { getDDMMYY, getIndexOfDate } from './dateUtility';
+import { SET_LOCK } from '../../store/constants';
 
 const FLAG = 0;
 
-export class DiaryScreen extends React.Component {
+const mapStateToProps = (state) => {
+    return {
+        diaryDidUpdate : state.diary.count,
+        isLocked: state.diary.locked
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        lockDiary: () => dispatch({type : SET_LOCK })
+    }
+}
+
+class DiaryScreen extends React.Component {
 
     static navigatorStyle = {
         navBarButtonColor: 'orange'
@@ -27,10 +42,35 @@ export class DiaryScreen extends React.Component {
         else {
             resetDB();
         }
+        this.updateEntries();
+    }
+
+    componentDidUpdate() {
         
+        if (!this.props.isLocked) {
+            this.updateEntries();
+            this.props.lockDiary();
+        }
+        
+    }
+
+    onDelete = (ID) => {
+
+        alert(ID);
+        removeItemWithKey(ID)
+        .then((actionCompleted) => {
+            alert('Item removed');
+            this.updateEntries();
+        })
+        .catch(e => {
+            alert('Something went wrong. Please try again.');
+        })
+        
+    }
+
+    updateEntries = () => {
         getEntries()
         .then(entries => {
-            // console.log('entries', entries);
             let entriesWithKey = [];
             for (let i = 0; i < entries.length; i++) {
 
@@ -45,7 +85,9 @@ export class DiaryScreen extends React.Component {
                     item = {
                         items: [{
                             food: item.Food,
-                            calories: item.Calories
+                            calories: item.Calories,
+                            // In this context, date is exact epoch time - can act as unique IU
+                            ID: item.Date
                         }],
                         key: i.toString(),
                         Date: dateFormat
@@ -55,17 +97,15 @@ export class DiaryScreen extends React.Component {
                 else {
                     entriesWithKey[index].items.push({
                         food: item.Food,
-                        calories: item.Calories
+                        calories: item.Calories,
+                        ID: item.Date
                     })
                 }
-
-                
             }
-            console.log(entriesWithKey);
             this.setState({ entries: entriesWithKey });
         });
-       
     }
+
 
     onNavigatorEvent = (event) => {
         if (event.type === 'NavBarButtonPress') {
@@ -79,11 +119,12 @@ export class DiaryScreen extends React.Component {
         }
     }
 
+
     render() {
 
-        let entries = this.state.entries.map((entry, index) => {
+        let entries = this.state.entries.map((entry) => {
             return (
-                <DiaryEntry items = {entry.items} date = {entry.Date} key = {entry.key} />
+                <DiaryEntry items = {entry.items} date = {entry.Date} key = {entry.key} onDelete = {this.onDelete}/>
             );
         });
         return (
@@ -102,4 +143,4 @@ export class DiaryScreen extends React.Component {
     }
 }
 
-export default DiaryScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(DiaryScreen);

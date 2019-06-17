@@ -5,7 +5,7 @@ import StartScreen from './src/screens/Startup/Startup';
 
 import configureStore from './src/store/configureStore';
 import DiaryScreen from './src/screens/Diary/Diary';
-import PhotoScreen from './src/screens/Photo/Photo';
+import EstimatorScreen from './src/screens/Estimator/Estimator';
 import SideDrawer from './src/screens/SideDrawer/SideDrawer';
 
 const store = configureStore();
@@ -13,7 +13,7 @@ const store = configureStore();
 /* Register screens */
 Navigation.registerComponent("sdd.StartScreen", () => StartScreen, store, Provider);
 Navigation.registerComponent("sdd.DiaryScreen", () => DiaryScreen, store, Provider);
-Navigation.registerComponent("sdd.PhotoScreen", () => PhotoScreen, store, Provider);
+Navigation.registerComponent("sdd.EstimatorScreen", () => EstimatorScreen, store, Provider);
 
 
 Navigation.registerComponent("sdd.SideDrawer", () => SideDrawer, store, Provider);

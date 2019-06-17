@@ -42,20 +42,25 @@ export const resetDB = () => {
 }
 
 export const insertData = (name, calories) => {
-    SQLite.openDatabase({name: 'diary.db', location: 'Library'})
-    .then(DB => {
-        const epoch = (new Date).getTime().toString();
-        DB.executeSql(`INSERT into Calendar (Food, Calories, Date) VALUES ("${name}", ${calories}, ${epoch})`)
-        .then(() => {
-            DB.close()
-            .then(status => {
-                console.log('DB closed.');
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+            const epoch = (new Date).getTime().toString();
+            DB.executeSql(`INSERT into Calendar (Food, Calories, Date) VALUES ("${name}", ${calories}, ${epoch})`)
+            .then(() => {
+                DB.close()
+                .then(status => {
+                    console.log('DB closed.');
+                    resolve(true);
+                })
+            })
+            .catch((e) => {
+                console.log('Failed to insert data.', e);
+                reject(false);
             })
         })
-        .catch((e) => {
-            console.log('Failed to insert data.', e);
-        })
     })
+
 }
 
 export const getEntries = () => {
@@ -73,4 +78,20 @@ export const getEntries = () => {
         })
     })
 
+}
+
+export const removeItemWithKey = (ID) => {
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+            DB.executeSql(`DELETE FROM Calendar WHERE Date = "${ID}"`)
+            .then(() => {
+                resolve(true);
+            })
+            .catch(() => {
+                console.log('Could not get entries.');
+                reject(false);
+            })
+        })
+    })
 }

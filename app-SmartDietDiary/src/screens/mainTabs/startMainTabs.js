@@ -32,7 +32,7 @@ const startTabs = () => {
                         }
                     },
                     {
-                        screen: "sdd.PhotoScreen",
+                        screen: "sdd.EstimatorScreen",
                         label: "Take a photo",
                         title: "Calorie Estimator",
                         icon: icons[1],

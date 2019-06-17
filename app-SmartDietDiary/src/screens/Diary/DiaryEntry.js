@@ -16,7 +16,7 @@ export class DiaryEntry extends React.Component {
 
         let entries = this.props.items.map((entry, index) => {
             return (
-                <ItemEntry food = {entry.food} calories = {entry.calories} key = {index}/>
+                <ItemEntry food = {entry.food} calories = {entry.calories} key = {index} ID = { entry.ID} onDelete = {this.props.onDelete}/>
             )
         })
 
