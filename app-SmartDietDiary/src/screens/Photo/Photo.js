@@ -116,7 +116,7 @@ class PhotoScreen extends React.Component {
     saveToDiary = () => {
 
         const { name, calories } = this.state.answer;
-        
+
         //TODO
         // Save name and results to sqlite and clear thing
         insertData(name, calories);
@@ -126,6 +126,13 @@ class PhotoScreen extends React.Component {
                 answer: {
                     name: null,
                     calories: null
+                },
+                controls: {
+                    ...prevState.controls,
+                    image: {
+                        value: null,
+                        valid: false
+                    }
                 }
             }
         })

@@ -10,22 +10,10 @@ export const initDB = () => {
 
         DB.executeSql('CREATE table IF NOT EXISTS Calender(Food text, Calories Integer, Date text)')
         .then(() => {
-
-            const epoch = (new Date).getTime().toString();
-
-            DB.executeSql(`INSERT into Calender (Food, Calories, Date) VALUES ("Apple", "95", ${epoch})`)
-            .then(() => {
-                DB.executeSql("SELECT * from Calender", [])
-                .then(([results]) => {
-                    console.log('Item 1 is ', results.rows.item(0));
-                    console.log('Length is ', results.rows.length);
-                })
-                .then(() => {
-                    DB.close()
-                    .then(status => {
-                        console.log('DB closed.');
-                    })
-                })
+            console.log('Tables created');
+            DB.close()
+            .then(status => {
+                console.log('DB closed.');
             })
         })
         .catch(() => {
