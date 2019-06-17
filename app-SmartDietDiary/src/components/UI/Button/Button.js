@@ -43,6 +43,8 @@ export default button;
 const styles = StyleSheet.create({
 
     button: {
+        justifyContent: 'center',
+        alignItems: 'center',
         padding: 10,
         margin: 5,
         borderWidth: 1,

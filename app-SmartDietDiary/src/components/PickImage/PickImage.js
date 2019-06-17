@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Image, StyleSheet, ActivityIndicator, TouchableNativeFeedback } from 'react-native';
 import Button from '../UI/Button/Button';
 import ImagePicker from 'react-native-image-picker';
 
@@ -35,19 +35,20 @@ class PickImage extends React.Component {
         return (
             <View style = {styles.container }>
                 <View style = {styles.placeHolder}>
-                    <Image source = {this.state.pickedImage} style = {styles.previewImage} />
+                    <TouchableNativeFeedback
+                        onPress = {this.pickImageHandler}
+                    >
+                        <Image source = {this.state.pickedImage} style = {styles.previewImage} />
+                    </TouchableNativeFeedback>
+                    
                 </View>
                 <View style = {styles.buttonContainer}>
-                    <View style = {styles.button}>
-                        <Button onPress = {this.pickImageHandler}>Pick image</Button>
-                    </View>
                     { !this.props.isProcessing ? 
-                        <View style = {styles.button}>
                             <Button 
                                 onPress = {this.props.processImage}
                                 disabled = {this.props.buttonDisabled}
                             >Process</Button>
-                        </View>
+                       
                             :
                             <ActivityIndicator></ActivityIndicator>
                         
@@ -66,22 +67,21 @@ export default PickImage;
 
 const styles = StyleSheet.create({
     container: {
+        flex: 3,
         width: '100%',
         alignItems: 'center'
     },
     buttonContainer: {
+        flex: 1,
         flexDirection: 'row'
     },
     placeHolder: {
-        margin: 5,
+        flex: 3,
         borderWidth: 1,
         borderColor: 'black',
         backgroundColor: '#eee',
         width: '80%',
         height: 150
-    },
-    button: {
-        margin: 8
     },
     previewImage: {
         width: '100%',

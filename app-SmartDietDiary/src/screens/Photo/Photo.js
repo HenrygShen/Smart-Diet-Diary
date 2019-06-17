@@ -33,7 +33,7 @@ class PhotoScreen extends React.Component {
 
     constructor(props) {
         super(props);
-
+        
         this.state = {
             controls: {
                 image: {
@@ -41,7 +41,10 @@ class PhotoScreen extends React.Component {
                     valid: false
                 }
             },
-            answer: null
+            answer: {
+                name: null,
+                calories: null
+            }
         }
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -53,7 +56,10 @@ class PhotoScreen extends React.Component {
             this.setState(prevState => {
                 return {
                     ...prevState,
-                    answer: this.props.imageState.result
+                    answer: {
+                        name: this.props.imageState.result,
+                        calories: 95
+                    }
                 }
             });
             this.props.clearResult();
@@ -90,6 +96,15 @@ class PhotoScreen extends React.Component {
     }
 
     processImage = () => {
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                answer: {
+                    name: null,
+                    calories: null
+                }
+            }
+        });
 
         this.props.processImage(this.state.controls.image.value.base64);
     }
@@ -110,11 +125,7 @@ class PhotoScreen extends React.Component {
                 />
 
                 {/* Show results if done loading */}
-                { (this.state.answer && !this.props.isLoading) ? 
-                <ResultSection name = {this.state.answer} calories = { 50 } />
-                :
-                <ResultSection name = {this.state.answer} calories = { null } />
-                }
+                <ResultSection name = {this.state.answer.name} calories = { this.state.answer.calories } />
 
 
             </View>
@@ -128,6 +139,8 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 50,
         flex:1,
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center'
     }
 })

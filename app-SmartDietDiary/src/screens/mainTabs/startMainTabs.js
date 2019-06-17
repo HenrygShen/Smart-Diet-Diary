@@ -33,8 +33,8 @@ const startTabs = () => {
                     },
                     {
                         screen: "sdd.PhotoScreen",
-                        label: "Photo",
-                        title: "Take a photo",
+                        label: "Take a photo",
+                        title: "Calorie Estimator",
                         icon: icons[1],
                         navigatorButtons: {
                             leftButtons: [

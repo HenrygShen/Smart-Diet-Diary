@@ -30,7 +30,7 @@ export class DiaryScreen extends React.Component {
         return (
             <View>
                 <Text>
-                    Hi
+                    
                 </Text>
             </View>
         )

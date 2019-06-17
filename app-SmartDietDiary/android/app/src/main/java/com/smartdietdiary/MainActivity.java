@@ -4,6 +4,7 @@ import com.reactnativenavigation.controllers.SplashActivity;
 import com.imagepicker.permissions.OnImagePickerPermissionsCallback;
 import com.facebook.react.modules.core.PermissionListener;
 
+
 public class MainActivity extends com.reactnativenavigation.controllers.SplashActivity implements OnImagePickerPermissionsCallback {
 
     /**
