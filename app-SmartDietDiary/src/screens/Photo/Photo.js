@@ -1,13 +1,12 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, } from 'react-native';
 import PickImage from '../../components/PickImage/PickImage';
-import MainText from '../../components/UI/MainText/MainText';
-import Button from '../../components/UI/Button/Button';
 import { processImage } from '../../store/actions/imageProcessor';
 import { CLEAR_IMAGE_RESULT } from '../../store/constants';
 import { uiStopLoading } from '../../store/actions/ui';
+import ResultSection from '../../components/ResultSection/ResultSection';
 
 
 
@@ -75,6 +74,7 @@ class PhotoScreen extends React.Component {
     }
 
     imagePickedHandler = (image) => {
+       
         this.setState(prevState => {
             return {
                 controls: {
@@ -96,33 +96,27 @@ class PhotoScreen extends React.Component {
 
     
     render() {
-        
+                       
 
-
-        let answerSection;
-        
-        if (this.state.answer) {
-            answerSection = 
-            <MainText>
-                { this.state.answer }
-            </MainText>
-        }
-
-        let mainSection =                 
-        <Button 
-            onPress = {this.processImage}
-            style = { styles.button }
-        >Process</Button>;
-        
-        if (this.props.isLoading) {
-            mainSection = <ActivityIndicator></ActivityIndicator>
-        }
 
         return (
             <View style = {styles.container}>
-                <PickImage onImagePicked = {this.imagePickedHandler}/>
-                { mainSection }
-                { answerSection }
+
+                <PickImage 
+                    onImagePicked = {this.imagePickedHandler} 
+                    buttonDisabled = {this.state.controls.image.value === null}
+                    processImage = {this.processImage}
+                    isProcessing = {this.props.isLoading}
+                />
+
+                {/* Show results if done loading */}
+                { (this.state.answer && !this.props.isLoading) ? 
+                <ResultSection name = {this.state.answer} calories = { 50 } />
+                :
+                <ResultSection name = {this.state.answer} calories = { null } />
+                }
+
+
             </View>
         )
     }
@@ -133,9 +127,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(PhotoScreen);
 const styles = StyleSheet.create({
     container: {
         marginTop: 50,
-        flex:1
-    },
-    button: {
-
+        flex:1,
+        alignItems: 'center'
     }
 })

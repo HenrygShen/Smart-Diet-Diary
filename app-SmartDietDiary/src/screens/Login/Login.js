@@ -146,7 +146,6 @@ class LoginScreen extends React.Component {
 
     render() {
 
-        let headingText = null;
         let signUpContent = null;
 
         if (this.state.authMode === 'signUp') {
