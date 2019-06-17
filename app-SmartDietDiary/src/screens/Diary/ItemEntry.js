@@ -16,7 +16,12 @@ const entry = (props) => {
                     Calories: { props.calories }
                 </MainText>
             </View>
-            <Button color = {'red'} textColor = {'white'} style = {{borderColor : 'transparent'}}>Remove</Button>
+            <Button 
+                color = {'red'} 
+                textColor = {'white'} 
+                style = {{borderColor : 'transparent'}}
+                onPress = { () => { props.onDelete(props.ID)}}
+            >Remove</Button>
         </View>
     )
 }

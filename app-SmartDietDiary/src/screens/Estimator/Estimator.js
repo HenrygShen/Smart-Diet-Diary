@@ -9,7 +9,7 @@ import ResultSection from '../../components/ResultSection/ResultSection';
 import { processImage } from '../../store/actions/imageProcessor';
 import { uiStopLoading } from '../../store/actions/ui';
 
-import { CLEAR_IMAGE_RESULT } from '../../store/constants';
+import { CLEAR_IMAGE_RESULT, UPDATE_DIARY, CLEAR_LOCK } from '../../store/constants';
 
 import { insertData } from '../../utility/database';
 
@@ -25,11 +25,13 @@ const mapDispatchToProps = (dispatch) => {
     return {
         processImage : (image) => dispatch(processImage(image)),
         clearResult: () => dispatch({type: CLEAR_IMAGE_RESULT}),
-        stopLoading : () => dispatch(uiStopLoading())
+        updateDiary: () => dispatch({type: UPDATE_DIARY }),
+        stopLoading : () => dispatch(uiStopLoading()),
+        clearLock: () => dispatch({type: CLEAR_LOCK })
     }
 }
 
-class PhotoScreen extends React.Component {
+class EstimatorScreen extends React.Component {
 
     static navigatorStyle = {
         navBarButtonColor: 'orange'
@@ -119,24 +121,32 @@ class PhotoScreen extends React.Component {
 
         //TODO
         // Save name and results to sqlite and clear thing
-        insertData(name, calories);
-        this.setState(prevState => {
-            return {
-                ...prevState,
-                answer: {
-                    name: null,
-                    calories: null
-                },
-                controls: {
-                    ...prevState.controls,
-                    image: {
-                        value: null,
-                        valid: false
+        insertData(name, calories)
+        .then(() => {
+            this.props.clearLock();
+            this.props.updateDiary();
+            this.setState(prevState => {
+                return {
+                    ...prevState,
+                    answer: {
+                        name: null,
+                        calories: null
+                    },
+                    controls: {
+                        ...prevState.controls,
+                        image: {
+                            value: null,
+                            valid: false
+                        }
                     }
                 }
-            }
+            })
+            alert('Saved');
         })
-        alert('Saved');
+        .catch(() => {
+            alert('Could not save to diary. Please try again');
+        })
+
     }
 
     
@@ -163,7 +173,7 @@ class PhotoScreen extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PhotoScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(EstimatorScreen);
 
 const styles = StyleSheet.create({
     container: {
