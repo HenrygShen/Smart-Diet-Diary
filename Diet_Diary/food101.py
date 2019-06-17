@@ -11,7 +11,7 @@ from PIL import Image
 # fpath = "E:/Downloads/food-101/"
 
 # Henry's fruit path
-fpath = "E:/Downloads/fruit/"
+fpath = "E:/Downloads/fruits360/"
 
 # Lincoln's fruit path
 # fpath = "H:/Coding/P4Project/fruit/"

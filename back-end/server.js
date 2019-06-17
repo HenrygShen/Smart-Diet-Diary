@@ -38,7 +38,9 @@ parseImage = async(picture, res) => {
 
     try {
         console.log('start');
-        const id = "image";
+        // const id = "image";
+
+        const id = Math.random();
         fs.writeFileSync(`${id}.jpg`, picture, 'base64', function(err) {
             console.log(err);
         });

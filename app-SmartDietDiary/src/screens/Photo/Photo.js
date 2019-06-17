@@ -1,8 +1,31 @@
 import React from 'react';
-import { Text, Button, View, StyleSheet } from 'react-native';
-import PickImage from '../../components/PickImage/PickImage';
 
-import { TfImageRecognition } from 'react-native-tensorflow';
+import { connect } from 'react-redux';
+import { Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import PickImage from '../../components/PickImage/PickImage';
+import MainText from '../../components/UI/MainText/MainText';
+import Button from '../../components/UI/Button/Button';
+import { processImage } from '../../store/actions/imageProcessor';
+import { CLEAR_IMAGE_RESULT } from '../../store/constants';
+import { uiStopLoading } from '../../store/actions/ui';
+
+
+
+const mapStateToProps = (state) => {
+    return {
+        isLoading : state.ui.isLoading,
+        imageState: state.image
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        processImage : (image) => dispatch(processImage(image)),
+        clearResult: () => dispatch({type: CLEAR_IMAGE_RESULT}),
+        stopLoading : () => dispatch(uiStopLoading())
+    }
+}
+
 class PhotoScreen extends React.Component {
 
     static navigatorStyle = {
@@ -22,15 +45,22 @@ class PhotoScreen extends React.Component {
             answer: null
         }
 
-        this.tfImageRecognition = new TfImageRecognition({
-            model: require('./../../assets/fruit.pb'),
-            labels: labels('./../../assets/labels.txt'),
-            imageMean: 117, // Optional, defaults to 117
-            imageStd: 1 // Optional, defaults to 1
-        });
-
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     }
+
+    componentDidUpdate() {
+        if (this.props.imageState.response === 0) {
+            this.props.stopLoading();
+            this.setState(prevState => {
+                return {
+                    ...prevState,
+                    answer: this.props.imageState.result
+                }
+            });
+            this.props.clearResult();
+        }
+    }
+
 
     onNavigatorEvent = (event) => {
         if (event.type === 'NavBarButtonPress') {
@@ -59,42 +89,53 @@ class PhotoScreen extends React.Component {
         
     }
 
-    processImage = async() => {
-        fetch('http://192.168.1.73:3001/processImage', {
-            method :'post',
-            headers: {'Content-Type' : 'application/json'},
-            body: JSON.stringify({
-                image: this.state.controls.image.value.base64
-            })
-        })
-        .then(res => res.json())
-        .then((res) => {
-            alert(res.answer);
-            this.setState(prevState => {
-                return {
-                    ...prevState,
-                    answer: res['answer']
-                }
-            });
-            
-        })
+    processImage = () => {
 
-
+        this.props.processImage(this.state.controls.image.value.base64);
     }
 
     
     render() {
+        
+
+
+        let answerSection;
+        
+        if (this.state.answer) {
+            answerSection = 
+            <MainText>
+                { this.state.answer }
+            </MainText>
+        }
+
+        let mainSection =                 
+        <Button 
+            onPress = {this.processImage}
+            style = { styles.button }
+        >Process</Button>;
+        
+        if (this.props.isLoading) {
+            mainSection = <ActivityIndicator></ActivityIndicator>
+        }
 
         return (
-            <View>
+            <View style = {styles.container}>
                 <PickImage onImagePicked = {this.imagePickedHandler}/>
-                <Text>
-                    { this.state.answer }
-                </Text>
-                <Button title = 'Process' onPress = {this.processImage}/>
+                { mainSection }
+                { answerSection }
             </View>
         )
     }
 }
 
-export default PhotoScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(PhotoScreen);
+
+const styles = StyleSheet.create({
+    container: {
+        marginTop: 50,
+        flex:1
+    },
+    button: {
+
+    }
+})

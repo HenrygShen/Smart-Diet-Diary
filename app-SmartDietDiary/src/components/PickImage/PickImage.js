@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Image, Button, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
+import Button from '../UI/Button/Button';
 import ImagePicker from 'react-native-image-picker';
 
 class PickImage extends React.Component {
@@ -37,7 +38,7 @@ class PickImage extends React.Component {
                     <Image source = {this.state.pickedImage} style = {styles.previewImage} />
                 </View>
                 <View style = {styles.button}>
-                    <Button title = 'Pick image' onPress = {this.pickImageHandler}/>
+                    <Button onPress = {this.pickImageHandler}>Pick image</Button>
                 </View>
             </View>
         );
