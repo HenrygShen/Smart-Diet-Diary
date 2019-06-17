@@ -1,6 +1,8 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View } from 'react-native';
+import { initDB, resetDB } from './database';
 
+const FLAG = 0;
 
 export class DiaryScreen extends React.Component {
 
@@ -11,6 +13,15 @@ export class DiaryScreen extends React.Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    }
+
+    componentDidMount() {
+        if (FLAG === 0) {
+            initDB();
+        }
+        else {
+            resetDB();
+        }
     }
 
     onNavigatorEvent = (event) => {

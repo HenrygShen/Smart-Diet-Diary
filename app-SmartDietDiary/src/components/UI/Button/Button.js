@@ -11,7 +11,7 @@ import {
 const button = (props) => {
 
     const content = (
-        <View style = {[styles.button, {backgroundColor: props.color}, (props.disabled) ? styles.disabled : null ]}>
+        <View style = {[styles.button, {backgroundColor: props.color}, (props.disabled) ? styles.disabled : null , props.style]}>
             <Text style = {[styles.text, (props.disabled) ? styles.disabledText : null]}>
                 { props.children }
             </Text>
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
-        margin: 5,
         borderWidth: 1,
         borderColor: 'black'
     },

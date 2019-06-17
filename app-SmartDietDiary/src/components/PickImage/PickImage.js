@@ -47,15 +47,18 @@ class PickImage extends React.Component {
                             <Button 
                                 onPress = {this.props.processImage}
                                 disabled = {this.props.buttonDisabled}
+                                style = { styles.button }
                             >Process</Button>
                        
                             :
                             <ActivityIndicator></ActivityIndicator>
                         
                     }
-
+                    <Button 
+                        style = { styles.button}
+                        onPress = {this.props.saveToDiary}
+                    >Save</Button>
                 </View>
-
             </View>
         );
     }
@@ -67,24 +70,34 @@ export default PickImage;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 3,
-        width: '100%',
+        flex: 2,
+        width: '90%',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
         alignItems: 'center'
     },
     buttonContainer: {
         flex: 1,
-        flexDirection: 'row'
+        height: '80%',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    button: {
+        height: '45%',
+        aspectRatio: 1
     },
     placeHolder: {
-        flex: 3,
+        flex: 1,
         borderWidth: 1,
         borderColor: 'black',
         backgroundColor: '#eee',
-        width: '80%',
-        height: 150
+        width: '79%',
+        height: '79%'
     },
     previewImage: {
         width: '100%',
         height: '100%'
     }
+
 })

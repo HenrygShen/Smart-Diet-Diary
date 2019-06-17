@@ -1,13 +1,17 @@
 import React from 'react';
+import { View, StyleSheet, } from 'react-native';
 
 import { connect } from 'react-redux';
-import { View, StyleSheet, } from 'react-native';
+
 import PickImage from '../../components/PickImage/PickImage';
-import { processImage } from '../../store/actions/imageProcessor';
-import { CLEAR_IMAGE_RESULT } from '../../store/constants';
-import { uiStopLoading } from '../../store/actions/ui';
 import ResultSection from '../../components/ResultSection/ResultSection';
 
+import { processImage } from '../../store/actions/imageProcessor';
+import { uiStopLoading } from '../../store/actions/ui';
+
+import { CLEAR_IMAGE_RESULT } from '../../store/constants';
+
+import { insertData } from '../Diary/database';
 
 
 const mapStateToProps = (state) => {
@@ -109,6 +113,15 @@ class PhotoScreen extends React.Component {
         this.props.processImage(this.state.controls.image.value.base64);
     }
 
+    saveToDiary = () => {
+
+        const { name, calories } = this.state.answer;
+        //TODO
+        // Save name and results to sqlite and clear thing
+        insertData(name, calories);
+        alert('Saved');
+    }
+
     
     render() {
                        
@@ -122,12 +135,11 @@ class PhotoScreen extends React.Component {
                     buttonDisabled = {this.state.controls.image.value === null}
                     processImage = {this.processImage}
                     isProcessing = {this.props.isLoading}
+                    saveToDiary = {this.saveToDiary}
                 />
 
                 {/* Show results if done loading */}
                 <ResultSection name = {this.state.answer.name} calories = { this.state.answer.calories } />
-
-
             </View>
         )
     }
@@ -137,7 +149,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(PhotoScreen);
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 50,
+        marginTop: 20,
         flex:1,
         flexDirection: 'column',
         justifyContent: 'center',
