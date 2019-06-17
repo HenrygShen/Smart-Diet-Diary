@@ -11,7 +11,7 @@ import { uiStopLoading } from '../../store/actions/ui';
 
 import { CLEAR_IMAGE_RESULT } from '../../store/constants';
 
-import { insertData } from '../Diary/database';
+import { insertData } from '../../utility/database';
 
 
 const mapStateToProps = (state) => {
@@ -149,7 +149,8 @@ class PhotoScreen extends React.Component {
 
                 <PickImage 
                     onImagePicked = {this.imagePickedHandler} 
-                    buttonDisabled = {this.state.controls.image.value === null}
+                    processDisabled = {this.state.controls.image.value === null}
+                    saveDisabled = {this.state.answer.name === null}
                     processImage = {this.processImage}
                     isProcessing = {this.props.isLoading}
                     saveToDiary = {this.saveToDiary}

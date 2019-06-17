@@ -68,3 +68,31 @@ export const insertData = (name, calories) => {
         })
     })
 }
+
+export const getEntries = () => {
+    SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+    .then(DB => {
+
+        DB.executeSql("SELECT * from Calender", [])
+        .then(([results]) => {
+            for (let i = 0;i < results.rows.length; i++) {
+                console.log(`Item is ${i}`, results.rows.item(i));
+            }
+            console.log('Length is ', results.rows.length);
+            return results.rows;
+        })
+        .catch(() => {
+            console.log('Could not get entries.');
+        })
+        .then(() => {
+            DB.close()
+            .then(status => {
+                console.log('DB closed.');
+            })
+            .catch(() => {
+                console.log('Could not close DB.');
+            })
+        })
+        
+    })
+}

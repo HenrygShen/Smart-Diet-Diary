@@ -60,7 +60,7 @@ class PickImage extends React.Component {
                     { !this.props.isProcessing ? 
                             <Button 
                                 onPress = {this.props.processImage}
-                                disabled = {this.props.buttonDisabled}
+                                disabled = {this.props.processDisabled}
                                 color = {'orange'}
                                 style = { styles.button }
                             >Process</Button>
@@ -72,8 +72,9 @@ class PickImage extends React.Component {
                     <Button 
                         style = { styles.button}
                         color = {'#32CD32'}
-                        textColor = {'white'}
+                        textColor = { this.props.saveDisabled ? '#aaa' : 'white'}
                         onPress = {this.saveToDiary}
+                        disabled = {this.props.saveDisabled}
                     >Save</Button>
                 </View>
             </View>

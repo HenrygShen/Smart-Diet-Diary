@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { initDB, resetDB } from './database';
+import { initDB, resetDB, getEntries } from '../../utility/database';
+import DiaryEntry from './DiaryEntry';
 
 const FLAG = 0;
 
@@ -22,6 +23,7 @@ export class DiaryScreen extends React.Component {
         else {
             resetDB();
         }
+        const entries = getEntries();
     }
 
     onNavigatorEvent = (event) => {
@@ -40,9 +42,7 @@ export class DiaryScreen extends React.Component {
 
         return (
             <View>
-                <Text>
-                    
-                </Text>
+                <DiaryEntry />
             </View>
         )
     }
