@@ -86,7 +86,7 @@ class DiaryScreen extends React.Component {
                         items: [{
                             food: item.Food,
                             calories: item.Calories,
-                            // In this context, date is exact epoch time - can act as unique IU
+                            // In this context, date is exact epoch time - can act as unique ID
                             ID: item.Date
                         }],
                         key: i.toString(),

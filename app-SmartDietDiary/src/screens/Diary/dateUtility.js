@@ -1,7 +1,15 @@
 export const getDDMMYY = (timestamp) => {
-    let result =  new Date(+timestamp).toLocaleString('en-gb', 'Pacific/Auckland');
-    let index = result.indexOf(",");
-    result = result.substring(0, index);
+    
+    let date = new Date(+timestamp);
+    let day =  +date.getDate();
+    let month = +date.getMonth() + 1;
+    let year = +date.getFullYear();
+
+    month = month.toString().padStart(2, '0');
+    day = day.toString().padStart(2, '0');
+
+    let result = `${day}/${month}/${year}`;
+
     return result;
 }
 
