@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet, ActivityIndicator, TouchableNativeFeedback } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Button from '../UI/Button/Button';
 import ImagePicker from 'react-native-image-picker';
 
@@ -32,13 +33,21 @@ class PickImage extends React.Component {
 
     render() {
 
+
         return (
             <View style = {styles.container }>
                 <View style = {styles.placeHolder}>
                     <TouchableNativeFeedback
                         onPress = {this.pickImageHandler}
                     >
-                        <Image source = {this.state.pickedImage} style = {styles.previewImage} />
+                        {(this.state.pickedImage) ?
+                            <Image source = {this.state.pickedImage} style = {styles.previewImage} />
+                            :
+                            <View style = {styles.icon}>
+                                <Icon name = {'ios-camera'} size = {100} />
+                            </View>
+                            
+                        }
                     </TouchableNativeFeedback>
                     
                 </View>
@@ -47,6 +56,7 @@ class PickImage extends React.Component {
                             <Button 
                                 onPress = {this.props.processImage}
                                 disabled = {this.props.buttonDisabled}
+                                color = {'orange'}
                                 style = { styles.button }
                             >Process</Button>
                        
@@ -56,6 +66,8 @@ class PickImage extends React.Component {
                     }
                     <Button 
                         style = { styles.button}
+                        color = {'#32CD32'}
+                        textColor = {'white'}
                         onPress = {this.props.saveToDiary}
                     >Save</Button>
                 </View>
@@ -83,6 +95,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
+    icon: {
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     button: {
         height: '45%',
         aspectRatio: 1
@@ -92,8 +109,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         backgroundColor: '#eee',
-        width: '79%',
-        height: '79%'
+        height: '79%',
+        aspectRatio: 1
     },
     previewImage: {
         width: '100%',
