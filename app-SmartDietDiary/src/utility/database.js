@@ -3,21 +3,18 @@ SQLite.DEBUG(true);
 SQLite.enablePromise(true);
 
 export const initDB = () => {
+    
     SQLite.openDatabase({name: 'diary.db', location: 'Library'})
     .then(DB => {
 
         console.log('Database opened.');
 
-        DB.executeSql('CREATE table IF NOT EXISTS Calender(Food text, Calories Integer, Date text)')
+        DB.executeSql('CREATE table IF NOT EXISTS Calendar(Food text, Calories Integer, Date text)')
         .then(() => {
-            console.log('Tables created');
-            DB.close()
-            .then(status => {
-                console.log('DB closed.');
-            })
+            console.log('Table : OKAY');
         })
         .catch(() => {
-            console.log('Something went wrong, please check line 22.');
+            console.log('Something went wrong, please check line 20 of database.js.');
         });
 
     })
@@ -27,6 +24,7 @@ export const initDB = () => {
 export const resetDB = () => {
     SQLite.openDatabase({name: 'diary.db', location: 'Library'})
     .then(DB => {
+
         DB.executeSql('DROP TABLE Calender')
         .then(() => {
             console.log('Table dropped.');
@@ -47,20 +45,11 @@ export const insertData = (name, calories) => {
     SQLite.openDatabase({name: 'diary.db', location: 'Library'})
     .then(DB => {
         const epoch = (new Date).getTime().toString();
-        DB.executeSql(`INSERT into Calender (Food, Calories, Date) VALUES ("${name}", ${calories}, ${epoch})`)
+        DB.executeSql(`INSERT into Calendar (Food, Calories, Date) VALUES ("${name}", ${calories}, ${epoch})`)
         .then(() => {
-            DB.executeSql("SELECT * from Calender", [])
-            .then(([results]) => {
-                for (let i = 0;i < results.rows.length; i++) {
-                    console.log('Item 1 is ', results.rows.item(i));
-                }
-                console.log('Length is ', results.rows.length);
-            })
-            .then(() => {
-                DB.close()
-                .then(status => {
-                    console.log('DB closed.');
-                })
+            DB.close()
+            .then(status => {
+                console.log('DB closed.');
             })
         })
         .catch((e) => {
@@ -70,29 +59,18 @@ export const insertData = (name, calories) => {
 }
 
 export const getEntries = () => {
-    SQLite.openDatabase({name: 'diary.db', location: 'Library'})
-    .then(DB => {
-
-        DB.executeSql("SELECT * from Calender", [])
-        .then(([results]) => {
-            for (let i = 0;i < results.rows.length; i++) {
-                console.log(`Item is ${i}`, results.rows.item(i));
-            }
-            console.log('Length is ', results.rows.length);
-            return results.rows;
-        })
-        .catch(() => {
-            console.log('Could not get entries.');
-        })
-        .then(() => {
-            DB.close()
-            .then(status => {
-                console.log('DB closed.');
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+            DB.executeSql("SELECT * from Calendar", [])
+            .then(([results]) => {
+                resolve(results.rows);
             })
             .catch(() => {
-                console.log('Could not close DB.');
+                console.log('Could not get entries.');
+                reject(e);
             })
         })
-        
     })
+
 }
