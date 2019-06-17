@@ -29,6 +29,11 @@ class PickImage extends React.Component {
             }
         });
     }
+
+    saveToDiary = () => {
+        this.setState({ pickedImage : null });
+        this.props.saveToDiary();
+    }
     
 
     render() {
@@ -68,7 +73,7 @@ class PickImage extends React.Component {
                         style = { styles.button}
                         color = {'#32CD32'}
                         textColor = {'white'}
-                        onPress = {this.props.saveToDiary}
+                        onPress = {this.saveToDiary}
                     >Save</Button>
                 </View>
             </View>
