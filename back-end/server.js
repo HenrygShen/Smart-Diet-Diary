@@ -120,8 +120,35 @@ parseImage = async(picture, res) => {
         }
         console.log(pred);
         console.log(labels[index]);
+        let calories = 95;
+        switch(index) {
+            case 0:
+                calories = 95;
+                break;
+            case 1:
+                calories = 178;
+                break;
+            case 2:
+                calories = 56;
+                break;
+            case 3:
+                calories = 125;
+                break;
+            case 4:
+                calories = 450;
+                break;
+            default:
+                calories = 95;
+                break;
+        }
         
-        res.json({ code : 0, answer: labels[index] });
+        res.json({ 
+            code : 0, 
+            result: {
+                name: labels[index],
+                calories: calories
+            }
+        });
         // setTimeout(() => {
         //     fs.unlinkSync(`${id}.jpg`);
         // }, 5000)

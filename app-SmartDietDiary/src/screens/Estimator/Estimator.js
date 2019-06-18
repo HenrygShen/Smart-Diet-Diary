@@ -63,8 +63,8 @@ class EstimatorScreen extends React.Component {
                 return {
                     ...prevState,
                     answer: {
-                        name: this.props.imageState.result,
-                        calories: 95
+                        name: this.props.imageState.result['name'],
+                        calories: this.props.imageState.result['calories']
                     }
                 }
             });

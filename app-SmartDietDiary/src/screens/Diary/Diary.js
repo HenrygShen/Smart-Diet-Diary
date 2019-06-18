@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, FlatList, ScrollView } from 'react-native';
+import { View, FlatList, ScrollView, Alert } from 'react-native';
 import { initDB, resetDB, getEntries, removeItemWithKey } from '../../utility/database';
 import DiaryEntry from './DiaryEntry';
 import { getDDMMYY, getIndexOfDate } from './dateUtility';
@@ -56,15 +56,28 @@ class DiaryScreen extends React.Component {
 
     onDelete = (ID) => {
 
-        alert(ID);
-        removeItemWithKey(ID)
-        .then((actionCompleted) => {
-            alert('Item removed');
-            this.updateEntries();
-        })
-        .catch(e => {
-            alert('Something went wrong. Please try again.');
-        })
+        Alert.alert(
+            '',
+            'Remove this meal entry from your diary?',
+            [
+                { text: 'Yes', onPress: () => {
+                    removeItemWithKey(ID)
+                    .then((actionCompleted) => {
+                        this.updateEntries();
+                    })
+                    .catch(e => {
+                        alert('Something went wrong. Please try again.');
+                    })
+                }},
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                },
+
+                {cancelable: false}
+            ]
+        )
+
         
     }
 

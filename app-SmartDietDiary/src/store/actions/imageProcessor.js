@@ -16,7 +16,7 @@ export const processImage = (image) => (dispatch) => {
     .then((res) => {
         dispatch({
             type: LOAD_IMAGE_RESULT,
-            payload: res['answer']
+            payload: res['result']
         });
         // dispatch(uiStopLoading());
     })
