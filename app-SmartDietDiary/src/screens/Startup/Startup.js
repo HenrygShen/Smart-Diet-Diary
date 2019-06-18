@@ -11,8 +11,12 @@ import Button from '../../components/UI/Button/Button';
 
 import startMainTabs from '../mainTabs/startMainTabs';
 
-import { checkUser, insertData, insertUserData } from '../../utility/database';
+import { checkUser, initDB, resetDB, insertUserData } from '../../utility/database';
 import MainText from '../../components/UI/MainText/MainText';
+import HeadingText from '../../components/UI/HeadingText/HeadingText';
+
+
+const FLAG = 0;
 
 class StartScreen extends React.Component {
 
@@ -21,27 +25,36 @@ class StartScreen extends React.Component {
         super(props);
         this.state = {
             step: 9,
-            weight: null,
-            height: null
+            weight: 0,
+            height: 0
         }
     }
 
     componentDidMount() {
-        checkUser()
-        .then(userDoesExists => {
-            if (!userDoesExists) {
-                this.setState({ step: 0});
-            }
-            else{
-                startMainTabs();
-            }
-        })
+
+        if (FLAG === 0) {
+            initDB();
+            checkUser()
+            .then(userDoesExists => {
+                if (!userDoesExists) {
+                    this.setState({ step: 0});
+                }
+                else{
+                    startMainTabs();
+                }
+            })
+        }
+        else {
+            resetDB();
+        }
+
+
         
     }
 
     nextStep = () => {
         let step = this.state.step;
-        if (step === 3) {
+        if (step === 4) {
             insertUserData(this.state.weight, this.state.height)
             .then(
                 (complete) => {
@@ -71,7 +84,7 @@ class StartScreen extends React.Component {
         this.setState(prevState => {
             return {
                 ...prevState,
-                height: text
+                height: parseInt(text)
             }
         })
     }
@@ -105,7 +118,7 @@ class StartScreen extends React.Component {
                 <MainText>
                     Please input your weight.
                 </MainText>
-                <DefaultInput style = { styles.input} placeholder = { `Weight in KG's`} />
+                <DefaultInput style = { styles.input} placeholder = { `Weight in KG's`} onChangeText =  { (text) => { this.onWeightChange(text)}} keyboardType ={'numeric'}/>
                 <Button onPress = { this.nextStep }>Next</Button>
             </View>
 
@@ -116,9 +129,18 @@ class StartScreen extends React.Component {
                 <MainText>
                     Please input your height.
                 </MainText>
-                <DefaultInput style = { styles.input} placeholder = { `Height in metres`}/>
+                <DefaultInput style = { styles.input} placeholder = { `Height in centimetres`} onChangeText =  { (text) => { this.onHeightChange(text)}} keyboardType ={'numeric'}/>
                 <Button onPress = { this.nextStep }>Next</Button>
             </View>
+        }
+        else if (step === 4) {
+            mainSection = 
+            <View style = {styles.container}>
+                <MainText>
+                    For reference, your BMI is { this.state.weight / ((this.state.height/100) * (this.state.height/100))}
+                </MainText>
+                <Button onPress = { this.nextStep }>Next</Button>
+            </View> 
         }
 
         return (

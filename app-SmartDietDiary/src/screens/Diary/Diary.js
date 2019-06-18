@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, FlatList, ScrollView, Alert } from 'react-native';
-import { initDB, resetDB, getEntries, removeItemWithKey } from '../../utility/database';
+import { View, ScrollView, Alert } from 'react-native';
+import { getEntries, removeItemWithKey } from '../../utility/database';
 import DiaryEntry from './DiaryEntry';
 import { getDDMMYY, getIndexOfDate } from './dateUtility';
 import { SET_LOCK } from '../../store/constants';
-
-const FLAG = 0;
 
 const mapStateToProps = (state) => {
     return {
@@ -36,12 +34,7 @@ class DiaryScreen extends React.Component {
     }
 
     componentDidMount() {
-        if (FLAG === 0) {
-            initDB();
-        }
-        else {
-            resetDB();
-        }
+
         this.updateEntries();
     }
 

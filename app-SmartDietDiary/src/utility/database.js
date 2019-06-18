@@ -27,7 +27,7 @@ export const checkUser = () => {
     
             console.log('Database opened.');
     
-            DB.executeSql('CREATE table IF NOT EXISTS User(Weight integer, Height text)')
+            DB.executeSql('CREATE table IF NOT EXISTS User(Weight integer, Height integer)')
             .then(() => {
                 DB.executeSql("SELECT * from User", [])
                 .then(([results]) => {
@@ -58,7 +58,7 @@ export const insertUserData = (weight, height) => {
     
             console.log('Database opened.');
     
-            DB.executeSql(`INSERT INTO User (Weight, Height) VALUES(${weight},"${height}")`)
+            DB.executeSql(`INSERT INTO User (Weight, Height) VALUES(${weight},${height})`)
             .then(() => {
                 console.log('User data inserted');
                 resolve(true);
@@ -75,7 +75,7 @@ export const resetDB = () => {
     SQLite.openDatabase({name: 'diary.db', location: 'Library'})
     .then(DB => {
 
-        DB.executeSql('DROP TABLE Calender')
+        DB.executeSql('DROP TABLE Calendar')
         .then(() => {
             DB.executeSql('DROP TABLE User')
             .then(() => {
