@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
 
     text: {
         color: 'black',
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        fontFamily: 'sans-serif'
     }
 })

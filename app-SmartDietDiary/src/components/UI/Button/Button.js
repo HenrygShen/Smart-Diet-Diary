@@ -2,19 +2,20 @@ import React from 'react';
 import { 
     TouchableOpacity, 
     TouchableNativeFeedback, 
-    Text, 
     View, 
     StyleSheet,
     Platform 
 } from 'react-native';
 
+import MainText from '../MainText/MainText';
+
 const button = (props) => {
 
     const content = (
         <View style = {[styles.button, {backgroundColor: props.color}, (props.disabled) ? styles.disabled : null , props.style]}>
-            <Text style = {[styles.text, (props.disabled) ? styles.disabledText : null, { color : props.textColor}]}>
+            <MainText style = {[styles.text, (props.disabled) ? styles.disabledText : null, { color : props.textColor}]}>
                 { props.children }
-            </Text>
+            </MainText>
         </View>
     );
 

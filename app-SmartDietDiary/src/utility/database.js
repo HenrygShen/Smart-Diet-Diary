@@ -18,8 +18,58 @@ export const initDB = () => {
         });
 
     })
-
 };
+
+export const checkUser = () => {
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+    
+            console.log('Database opened.');
+    
+            DB.executeSql('CREATE table IF NOT EXISTS User(Weight integer, Height text)')
+            .then(() => {
+                DB.executeSql("SELECT * from User", [])
+                .then(([results]) => {
+                    if (results.rows.length === 0) {
+                        resolve(false);
+                    }
+                    else {
+                        resolve(true);
+                    }
+                })
+                .catch(() => {
+                    console.log('Could not get user.');
+                    reject(e);
+                })
+            })
+            .catch(() => {
+                console.log('Could not create user table.');
+            });
+        })
+    })
+
+}
+
+export const insertUserData = (weight, height) => {
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+    
+            console.log('Database opened.');
+    
+            DB.executeSql(`INSERT INTO User (Weight, Height) VALUES(${weight},"${height}")`)
+            .then(() => {
+                console.log('User data inserted');
+                resolve(true);
+            })
+            .catch((e) => {
+                console.log('Could not insert data.');
+                reject(e);
+            });
+        })
+    })
+}
 
 export const resetDB = () => {
     SQLite.openDatabase({name: 'diary.db', location: 'Library'})
@@ -27,14 +77,26 @@ export const resetDB = () => {
 
         DB.executeSql('DROP TABLE Calender')
         .then(() => {
-            console.log('Table dropped.');
-            DB.close()
-            .then(status => {
-                console.log('DB closed.');
+            DB.executeSql('DROP TABLE User')
+            .then(() => {
+                DB.close()
+                .then(status => {
+                    console.log('DB closed.');
+                })
+            })
+            .catch(() => {
+                console.log('Tried to drop User table, nothing exists.');
             })
         })
         .catch(() => {
-            console.log('Tried to drop table, nothing exists.')
+            console.log('Tried to drop Calendar table, nothing exists.');
+    
+            DB.executeSql('DROP TABLE User')
+            .then(() => {
+            })
+            .catch(() => {
+                console.log('Tried to drop User table, nothing exists.');
+            })
         })
     })
     .catch(() => {
