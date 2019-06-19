@@ -75,7 +75,7 @@ class PickImage extends React.Component {
                         textColor = { this.props.saveDisabled ? '#aaa' : 'white'}
                         onPress = {this.saveToDiary}
                         disabled = {this.props.saveDisabled}
-                    >Save</Button>
+                    >Add to diary</Button>
                 </View>
             </View>
         );
