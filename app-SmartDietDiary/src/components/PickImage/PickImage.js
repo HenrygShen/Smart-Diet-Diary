@@ -63,7 +63,7 @@ class PickImage extends React.Component {
                                 disabled = {this.props.processDisabled}
                                 color = {'orange'}
                                 style = { styles.button }
-                            >Process</Button>
+                            >Get calories</Button>
                        
                             :
                             <ActivityIndicator></ActivityIndicator>

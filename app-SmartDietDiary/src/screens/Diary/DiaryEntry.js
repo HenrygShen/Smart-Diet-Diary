@@ -27,6 +27,15 @@ export class DiaryEntry extends React.Component {
             return accumulator + items[key].calories;
         }, 0);
 
+        let warning;
+
+        if (total > recommendedCalories) {
+            warning = 
+            <MainText style = {{ color: 'red' }}>
+                WARNING : RECOMMENDED DAILY CALORIE INTAKE EXCEEDED
+            </MainText>
+        }
+
         return (
             <View style = {styles.container}>
                 <HeadingText>
@@ -35,6 +44,9 @@ export class DiaryEntry extends React.Component {
                     </MainText>
                 </HeadingText>
                 { entries }
+                <MainText>
+                    Recommended calories for the day : { recommendedCalories }
+                </MainText>
                 <View style = {{flexDirection: 'row'}}>
                     <MainText>
                         Total calories for the day :
@@ -43,9 +55,7 @@ export class DiaryEntry extends React.Component {
                     { `   ${total}`}
                     </MainText>
                 </View>
-                <MainText>
-                    Recommended calories for the day : { recommendedCalories }
-                </MainText>
+                { warning}
             </View>
         )
     }
