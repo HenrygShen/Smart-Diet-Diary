@@ -4,20 +4,25 @@ SQLite.enablePromise(true);
 
 export const initDB = () => {
     
-    SQLite.openDatabase({name: 'diary.db', location: 'Library'})
-    .then(DB => {
-
-        console.log('Database opened.');
-
-        DB.executeSql('CREATE table IF NOT EXISTS Calendar(Food text, Calories Integer, Date text)')
-        .then(() => {
-            console.log('Table : OKAY');
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+    
+            console.log('Database opened.');
+    
+            DB.executeSql('CREATE table IF NOT EXISTS Calendar(Food text, Calories Integer, Date text)')
+            .then(() => {
+                console.log('Table : OKAY');
+                resolve(true);
+            })
+            .catch((e) => {
+                console.log('Something went wrong, please check line 20 of database.js.');
+                reject(e);
+            });
+    
         })
-        .catch(() => {
-            console.log('Something went wrong, please check line 20 of database.js.');
-        });
-
     })
+
 };
 
 export const checkUser = () => {
@@ -27,16 +32,11 @@ export const checkUser = () => {
     
             console.log('Database opened.');
     
-            DB.executeSql('CREATE table IF NOT EXISTS User(Weight integer, Height integer)')
+            DB.executeSql('CREATE table IF NOT EXISTS User(Weight integer, Height integer, Age integer, CalorieIntake integer)')
             .then(() => {
                 DB.executeSql("SELECT * from User", [])
                 .then(([results]) => {
-                    if (results.rows.length === 0) {
-                        resolve(false);
-                    }
-                    else {
-                        resolve(true);
-                    }
+                    resolve(results.rows);
                 })
                 .catch(() => {
                     console.log('Could not get user.');
@@ -51,14 +51,14 @@ export const checkUser = () => {
 
 }
 
-export const insertUserData = (weight, height) => {
+export const insertUserData = (weight, height, age, calorieIntake) => {
     return new Promise((resolve, reject) => {
         SQLite.openDatabase({name: 'diary.db', location: 'Library'})
         .then(DB => {
     
             console.log('Database opened.');
     
-            DB.executeSql(`INSERT INTO User (Weight, Height) VALUES(${weight},${height})`)
+            DB.executeSql(`INSERT INTO User (Weight, Height, Age, CalorieIntake) VALUES(${weight},${height}, ${age}, ${calorieIntake})`)
             .then(() => {
                 console.log('User data inserted');
                 resolve(true);

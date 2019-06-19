@@ -6,17 +6,25 @@ import {
     StyleSheet
 } from 'react-native';
 
-import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
+import MainText from '../../components/UI/MainText/MainText';
 import Button from '../../components/UI/Button/Button';
 
 import startMainTabs from '../mainTabs/startMainTabs';
 
 import { checkUser, initDB, resetDB, insertUserData } from '../../utility/database';
-import MainText from '../../components/UI/MainText/MainText';
-import HeadingText from '../../components/UI/HeadingText/HeadingText';
 
+import Introduction from './Introduction';
+import AskQuestions from './AskQuestions';
+import { calculateCalorieIntake } from './utility/calorieCalculator';
+import { loadCalories } from '../../store/actions/user';
 
 const FLAG = 0;
+
+export const mapDispatchToProps = (dispatch) => {
+    return {
+        loadCalories: (calories) => dispatch(loadCalories(calories))
+    }
+}
 
 class StartScreen extends React.Component {
 
@@ -25,119 +33,110 @@ class StartScreen extends React.Component {
         super(props);
         this.state = {
             step: 9,
-            weight: 0,
-            height: 0
+            weight: null,
+            height: null,
+            age: null,
+            exercise: 0,
+            gender: 0,
+            calorieIntake: 0
         }
     }
 
     componentDidMount() {
 
+        this.props.navigator.toggleNavBar({
+            to: 'hidden',
+            animated: false
+        });
+
         if (FLAG === 0) {
-            initDB();
-            checkUser()
-            .then(userDoesExists => {
-                if (!userDoesExists) {
-                    this.setState({ step: 0});
-                }
-                else{
-                    startMainTabs();
-                }
+            initDB()
+            .then(() => {
+                checkUser()
+                .then(user => {
+                    if (user.length !== 0) {
+                        if (user.CalorieIntake === -1) {
+                            alert('Something went wrong when fetching calories.');
+                        }
+                        else {
+                            this.props.loadCalories(user.item(0).CalorieIntake);
+                            startMainTabs();
+                        }
+                    }
+                    else {
+                        this.setState(prevState => {
+                            return {
+                                ...prevState,
+                                step: 0
+                            }
+                        })
+                    }
+                })
             })
+
         }
         else {
             resetDB();
-        }
-
-
-        
+        }  
     }
 
+
     nextStep = () => {
-        let step = this.state.step;
-        if (step === 4) {
-            insertUserData(this.state.weight, this.state.height)
-            .then(
-                (complete) => {
-                    startMainTabs();
-                }
-            )
-            
+        if (this.state.step === 7) {
+            insertUserData(parseInt(this.state.weight), parseInt(this.state.height), parseInt(this.state.age), this.state.calorieIntake)
+            .then((complete) => {
+                this.props.loadCalories(this.state.calorieIntake);
+                startMainTabs();
+            })
         }
         else {
-            step++;
+            if (this.state.step === 6) {
+                this.setState(prevState => {
+                    return {
+                        ...prevState,
+                        calorieIntake: calculateCalorieIntake(this.state)
+                    }
+                })
+            }
             this.setState({
-                step: step
+                step: ++this.state.step
             })
         }
     }
 
-    onWeightChange = (text) => {
-        this.setState(prevState => {
-            return {
-                ...prevState,
-                weight: parseInt(text)
-            }
-        })
-    }
 
-    onHeightChange = (text) => {
-        this.setState(prevState => {
-            return {
-                ...prevState,
-                height: parseInt(text)
-            }
-        })
-    }
+    onInputChange = (input, type) => {
+        let object = { };
+        object[type] = input;
+        const newState = Object.assign({}, this.state, object);
+        this.setState(newState);
+    } 
+
 
     render() {
 
-        let mainSection;
         const { step} = this.state;
-        if (step === 0) {
-            mainSection = 
-            <View style = {styles.container}>
-                <MainText>
-                    Hi, we see this is your first time using the app.
-                    
-                </MainText>
-                <Button onPress = { this.nextStep }>Next</Button>
-            </View>
-        }
-        else if (step === 1){
-            mainSection = 
-            <View style = {styles.container}>
-                <MainText>
-                    We'll just need a few things from you.
-                </MainText>
-                <Button onPress = { this.nextStep }>Next</Button>
-            </View>
-        }
-        else if (step === 2) {
-            mainSection = 
-            <View style = {styles.container}>
-                <MainText>
-                    Please input your weight.
-                </MainText>
-                <DefaultInput style = { styles.input} placeholder = { `Weight in KG's`} onChangeText =  { (text) => { this.onWeightChange(text)}} keyboardType ={'numeric'}/>
-                <Button onPress = { this.nextStep }>Next</Button>
-            </View>
+        let mainSection;
 
+        if (step === 0 || step === 1) {
+            mainSection = 
+            <Introduction style = {styles.container} nextStep = {this.nextStep} step = { step } />
         }
-        else if (step === 3) {
+        else if (step === 2 || step === 3 || step === 4 || step === 5 || step === 6) {
+            mainSection = 
+            <AskQuestions 
+                style = {styles.container} inputStyle = {styles.input} 
+                step = {step} 
+                nextStep = {this.nextStep} 
+                state = {this.state} 
+                onInputChange = {this.onInputChange}
+            />
+        }
+        else if (step === 7) {
             mainSection = 
             <View style = {styles.container}>
                 <MainText>
-                    Please input your height.
-                </MainText>
-                <DefaultInput style = { styles.input} placeholder = { `Height in centimetres`} onChangeText =  { (text) => { this.onHeightChange(text)}} keyboardType ={'numeric'}/>
-                <Button onPress = { this.nextStep }>Next</Button>
-            </View>
-        }
-        else if (step === 4) {
-            mainSection = 
-            <View style = {styles.container}>
-                <MainText>
-                    For reference, your BMI is { this.state.weight / ((this.state.height/100) * (this.state.height/100))}
+                    For reference, your recommended daily calorie intake is { this.state.calorieIntake }
                 </MainText>
                 <Button onPress = { this.nextStep }>Next</Button>
             </View> 
@@ -152,7 +151,7 @@ class StartScreen extends React.Component {
 }
 
 
-export default connect(null, null)(StartScreen);
+export default connect(null, mapDispatchToProps)(StartScreen);
 
 const styles = StyleSheet.create({
     fullContainer: {
@@ -161,7 +160,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        textAlign: 'center'
     },
     input: {
         backgroundColor: '#eee',

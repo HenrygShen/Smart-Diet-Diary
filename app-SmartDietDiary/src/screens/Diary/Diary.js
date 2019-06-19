@@ -9,7 +9,8 @@ import { SET_LOCK } from '../../store/constants';
 const mapStateToProps = (state) => {
     return {
         diaryDidUpdate : state.diary.count,
-        isLocked: state.diary.locked
+        isLocked: state.diary.locked,
+        recommendedCalories: state.user.recommendedCalories
     }
 }
 
@@ -130,7 +131,7 @@ class DiaryScreen extends React.Component {
 
         let entries = this.state.entries.map((entry) => {
             return (
-                <DiaryEntry items = {entry.items} date = {entry.Date} key = {entry.key} onDelete = {this.onDelete}/>
+                <DiaryEntry items = {entry.items} date = {entry.Date} key = {entry.key} onDelete = {this.onDelete} recommendedCalories = {this.props.recommendedCalories} />
             );
         });
         return (
