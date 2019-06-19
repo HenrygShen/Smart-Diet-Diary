@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import MainText from '../../components/UI/MainText/MainText';
 import HeadingText from '../../components/UI/HeadingText/HeadingText';
 
 import ItemEntry from './ItemEntry';
+import { calculateColor } from './colours';
 
 export class DiaryEntry extends React.Component {
 
@@ -34,9 +35,14 @@ export class DiaryEntry extends React.Component {
                     </MainText>
                 </HeadingText>
                 { entries }
-                <MainText>
-                    Total calories for the day : { total }
-                </MainText>
+                <View style = {{flexDirection: 'row'}}>
+                    <MainText>
+                        Total calories for the day :
+                    </MainText>
+                    <MainText style = {{ color: calculateColor(recommendedCalories, total)}}>
+                    { `   ${total}`}
+                    </MainText>
+                </View>
                 <MainText>
                     Recommended calories for the day : { recommendedCalories }
                 </MainText>
