@@ -9,8 +9,10 @@ export const UPDATE_DIARY = 'UPDATE_DIARY';
 export const SET_LOCK = 'SET_LOCK';
 export const CLEAR_LOCK = 'CLEAR_LOCK';
 
+export const LOAD_CALORIES = 'LOAD_CALORIES';
+
 //Henry's
-export const ADDRESS = 'http://121.74.244.243:3001';
+// export const ADDRESS = 'http://121.74.244.243:3001';
 
 //Lincoln's
-// export const ADDRESS = 'http://192.168.1.73:3001';
+export const ADDRESS = 'http://192.168.1.73:3001';

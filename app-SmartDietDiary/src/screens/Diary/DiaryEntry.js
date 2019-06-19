@@ -21,7 +21,7 @@ export class DiaryEntry extends React.Component {
         })
 
         /* Find total calories */
-        const { items } = this.props;
+        const { items, recommendedCalories } = this.props;
         let total = Object.keys(items).reduce((accumulator, key) => {
             return accumulator + items[key].calories;
         }, 0);
@@ -36,6 +36,9 @@ export class DiaryEntry extends React.Component {
                 { entries }
                 <MainText>
                     Total calories for the day : { total }
+                </MainText>
+                <MainText>
+                    Recommended calories for the day : { recommendedCalories }
                 </MainText>
             </View>
         )
