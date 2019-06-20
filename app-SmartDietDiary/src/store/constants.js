@@ -15,4 +15,4 @@ export const LOAD_CALORIES = 'LOAD_CALORIES';
 // export const ADDRESS = 'http://121.74.244.243:3001';
 
 //Lincoln's
-export const ADDRESS = 'http://192.168.1.73:3001';
+export const ADDRESS = 'https://sdd-api.herokuapp.com';
