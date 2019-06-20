@@ -54,6 +54,10 @@ class DiaryScreen extends React.Component {
             '',
             'Remove this meal entry from your diary?',
             [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                },
                 { text: 'Yes', onPress: () => {
                     removeItemWithKey(ID)
                     .then((actionCompleted) => {
@@ -63,11 +67,6 @@ class DiaryScreen extends React.Component {
                         alert('Something went wrong. Please try again.');
                     })
                 }},
-                {
-                    text: 'Cancel',
-                    style: 'cancel'
-                },
-
                 {cancelable: false}
             ]
         )

@@ -63,7 +63,7 @@ class PickImage extends React.Component {
                                 disabled = {this.props.processDisabled}
                                 color = {'orange'}
                                 style = { styles.button }
-                            >Process</Button>
+                            >Get calories</Button>
                        
                             :
                             <ActivityIndicator></ActivityIndicator>
@@ -75,7 +75,7 @@ class PickImage extends React.Component {
                         textColor = { this.props.saveDisabled ? '#aaa' : 'white'}
                         onPress = {this.saveToDiary}
                         disabled = {this.props.saveDisabled}
-                    >Save</Button>
+                    >Add to diary</Button>
                 </View>
             </View>
         );
