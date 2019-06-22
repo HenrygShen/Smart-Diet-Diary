@@ -20,7 +20,7 @@ def receive_and_process(data):
 
     name = str(random.randint(1,1000001)) + ".jpg"
     #Decode the file coming in and store it on the server
-    filename = working_dir + "/pictures/" + name
+    filename = working_dir + "/" + name
     #Make sure incoming file is 5MB or less
     size_bytes = (len(fileIn) * 3) / 4 - fileIn.count('=', -2)
     if (size_bytes >= 30000000):
@@ -52,7 +52,7 @@ def receive_and_process(data):
     data2 /= 255
     image.close()
 
-    os.remove(filename)
+    os.remove(name)
     
     data2 = data2.reshape(-1, 50, 50, 3)
 

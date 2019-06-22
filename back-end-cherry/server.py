@@ -36,10 +36,11 @@ def runMainApp():
     # Create an instance of MainApp and tell Cherrypy to send all requests under / to it. (ie all of them)
     cherrypy.tree.mount(MainApp(), '/')
 
-    port = os.environ['PORT']
+    
     # Tell Cherrypy to listen for connections on the configured address and port.
-    cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': int(port),'engine.autoreload.on': True,})
-
+    # port = os.environ['PORT']
+    # cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': int(port),'engine.autoreload.on': True,})
+    cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': listen_port,'engine.autoreload.on': True,})
 
     print("=========================")
     print ("University of Auckland")
