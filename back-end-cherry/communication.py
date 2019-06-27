@@ -4,6 +4,7 @@ import random
 import json
 from keras.models import load_model
 from PIL import Image
+import sqlite3
 
 import sys
 import numpy as np
@@ -13,7 +14,6 @@ def receive_and_process(data):
 
     #Attempt to get compulsory fields
     fileIn = data['image']
-    print(fileIn)
 
     #Get working directory
     working_dir = os.path.dirname(__file__)
@@ -22,10 +22,10 @@ def receive_and_process(data):
     #Decode the file coming in and store it on the server
     filename = working_dir + "/" + name
     #Make sure incoming file is 5MB or less
-    size_bytes = (len(fileIn) * 3) / 4 - fileIn.count('=', -2)
-    if (size_bytes >= 30000000):
-        #Error code : file size too large
-        return '12'
+    # size_bytes = (len(fileIn) * 3) / 4 - fileIn.count('=', -2)
+    # if (size_bytes >= 30000000):
+    #     #Error code : file size too large
+    #     return '12'
 
     #If file size not capped, decode the base64 string
     decoded_file = base64.b64decode(fileIn)
@@ -52,7 +52,7 @@ def receive_and_process(data):
     data2 /= 255
     image.close()
 
-    os.remove(name)
+    os.remove(filename)
     
     data2 = data2.reshape(-1, 50, 50, 3)
 
@@ -64,11 +64,20 @@ def receive_and_process(data):
         if value == max_index:
             answer = key
 
+    # Open database and get calories
+    connection = sqlite3.connect("fruit.db")
+
+    cursor = connection.cursor()
+    cursor.execute(" SELECT Calories FROM Fruit WHERE Name=? ", [answer])
+    calories = cursor.fetchone()
+    cursor.close()
+    connection.close()
+
     answers = {
         "code" : 0,
         "result": {
             "name": answer,
-            "calories": 1700
+            "calories": calories
         }
     }
     out = json.dumps(answers)
