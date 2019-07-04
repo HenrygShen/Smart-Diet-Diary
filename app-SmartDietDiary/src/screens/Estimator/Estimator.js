@@ -13,6 +13,7 @@ import { CLEAR_IMAGE_RESULT, UPDATE_DIARY, CLEAR_LOCK } from '../../store/consta
 
 import { insertData } from '../../utility/database';
 
+import Button from '../../components/UI/Button/Button';
 
 const mapStateToProps = (state) => {
     return {
@@ -85,8 +86,9 @@ class EstimatorScreen extends React.Component {
         }
     }
 
+
+    /* Gets base64 image from PickImage component */
     imagePickedHandler = (image) => {
-       
         this.setState(prevState => {
             return {
                 controls: {
@@ -101,6 +103,7 @@ class EstimatorScreen extends React.Component {
         
     }
 
+    /* Clears state and calls API to estimate calories */
     processImage = () => {
         this.setState(prevState => {
             return {
@@ -111,7 +114,6 @@ class EstimatorScreen extends React.Component {
                 }
             }
         });
-
         this.props.processImage(this.state.controls.image.value.base64);
     }
 
@@ -119,8 +121,6 @@ class EstimatorScreen extends React.Component {
 
         const { name, calories } = this.state.answer;
 
-        //TODO
-        // Save name and results to sqlite and clear thing
         insertData(name, calories)
         .then(() => {
             this.props.clearLock();
@@ -149,11 +149,17 @@ class EstimatorScreen extends React.Component {
 
     }
 
+
+    pushCorrectionScreen = () => {
+        this.props.navigator.push({
+            screen: 'sdd.CorrectionScreen',
+            title: 'Correction',
+            animationType: 'slide-horizontal'
+        })
+    }
+
     
     render() {
-                       
-
-
         return (
             <View style = {styles.container}>
 
@@ -167,13 +173,15 @@ class EstimatorScreen extends React.Component {
                 />
 
                 {/* Show results if done loading */}
-                <ResultSection name = {this.state.answer.name} calories = { this.state.answer.calories } />
+                <ResultSection name = {this.state.answer.name} calories = { this.state.answer.calories } pushCorrectionScreen = {this.pushCorrectionScreen}/>
+                
             </View>
         )
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EstimatorScreen);
+
 
 const styles = StyleSheet.create({
     container: {

@@ -135,12 +135,6 @@ class DiaryScreen extends React.Component {
         });
         return (
             <View>
-                {/* <FlatList 
-                    data = { this.state.entries}
-                    renderItem = { (entry) => {
-                        <DiaryEntry name = {entry.item.Food} calories = { entry.item.Calories} date = {entry.item.Date} key = {entry.item.key}/>
-                    }}
-                /> */}
                 <ScrollView>
                     { entries }
                 </ScrollView>
