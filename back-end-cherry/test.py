@@ -21,5 +21,5 @@ with open("C:/Users/linco/Desktop/back-end-cherry/labels.json", 'r') as file:
 labels = dict((name, index) for index, name in enumerate(labels))
 
 for key, value in labels.items():
-    if value == 3:
+    if value == 2:
         print(key)

@@ -3,8 +3,11 @@ import base64
 import random
 import json
 from keras.models import load_model
+from keras import backend as K
 from PIL import Image
 import sqlite3
+import tensorflow as tf
+
 
 import sys
 import numpy as np
@@ -20,7 +23,7 @@ def receive_and_process(data):
 
     name = str(random.randint(1,1000001)) + ".jpg"
     #Decode the file coming in and store it on the server
-    filename = working_dir + "/" + name
+    filename = working_dir + "/pictures/" + name
     #Make sure incoming file is 5MB or less
     # size_bytes = (len(fileIn) * 3) / 4 - fileIn.count('=', -2)
     # if (size_bytes >= 30000000):
@@ -34,7 +37,7 @@ def receive_and_process(data):
         file.close()
 
     model = load_model(filepath=working_dir+'/Trained_model.h5')
-
+    model._make_predict_function()
     # Read labels
     with open(working_dir+"/labels.json", 'r') as file:
         labels_dict = json.load(file)
@@ -53,16 +56,24 @@ def receive_and_process(data):
     image.close()
 
     os.remove(filename)
-    
+
     data2 = data2.reshape(-1, 50, 50, 3)
 
+    #Predict answer
     prediction = model.predict(x=data2)
     max_index = np.argmax(prediction[0])
+
+    #Close session since method is called asynchronously - to prevent mem leak
+    K.clear_session()
+
+
 
     answer = ''
     for key, value in labels.items():
         if value == max_index:
             answer = key
+
+
 
     # Open database and get calories
     connection = sqlite3.connect("fruit.db")
@@ -81,5 +92,6 @@ def receive_and_process(data):
         }
     }
     out = json.dumps(answers)
+    print(out)
     return out
 

@@ -13,6 +13,7 @@ import { CLEAR_IMAGE_RESULT, UPDATE_DIARY, CLEAR_LOCK } from '../../store/consta
 
 import { insertData } from '../../utility/database';
 
+import Button from '../../components/UI/Button/Button';
 
 const mapStateToProps = (state) => {
     return {
@@ -168,6 +169,7 @@ class EstimatorScreen extends React.Component {
 
                 {/* Show results if done loading */}
                 <ResultSection name = {this.state.answer.name} calories = { this.state.answer.calories } />
+                
             </View>
         )
     }
