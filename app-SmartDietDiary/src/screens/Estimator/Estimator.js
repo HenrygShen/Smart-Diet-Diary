@@ -154,7 +154,7 @@ class EstimatorScreen extends React.Component {
         this.props.navigator.push({
             screen: 'sdd.CorrectionScreen',
             title: 'Correction',
-            animationType: 'slide-horizontal'
+            animationType: 'fade'
         })
     }
 

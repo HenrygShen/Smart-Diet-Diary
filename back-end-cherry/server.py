@@ -18,7 +18,7 @@ class MainApp(object):
     @cherrypy.expose
     def index(self):
         output = {
-            "code": "Hello world"
+            "output": "Smart Diet Diary server is up."
         }
 
         return json.dumps(output)
@@ -39,8 +39,8 @@ def runMainApp():
     
     # Tell Cherrypy to listen for connections on the configured address and port.
     # port = os.environ['PORT']
-    # cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': int(port),'engine.autoreload.on': True,})
-    cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': listen_port,'engine.autoreload.on': True,})
+    cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': int(port),'engine.autoreload.on': True,})
+    # cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': listen_port,'engine.autoreload.on': True,})
 
     print("=========================")
     print ("University of Auckland")
