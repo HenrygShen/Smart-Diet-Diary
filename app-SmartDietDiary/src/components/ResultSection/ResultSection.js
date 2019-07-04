@@ -4,24 +4,28 @@ import { View, StyleSheet } from 'react-native';
 import MainText from '../../components/UI/MainText/MainText';
 import Button from '../../components/UI/Button/Button';
 
-const ResultSection = ({name, calories}) => {   
+const ResultSection = ({name, calories, pushCorrectionScreen}) => {   
     return (
         <View style = {styles.container}>
             { (name !== null) ? 
                 <View style = {styles.subContainer}>
-                    <MainText>
-                        Item: { name }
-                    </MainText>
-                    <MainText>
-                        Calories: { calories }
-                    </MainText>
-                    <MainText>
-                        Incorrect classification or missing an item? 
-                    </MainText>
-                    <MainText>
-                        Click below
-                    </MainText>
-                    <Button>More</Button>
+                    <View style = {styles.subTextContainer}>
+                        <MainText>
+                            Item: { name }
+                        </MainText>
+                        <MainText>
+                            Calories: { calories }
+                        </MainText>
+                    </View>
+                    <View style = {styles.subTextContainer}>
+                        <MainText>
+                            Incorrect classification or missing an item? 
+                        </MainText>
+                        <MainText>
+                            Click below
+                        </MainText>
+                        <Button onPress = { () => {pushCorrectionScreen() }}>More</Button>
+                    </View>
                 </View>
             :
             null
@@ -48,6 +52,11 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '80%',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-around'
+    },
+    subTextContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
