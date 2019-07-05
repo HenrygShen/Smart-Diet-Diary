@@ -10,7 +10,7 @@ class EditableEntry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            mode: 'default',
+            mode: (this.props.name) ? 'default' : 'edit',
             mass: this.props.mass,
             name: this.props.name,
             calories: this.props.calories,
@@ -48,6 +48,9 @@ class EditableEntry extends React.Component {
     saveEdit = () => {
 
         this.setState(prevState => {
+            this.props.saveEdit({
+                ...prevState.controls
+            }, this.props.itemIndex);
             return {
                 mode: 'default',
                 ...prevState.controls,
@@ -56,6 +59,7 @@ class EditableEntry extends React.Component {
                 }
             }
         })
+
     }
 
     render() {

@@ -150,7 +150,6 @@ class EstimatorScreen extends React.Component {
         .catch(() => {
             alert('Could not save to diary. Please try again');
         })
-
     }
 
 
@@ -167,9 +166,42 @@ class EstimatorScreen extends React.Component {
             title: 'Correction',
             animationType: 'fade',
             passProps: {
-                itemArray: itemArray
+                itemArray: itemArray,
+                saveToDiary: this.saveCorrectionToDiary
             }
         })
+    }
+
+    saveCorrectionToDiary = (items) => {
+        for (let i = 0; i < items.length; i++) {
+            const { name, calories} = items[i];
+            insertData(name, calories)
+            .then(() => {
+                this.props.clearLock();
+                this.props.updateDiary();
+                this.setState(prevState => {
+                    return {
+                        ...prevState,
+                        answer: {
+                            name: null,
+                            calories: null,
+                            mass: null
+                        },
+                        controls: {
+                            ...prevState.controls,
+                            image: {
+                                value: null,
+                                valid: false
+                            }
+                        }
+                    }
+                })
+            })
+            .catch(() => {
+                alert('Could not save to diary. Please try again');
+            })
+        }
+        alert('Items saved');
     }
 
     

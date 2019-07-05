@@ -50,14 +50,20 @@ class CorrectionScreen extends React.Component {
     }
 
     onAddToDiary = () => {
+        this.props.saveToDiary(this.state.items);
+    }
 
+    saveEdit = (item, index) => {
+        let items = this.state.items;
+        items[index] = item;
+        this.setState({ items: items });
     }
     
     render() {
 
         let listOfItems = this.state.items.map((item, i) => {
             return (
-                <EditableEntry key = {i} name = {item.name} calories = {item.calories} mass = {item.mass} itemIndex = {i} removeItem = {this.removeItem} />
+                <EditableEntry key = {i} name = {item.name} calories = {item.calories} mass = {item.mass} itemIndex = {i} removeItem = {this.removeItem} saveEdit = {this.saveEdit}/>
             );
         })
         return (
