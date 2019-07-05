@@ -1,11 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 
 import { connect } from 'react-redux';
-
-import { insertData } from '../../utility/database';
-
 import Button from '../../components/UI/Button/Button';
+import EditableEntry from './EditableEntry';
 
 const mapStateToProps = (state) => {
     return {
@@ -27,58 +25,37 @@ class CorrectionScreen extends React.Component {
 
     constructor(props) {
         super(props);
-        
         this.state = {
-            controls: {
-                image: {
-                    value: null,
-                    valid: false
-                }
-            },
-            answer: {
-                name: null,
-                calories: null
-            }
-        }
-
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-    }
-
-    componentDidUpdate() {
-        if (this.props.imageState.response === 0) {
-            this.props.stopLoading();
-            this.setState(prevState => {
-                return {
-                    ...prevState,
-                    answer: {
-                        name: this.props.imageState.result['name'],
-                        calories: this.props.imageState.result['calories']
-                    }
-                }
-            });
-            this.props.clearResult();
+            extraItems: []
         }
     }
 
-
-    onNavigatorEvent = (event) => {
-        if (event.type === 'NavBarButtonPress') {
-            if (event.id === 'sideDrawerToggle') {
-                this.props.navigator.toggleDrawer({
-                    side: 'left',
-                    animated: true,
-                    to: 'open'
-                });
-            }
-        }
+    addItem = () => {
+        const items = this.state.extraItems;
+        items.push({ name: null, mass: null })
+        this.setState({ extraItems: items});
     }
 
+    onAddToDiary = () => {
+
+    }
     
     render() {
+
+        let listOfExtraItems = this.state.extraItems.map((item, i) => {
+            return (
+                <EditableEntry key = {i} />
+            );
+        })
         return (
             <View style = {styles.container}>
-                <Button>Hi</Button>
-                
+                <ScrollView style = {styles.subContainer}>
+                    { listOfExtraItems }
+                </ScrollView>
+                <View style = {styles.subContainer2}>
+                    <Button style = {styles.button} onPress = {this.addItem}>Add new item</Button>
+                    <Button style = {styles.button} onPress = {this.onAddToDiary}>Done</Button>
+                </View>
             </View>
         )
     }
@@ -89,10 +66,17 @@ export default connect(mapStateToProps, mapDispatchToProps)(CorrectionScreen);
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 20,
         flex:1,
-        flexDirection: 'column',
-        justifyContent: 'center',
+        height: '100%',
+        flexDirection: 'column'
+    },
+    subContainer: {
+        height: '90%',
+    },
+    subContainer2: {
+        flexDirection: 'row',
+        height: '10%',
+        justifyContent: 'space-around',
         alignItems: 'center'
     }
 })
