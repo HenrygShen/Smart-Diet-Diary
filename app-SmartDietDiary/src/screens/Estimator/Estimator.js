@@ -154,12 +154,13 @@ class EstimatorScreen extends React.Component {
 
 
     pushCorrectionScreen = () => {
-        const itemArray = [];
-        itemArray.push({
+        let itemArray = [];
+        let currentItem = {
             name: this.state.answer.name, 
             calories: this.state.answer.calories,
             mass: this.state.answer.mass
-        });
+        }
+        itemArray.push(currentItem);
 
         this.props.navigator.push({
             screen: 'sdd.CorrectionScreen',
@@ -201,7 +202,8 @@ class EstimatorScreen extends React.Component {
                 alert('Could not save to diary. Please try again');
             })
         }
-        alert('Items saved');
+        
+        alert(`${items.length} items saved.`);
     }
 
     

@@ -80,8 +80,8 @@ class EditableEntry extends React.Component {
         else {
             mainSection =
             <View style = {styles.inputContainer}>
-                <DefaultInput style = {styles.input} value = {this.state.controls.name} onChangeText = {(text) => { this.onEditField(text, 'name')}} placeholder = {'Item'}/>
-                <DefaultInput style = {styles.input} value = {`${this.state.controls.mass}`} onChangeText = {(text) => { this.onEditField(text, 'mass')}} placeholder = {'Mass in grams'}/>
+                <DefaultInput style = {styles.input} onChangeText = {(text) => { this.onEditField(text, 'name')}} placeholder = {'Item'}/>
+                <DefaultInput style = {styles.input} onChangeText = {(text) => { this.onEditField(text, 'mass')}} placeholder = {'Mass in grams'}/>
             </View>
         }
         return (
