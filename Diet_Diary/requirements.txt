@@ -2,3 +2,5 @@ scikit-image
 numpy
 scipy
 matplotlib
+imutils
+opencv-python

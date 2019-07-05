@@ -5,10 +5,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import ndimage
 
-image = plt.imread('1.jpg')
+image = plt.imread('test1.jpg')
 print("Original :" + str(image.shape))
 
-image_resized = resize(image, (image.shape[0] / 8, image.shape[1] / 8),
+image_resized = resize(image, (int(image.shape[0] / 8), int(image.shape[1] / 8)),
                        anti_aliasing=True)
 
 # Convert to gray scale
