@@ -50,7 +50,8 @@ class EstimatorScreen extends React.Component {
             },
             answer: {
                 name: null,
-                calories: null
+                calories: null,
+                mass: null
             }
         }
 
@@ -65,7 +66,8 @@ class EstimatorScreen extends React.Component {
                     ...prevState,
                     answer: {
                         name: this.props.imageState.result['name'],
-                        calories: this.props.imageState.result['calories']
+                        calories: this.props.imageState.result['calories'],
+                        mass: this.props.imageState.result['mass']
                     }
                 }
             });
@@ -110,7 +112,8 @@ class EstimatorScreen extends React.Component {
                 ...prevState,
                 answer: {
                     name: null,
-                    calories: null
+                    calories: null,
+                    mass: null
                 }
             }
         });
@@ -130,7 +133,8 @@ class EstimatorScreen extends React.Component {
                     ...prevState,
                     answer: {
                         name: null,
-                        calories: null
+                        calories: null,
+                        mass: null
                     },
                     controls: {
                         ...prevState.controls,
@@ -151,10 +155,20 @@ class EstimatorScreen extends React.Component {
 
 
     pushCorrectionScreen = () => {
+        const itemArray = [];
+        itemArray.push({
+            name: this.state.answer.name, 
+            calories: this.state.answer.calories,
+            mass: this.state.answer.mass
+        });
+
         this.props.navigator.push({
             screen: 'sdd.CorrectionScreen',
             title: 'Correction',
-            animationType: 'fade'
+            animationType: 'fade',
+            passProps: {
+                itemArray: itemArray
+            }
         })
     }
 

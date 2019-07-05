@@ -31,6 +31,11 @@ class MainApp(object):
         data = cherrypy.request.json
         return communication.receive_and_process(data)
 
+    @cherrypy.expose
+    def getList(self):
+
+        return communication.get_list()
+
 @cherrypy.expose
 def runMainApp():
     # Create an instance of MainApp and tell Cherrypy to send all requests under / to it. (ie all of them)
@@ -39,8 +44,8 @@ def runMainApp():
     
     # Tell Cherrypy to listen for connections on the configured address and port.
     # port = os.environ['PORT']
-    cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': int(port),'engine.autoreload.on': True,})
-    # cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': listen_port,'engine.autoreload.on': True,})
+    # cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': int(port),'engine.autoreload.on': True,})
+    cherrypy.config.update({'server.socket_host': listen_ip,'server.socket_port': listen_port,'engine.autoreload.on': True,})
 
     print("=========================")
     print ("University of Auckland")
