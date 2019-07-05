@@ -92,8 +92,7 @@ class DiaryScreen extends React.Component {
                         items: [{
                             food: item.Food,
                             calories: item.Calories,
-                            // In this context, date is exact epoch time - can act as unique ID
-                            ID: item.Date
+                            ID: item.ID
                         }],
                         key: i.toString(),
                         Date: dateFormat
@@ -104,7 +103,7 @@ class DiaryScreen extends React.Component {
                     entriesWithKey[index].items.push({
                         food: item.Food,
                         calories: item.Calories,
-                        ID: item.Date
+                        ID: item.ID
                     })
                 }
             }

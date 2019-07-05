@@ -4,6 +4,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../../components/UI/Button/Button';
 import EditableEntry from './EditableEntry';
+import { getList } from '../../store/actions/otherAPI';
 
 const mapStateToProps = (state) => {
     return {
@@ -13,7 +14,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-
+        getList: () => dispatch(getList())
     }
 }
 
@@ -25,32 +26,65 @@ class CorrectionScreen extends React.Component {
 
     constructor(props) {
         super(props);
+        itemArrayState = [];
+        itemArrayState.push({
+            name: this.props.itemArray[0].name,
+            calories: this.props.itemArray[0].calories,
+            mass: this.props.itemArray[0].mass
+        });
         this.state = {
-            extraItems: []
+            items: itemArrayState
         }
     }
 
+    componentDidMount() {
+        this.props.getList();
+    }
+
     addItem = () => {
-        const items = this.state.extraItems;
-        items.push({ name: null, mass: null })
-        this.setState({ extraItems: items});
+        const items = this.state.items;
+        items.push({ name: '', mass: 0, calories: 0 })
+        this.setState({ items: items});
+    }
+
+    removeItem = (index) => {
+        let newItems = this.state.items;
+        console.log('items to splice');
+        for (let i = 0; i< newItems.length; i++) {
+            console.log(newItems[i]);
+        }
+        console.log(newItems.length, 'items to splice');
+        console.log(index, 'index to splice');
+        newItems.splice(index, 1);
+        for (let i = 0; i< newItems.length; i++) {
+            console.log(newItems[i]);
+        }
+        
+        this.setState({ items: newItems });
     }
 
     onAddToDiary = () => {
+        this.props.saveToDiary(this.state.items);
+        this.props.navigator.pop();
+    }
 
+    saveEdit = (item, index) => {
+        let items = this.state.items;
+        items[index] = item;
+        this.setState({ items: items });
     }
     
     render() {
 
-        let listOfExtraItems = this.state.extraItems.map((item, i) => {
+        let listOfItems = this.state.items.map((item, i) => {
             return (
-                <EditableEntry key = {i} />
+                <EditableEntry key = {`${Math.random()}`} name = {item.name} calories = {item.calories} mass = {item.mass} itemIndex = {i} removeItem = {this.removeItem} saveEdit = {this.saveEdit}/>
             );
         })
         return (
             <View style = {styles.container}>
                 <ScrollView style = {styles.subContainer}>
-                    { listOfExtraItems }
+                    { listOfItems }
                 </ScrollView>
                 <View style = {styles.subContainer2}>
                     <Button style = {styles.button} onPress = {this.addItem}>Add new item</Button>

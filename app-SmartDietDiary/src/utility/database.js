@@ -10,7 +10,7 @@ export const initDB = () => {
     
             console.log('Database opened.');
     
-            DB.executeSql('CREATE table IF NOT EXISTS Calendar(Food text, Calories Integer, Date text)')
+            DB.executeSql('CREATE table IF NOT EXISTS Calendar(ID INTEGER PRIMARY KEY, Food text, Calories Integer, Date text)')
             .then(() => {
                 console.log('Table : OKAY');
                 resolve(true);
@@ -146,7 +146,7 @@ export const removeItemWithKey = (ID) => {
     return new Promise((resolve, reject) => {
         SQLite.openDatabase({name: 'diary.db', location: 'Library'})
         .then(DB => {
-            DB.executeSql(`DELETE FROM Calendar WHERE Date = "${ID}"`)
+            DB.executeSql(`DELETE FROM Calendar WHERE ID = "${ID}"`)
             .then(() => {
                 resolve(true);
             })

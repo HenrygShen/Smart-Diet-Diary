@@ -50,7 +50,8 @@ class EstimatorScreen extends React.Component {
             },
             answer: {
                 name: null,
-                calories: null
+                calories: null,
+                mass: null
             }
         }
 
@@ -65,7 +66,8 @@ class EstimatorScreen extends React.Component {
                     ...prevState,
                     answer: {
                         name: this.props.imageState.result['name'],
-                        calories: this.props.imageState.result['calories']
+                        calories: this.props.imageState.result['calories'],
+                        mass: this.props.imageState.result['mass']
                     }
                 }
             });
@@ -110,7 +112,8 @@ class EstimatorScreen extends React.Component {
                 ...prevState,
                 answer: {
                     name: null,
-                    calories: null
+                    calories: null,
+                    mass: null
                 }
             }
         });
@@ -130,7 +133,8 @@ class EstimatorScreen extends React.Component {
                     ...prevState,
                     answer: {
                         name: null,
-                        calories: null
+                        calories: null,
+                        mass: null
                     },
                     controls: {
                         ...prevState.controls,
@@ -146,16 +150,60 @@ class EstimatorScreen extends React.Component {
         .catch(() => {
             alert('Could not save to diary. Please try again');
         })
-
     }
 
 
     pushCorrectionScreen = () => {
+        let itemArray = [];
+        let currentItem = {
+            name: this.state.answer.name, 
+            calories: this.state.answer.calories,
+            mass: this.state.answer.mass
+        }
+        itemArray.push(currentItem);
+
         this.props.navigator.push({
             screen: 'sdd.CorrectionScreen',
             title: 'Correction',
-            animationType: 'fade'
+            animationType: 'fade',
+            passProps: {
+                itemArray: itemArray,
+                saveToDiary: this.saveCorrectionToDiary
+            }
         })
+    }
+
+    saveCorrectionToDiary = (items) => {
+        for (let i = 0; i < items.length; i++) {
+            const { name, calories} = items[i];
+            insertData(name, calories)
+            .then(() => {
+                this.props.clearLock();
+                this.props.updateDiary();
+                this.setState(prevState => {
+                    return {
+                        ...prevState,
+                        answer: {
+                            name: null,
+                            calories: null,
+                            mass: null
+                        },
+                        controls: {
+                            ...prevState.controls,
+                            image: {
+                                value: null,
+                                valid: false
+                            }
+                        }
+                    }
+                })
+            })
+            .catch(() => {
+                alert('Could not save to diary. Please try again');
+            })
+        }
+        
+        alert(`${items.length} items saved.`);
     }
 
     
