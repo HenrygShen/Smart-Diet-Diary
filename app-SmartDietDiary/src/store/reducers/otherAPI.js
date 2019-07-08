@@ -1,7 +1,8 @@
-import { LOAD_LIST } from "../constants";
+import { LOAD_LIST, LOAD_CALCULATED_CALORIES } from "../constants";
 
 const initialState = {
-    list: []
+    list: [],
+    calorieResults: null
 }
 
 
@@ -12,6 +13,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 list: action.payload
+            }
+        case LOAD_CALCULATED_CALORIES:
+            return {
+                ...state,
+                calorieResults: action.payload
             }
         default:
             return state;

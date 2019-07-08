@@ -8,7 +8,7 @@ import { getList } from '../../store/actions/otherAPI';
 
 const mapStateToProps = (state) => {
     return {
-
+        list: state.otherAPI.list
     }
 }
 
@@ -49,17 +49,7 @@ class CorrectionScreen extends React.Component {
 
     removeItem = (index) => {
         let newItems = this.state.items;
-        console.log('items to splice');
-        for (let i = 0; i< newItems.length; i++) {
-            console.log(newItems[i]);
-        }
-        console.log(newItems.length, 'items to splice');
-        console.log(index, 'index to splice');
         newItems.splice(index, 1);
-        for (let i = 0; i< newItems.length; i++) {
-            console.log(newItems[i]);
-        }
-        
         this.setState({ items: newItems });
     }
 
@@ -78,7 +68,16 @@ class CorrectionScreen extends React.Component {
 
         let listOfItems = this.state.items.map((item, i) => {
             return (
-                <EditableEntry key = {`${Math.random()}`} name = {item.name} calories = {item.calories} mass = {item.mass} itemIndex = {i} removeItem = {this.removeItem} saveEdit = {this.saveEdit}/>
+                <EditableEntry 
+                    key = {`${Math.random()}`} 
+                    name = {item.name} 
+                    calories = {item.calories} 
+                    mass = {item.mass} 
+                    itemIndex = {i} 
+                    removeItem = {this.removeItem} 
+                    saveEdit = {this.saveEdit}
+                    list = {this.props.list}
+                />
             );
         })
         return (
