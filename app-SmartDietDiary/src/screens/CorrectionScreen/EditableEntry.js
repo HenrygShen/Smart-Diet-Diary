@@ -4,11 +4,19 @@ import { View, StyleSheet } from 'react-native';
 import MainText from '../../components/UI/MainText/MainText';
 import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
 import Button from '../../components/UI/Button/Button';
+import RadioForm from 'react-native-simple-radio-button';
 
 class EditableEntry extends React.Component {
 
     constructor(props) {
         super(props);
+        let list = [];
+        for (let i = 0; i < props.list.length; i++) {
+            list.push({
+                label: props.list[i],
+                value: i
+            })
+        }
         this.state = {
             mode: (this.props.name) ? 'default' : 'edit',
             mass: this.props.mass,
@@ -18,8 +26,12 @@ class EditableEntry extends React.Component {
                 name: this.props.name,
                 mass: this.props.mass,
                 calories: this.props.calories
-            }
+            },
+            list: list
         }
+
+        console.log(list);
+        
     }
 
     toggleMode = () => {
@@ -62,6 +74,20 @@ class EditableEntry extends React.Component {
 
     }
 
+    onRadioInputChange = (value) => {
+        let controlState = {};
+        controlState = { name: this.state.list[value]};
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                controls: {
+                    ...prevState.controls,
+                    ...controlState
+                }
+            }
+        })
+    }
+
     render() {
 
         let mainSection;
@@ -80,7 +106,12 @@ class EditableEntry extends React.Component {
         else {
             mainSection =
             <View style = {styles.inputContainer}>
-                <DefaultInput style = {styles.input} onChangeText = {(text) => { this.onEditField(text, 'name')}} placeholder = {'Item'}/>
+                {/* <DefaultInput style = {styles.input} onChangeText = {(text) => { this.onEditField(text, 'name')}} placeholder = {'Item'}/> */}
+                <RadioForm
+                radio_props={this.state.list}
+                initial={0}
+                onPress={(value) => { this.onRadioInputChange(value)}}
+                />
                 <DefaultInput style = {styles.input} onChangeText = {(text) => { this.onEditField(text, 'mass')}} placeholder = {'Mass in grams'}/>
             </View>
         }
@@ -100,9 +131,7 @@ class EditableEntry extends React.Component {
                         }
                         
                     </View>
-
                 </View>
-
             </View>
         )
     }

@@ -7,6 +7,20 @@ export const getList = () => (dispatch) => {
     })
     .then(res => res.json())
     .then(res => {
+        dispatch({ type: LOAD_LIST, payload: res['list'] });
+    })
+}
+
+export const calculateCalories = (list) => (dispatch) => {
+    fetch(`${ADDRESS}/calculateCalories`, {
+        method: 'post',
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify({
+            list: list
+        })
+    })
+    .then(res => res.json())
+    .then(res => {
         dispatch({ type: LOAD_LIST, payload: res });
     })
 }

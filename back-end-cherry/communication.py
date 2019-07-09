@@ -83,7 +83,7 @@ def receive_and_process(data):
         "result": {
             "name": answer,
             "mass": 100,
-            "calories": calories
+            "calories": calories[0]
         }
     }
     out = json.dumps(answers)
@@ -107,4 +107,30 @@ def get_list():
     }
     out = json.dumps(output)
     print(out)
+    return out
+
+
+def calculate_calories(data):
+
+    list = data['list']
+
+    connection = sqlite3.connect("fruit.db")
+    cursor = connection.cursor()
+    finalList = []
+    for item in list:
+        for key in item:
+
+            cursor.execute("SELECT Calories FROM Fruit WHERE Name= ?", [key])
+            calories = cursor.fetchone()
+            calories = (calories[0]/100) * item[key]
+            finalList.append({ "name": key, "calories": calories })
+            print(calories)
+
+    cursor.close()
+    connection.close()
+    output = {
+        "code": 0,
+        "list": finalList
+    }
+    out = json.dumps(output)
     return out

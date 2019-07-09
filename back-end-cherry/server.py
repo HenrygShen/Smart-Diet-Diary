@@ -23,7 +23,6 @@ class MainApp(object):
 
         return json.dumps(output)
 
-    #Public(Common) API for receiving files
     @cherrypy.expose
     @cherrypy.tools.json_in()
     def processImage(self):
@@ -35,6 +34,12 @@ class MainApp(object):
     def getList(self):
 
         return communication.get_list()
+
+    @cherrypy.expose
+    @cherrypy.tools.json_in()
+    def calculateCalories(self):
+        data = cherrypy.request.json
+        return communication.calculate_calories(data)
 
 @cherrypy.expose
 def runMainApp():
