@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Modal, ScrollView } from 'react-native';
+import { Button, Text } from 'native-base';
 
 import MainText from '../../../components/UI/MainText/MainText';
 import HeadingText from '../../../components/UI/HeadingText/HeadingText';
 import DefaultInput from '../../../components/UI/DefaultInput/DefaultInput';
-import Button from '../../../components/UI/Button/Button';
 import RadioForm from 'react-native-simple-radio-button';
 
 class EditableEntry extends React.Component {
@@ -19,7 +19,7 @@ class EditableEntry extends React.Component {
             })
         }
         this.state = {
-            mode: (this.props.name) ? 'default' : 'edit',
+            mode: 'default',
             editMode: 'default',
             details: {
                 mass: this.props.mass,
@@ -136,16 +136,8 @@ class EditableEntry extends React.Component {
                 mainSection =
                 <View style = {styles.inputContainer}>
                     <View style = {{flex:1, flexDirection: 'row', justifyContent: 'space-around', margin: 20}}>
-                        <Button 
-                            style = {styles.itemEditButton} 
-                            onPress = { () => { this.setEditMode('list')}}
-                            textColor = {'white'}
-                        >Choose from list</Button>
-                        <Button 
-                            style = {styles.itemEditButton} 
-                            onPress = { () => { this.setEditMode('custom')}}
-                            textColor = {'white'}
-                        >Add your own item</Button>
+                        <Button onPress = { () => { this.setEditMode('list')}} primary><Text>Choose from list</Text></Button>
+                        <Button onPress = { () => { this.setEditMode('custom')}} primary><Text>Add your own item</Text></Button>
                     </View>
                 </View>
             }
@@ -179,9 +171,7 @@ class EditableEntry extends React.Component {
                         </View>
 
                         <View>
-                            <Button style = {styles.itemEditButton} onPress = { () => { this.saveEdit('list') }}>
-                                Save
-                            </Button>
+                            <Button onPress = { () => { this.saveEdit('list') }} success><Text>Save</Text></Button>
                         </View>
                     </View>
                 </Modal>
@@ -208,27 +198,14 @@ class EditableEntry extends React.Component {
                     {mainSection}
                     <View style = {(this.state.mode === 'default') ? styles.buttonContainer : styles.reverseButtonContainer}>
                         {(this.state.mode === 'default') ?
-                        <Button 
-                            style = {styles.button} 
-                            onPress = { () => { this.toggleMode(); this.setEditMode('default'); }}
-                            style = {styles.itemEditButton}
-                            textColor = {'white'} 
-                        >Edit</Button>
+                        <Button onPress = { () => { this.toggleMode(); this.setEditMode('default'); }} warning><Text>Edit</Text></Button>
                         :
-                        <Button 
-                            style = {styles.button} 
-                            onPress = { () => { this.toggleMode(); this.setEditMode('default'); }}
-                            style = {styles.removeButton}
-                            textColor = {'white'} 
-                        >Cancel edit</Button>
+                        <Button onPress = { () => { this.toggleMode(); this.setEditMode('default'); }} danger><Text>Cancel edit</Text></Button>
                         }
                         {(this.state.mode === 'default') ?
-                            <Button 
-                                style = {styles.removeButton}
-                                textColor = {'white'} 
-                                onPress = { () => { this.props.removeItem(this.props.itemIndex)}}>Remove item</Button>
+                            <Button onPress = { () => { this.props.removeItem(this.props.itemIndex)}} danger><Text>Remove item</Text></Button>
                             :
-                            <Button style = {styles.saveButton} onPress = { () => { this.saveEdit('custom') }}>Save</Button>
+                            <Button onPress = { () => { this.saveEdit('custom') }} success><Text>Save</Text></Button>
                         }
                         
                     </View>
@@ -249,15 +226,6 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row-reverse',
         justifyContent: 'space-around', 
-    },
-    itemEditButton: {
-        backgroundColor: 'orange'
-    },
-    saveButton: {
-        backgroundColor: '#22FF22'
-    },
-    removeButton: {
-        backgroundColor: 'red'
     },
     buttonContainer: {
         flex: 1,

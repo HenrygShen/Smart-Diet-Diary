@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 
 import { connect } from 'react-redux';
-import Button from '../../components/UI/Button/Button';
+import { Button, Text } from 'native-base';
 import EditableEntry from './EditableEntry/EditableEntry';
 import { getList, calculateCalories } from '../../store/actions/otherAPI';
 import { CLEAR_CAL_RESULTS } from '../../store/constants';
@@ -116,8 +116,8 @@ class CorrectionScreen extends React.Component {
                     { listOfItems }
                 </ScrollView>
                 <View style = {styles.subContainer2}>
-                    <Button style = {styles.button} onPress = {this.addItem}>Add new item</Button>
-                    <Button style = {styles.button} onPress = {this.onAddToDiary} disabled = {this.hasInvalidItems}>Done</Button>
+                    <Button onPress = {this.addItem} primary><Text>Add new item</Text></Button>
+                    <Button onPress = {this.onAddToDiary} primary><Text>Done</Text></Button>
                 </View>
             </View>
         )

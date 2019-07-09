@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Button, Text } from 'native-base';
 
-import Button from '../../components/UI/Button/Button';
 import MainText from '../../components/UI/MainText/MainText';
 
 class ItemEntry extends React.Component {
@@ -43,12 +43,7 @@ class ItemEntry extends React.Component {
                         { mainSection}
                     </MainText>
                 </TouchableOpacity>
-                <Button 
-                    color = {'red'} 
-                    textColor = {'white'} 
-                    style = {{borderColor : 'transparent'}}
-                    onPress = { () => { this.props.onDelete(ID)}}
-                >Remove</Button>
+                <Button onPress = { () => { this.props.onDelete(ID)}} danger><Text>Remove</Text></Button>
             </View>
 
         )
