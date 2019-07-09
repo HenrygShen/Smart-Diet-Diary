@@ -1,4 +1,4 @@
-import { ADDRESS, LOAD_LIST } from "../constants";
+import { ADDRESS, LOAD_LIST, LOAD_CALCULATED_CALORIES } from "../constants";
 
 export const getList = () => (dispatch) => {
     fetch(`${ADDRESS}/getList`, {
@@ -21,6 +21,6 @@ export const calculateCalories = (list) => (dispatch) => {
     })
     .then(res => res.json())
     .then(res => {
-        dispatch({ type: LOAD_LIST, payload: res });
+        dispatch({ type: LOAD_CALCULATED_CALORIES, payload: res });
     })
 }

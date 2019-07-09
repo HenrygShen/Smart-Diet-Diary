@@ -4,17 +4,22 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../../components/UI/Button/Button';
 import EditableEntry from './EditableEntry';
-import { getList } from '../../store/actions/otherAPI';
+import { getList, calculateCalories } from '../../store/actions/otherAPI';
+import { CLEAR_CAL_RESULTS } from '../../store/constants';
 
 const mapStateToProps = (state) => {
     return {
-        list: state.otherAPI.list
+        list: state.otherAPI.list,
+        calorieResults: state.otherAPI.calorieResults,
+        resultsCleared: state.otherAPI.resultsCleared
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getList: () => dispatch(getList())
+        getList: () => dispatch(getList()),
+        calculateCalories: (list) => dispatch(calculateCalories(list)),
+        clearCalorieResults: () => dispatch({ type: CLEAR_CAL_RESULTS })
     }
 }
 
@@ -30,7 +35,8 @@ class CorrectionScreen extends React.Component {
         itemArrayState.push({
             name: this.props.itemArray[0].name,
             calories: this.props.itemArray[0].calories,
-            mass: this.props.itemArray[0].mass
+            mass: this.props.itemArray[0].mass,
+            type: 'list'
         });
         this.state = {
             items: itemArrayState
@@ -39,6 +45,14 @@ class CorrectionScreen extends React.Component {
 
     componentDidMount() {
         this.props.getList();
+    }
+
+    componentDidUpdate() {
+        if (this.props.calorieResults !== null && this.props.resultsCleared === 0) {
+            this.props.saveToDiary(this.props.calorieResults['list']);
+            this.props.clearCalorieResults();
+            this.props.navigator.pop();
+        }
     }
 
     addItem = () => {
@@ -54,8 +68,7 @@ class CorrectionScreen extends React.Component {
     }
 
     onAddToDiary = () => {
-        this.props.saveToDiary(this.state.items);
-        this.props.navigator.pop();
+        this.props.calculateCalories(this.state.items);
     }
 
     saveEdit = (item, index) => {
@@ -87,7 +100,7 @@ class CorrectionScreen extends React.Component {
                 </ScrollView>
                 <View style = {styles.subContainer2}>
                     <Button style = {styles.button} onPress = {this.addItem}>Add new item</Button>
-                    <Button style = {styles.button} onPress = {this.onAddToDiary}>Done</Button>
+                    <Button style = {styles.button} onPress = {this.onAddToDiary} disabled = {this.state.items.length === 0}>Done</Button>
                 </View>
             </View>
         )

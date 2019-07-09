@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Modal, ScrollView } from 'react-native';
 
 import MainText from '../../components/UI/MainText/MainText';
+import HeadingText from '../../components/UI/HeadingText/HeadingText';
 import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
 import Button from '../../components/UI/Button/Button';
 import RadioForm from 'react-native-simple-radio-button';
@@ -19,6 +20,7 @@ class EditableEntry extends React.Component {
         }
         this.state = {
             mode: (this.props.name) ? 'default' : 'edit',
+            editMode: 'default',
             mass: this.props.mass,
             name: this.props.name,
             calories: this.props.calories,
@@ -29,13 +31,25 @@ class EditableEntry extends React.Component {
             },
             list: list
         }
-
-        console.log(list);
         
     }
 
     toggleMode = () => {
-        this.setState({ mode: (this.state.mode==='default') ? 'edit' : 'default' });
+        this.setState(prevState => {
+            return { 
+                ...prevState,
+                mode: (prevState.mode==='default') ? 'edit' : 'default' 
+            }
+        });
+    }
+
+    setEditMode = (mode) => {
+        this.setState(prevState => {
+            return { 
+                ...prevState,
+                editMode: mode
+            }
+        });
     }
 
     onEditField = (text, key) => {
@@ -57,14 +71,16 @@ class EditableEntry extends React.Component {
         })
     }
 
-    saveEdit = () => {
+    saveEdit = (type) => {
 
         this.setState(prevState => {
             this.props.saveEdit({
-                ...prevState.controls
+                ...prevState.controls,
+                type: type
             }, this.props.itemIndex);
             return {
                 mode: 'default',
+                editMode: 'default',
                 ...prevState.controls,
                 controls: {
                     ...prevState.controls
@@ -76,7 +92,7 @@ class EditableEntry extends React.Component {
 
     onRadioInputChange = (value) => {
         let controlState = {};
-        controlState = { name: this.state.list[value]};
+        controlState = { name: this.state.list[value].label};
         this.setState(prevState => {
             return {
                 ...prevState,
@@ -87,6 +103,7 @@ class EditableEntry extends React.Component {
             }
         })
     }
+
 
     render() {
 
@@ -103,17 +120,66 @@ class EditableEntry extends React.Component {
                 
             </View>
         }
+        /* In edit mode */
         else {
-            mainSection =
-            <View style = {styles.inputContainer}>
-                {/* <DefaultInput style = {styles.input} onChangeText = {(text) => { this.onEditField(text, 'name')}} placeholder = {'Item'}/> */}
-                <RadioForm
-                radio_props={this.state.list}
-                initial={0}
-                onPress={(value) => { this.onRadioInputChange(value)}}
-                />
-                <DefaultInput style = {styles.input} onChangeText = {(text) => { this.onEditField(text, 'mass')}} placeholder = {'Mass in grams'}/>
-            </View>
+            if (this.state.editMode === 'default') {
+                mainSection =
+                <View style = {styles.inputContainer}>
+                    <View style = {{flex:1, flexDirection: 'row', justifyContent: 'space-around', margin: 20}}>
+                        <Button style = {styles.itemEditButton} onPress = { () => { this.setEditMode('list')}}>Choose from list</Button>
+                        <Button style = {styles.itemEditButton} onPress = { () => { this.setEditMode('custom')}}>Add your own item</Button>
+                    </View>
+                </View>
+            }
+            else if (this.state.editMode === 'list') {
+                mainSection = 
+                <Modal visible = {this.state.editMode === 'list'} onRequestClose = {() => {this.setEditMode('default')}}>
+                    <View style = {{flex: 1, justifyContent: 'space-around', alignItems: 'center', height: '100%'}}>
+                        <View>
+                            <HeadingText>
+                                <MainText>
+                                    Choose your item
+                                </MainText>
+                            </HeadingText>
+                        </View>
+                        <ScrollView style = {{ width: '60%', maxHeight: '50%'}}>
+                            <RadioForm
+                            radio_props={this.state.list}
+                            buttonColor={'orange'}
+                            selectedButtonColor = {'orange'}
+                            initial={0}
+                            onPress={(value) => { this.onRadioInputChange(value)}}
+                            />
+                        </ScrollView>
+                        <View>
+                            <DefaultInput 
+                                style = {styles.input} 
+                                onChangeText = {(text) => { this.onEditField(text, 'mass')}} 
+                                placeholder = {'Mass in grams'}
+                                keyboardType ={'numeric'}
+                            />
+                        </View>
+
+                        <View>
+                            <Button style = {styles.itemEditButton} onPress = { () => { this.saveEdit('list') }}>
+                                Save
+                            </Button>
+                        </View>
+                    </View>
+                </Modal>
+            }
+            else {
+                mainSection = 
+                <View style = {styles.inputContainer}>
+                    <DefaultInput style = {styles.input} onChangeText = {(text) => { this.onEditField(text, 'name')}} placeholder = {'Item'} />
+                    <DefaultInput 
+                        style = {styles.input} 
+                        onChangeText = {(text) => { this.onEditField(text, 'calories')}} 
+                        placeholder = {'Calories'}
+                        keyboardType ={'numeric'}/> 
+                </View>
+            }
+
         }
         return (
             <View style = {styles.container}>
@@ -123,11 +189,14 @@ class EditableEntry extends React.Component {
                     </MainText>
                     {mainSection}
                     <View style = {(this.state.mode === 'default') ? styles.buttonContainer : styles.reverseButtonContainer}>
-                        <Button style = {styles.button} onPress = {this.toggleMode}>{(this.state.mode === 'default') ? 'Edit' : 'Cancel edit'}</Button>
+                        <Button style = {styles.button} onPress = { () => { this.toggleMode(); this.setEditMode('default'); }}>{(this.state.mode === 'default') ? 'Edit' : 'Cancel edit'}</Button>
                         {(this.state.mode === 'default') ?
-                            <Button style = {styles.button} onPress = { () => { this.props.removeItem(this.props.itemIndex)}}>Remove item</Button>
+                            <Button 
+                                style = {styles.removeButton}
+                                textColor = {'white'} 
+                                onPress = { () => { this.props.removeItem(this.props.itemIndex)}}>Remove item</Button>
                             :
-                            <Button style = {styles.button} onPress = { () => { this.saveEdit() }}>Save</Button>
+                            <Button style = {styles.button} onPress = { () => { this.saveEdit('custom'); }}>Save</Button>
                         }
                         
                     </View>
@@ -147,8 +216,13 @@ const styles = StyleSheet.create({
     reverseButtonContainer: {
         flex: 1,
         flexDirection: 'row-reverse',
-        justifyContent: 'space-around',
-        
+        justifyContent: 'space-around', 
+    },
+    itemEditButton: {
+        backgroundColor: '#22FF22'
+    },
+    removeButton: {
+        backgroundColor: 'red'
     },
     buttonContainer: {
         flex: 1,
