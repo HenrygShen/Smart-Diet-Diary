@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet, ActivityIndicator, TouchableNativeFeedback } from 'react-native';
+import { Button, Text } from 'native-base';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Button from '../UI/Button/Button';
 import ImagePicker from 'react-native-image-picker';
 
 class PickImage extends React.Component {
@@ -57,26 +57,29 @@ class PickImage extends React.Component {
                     
                 </View>
                 <View style = {styles.buttonContainer}>
-                    { !this.props.isProcessing ? 
-                            <Button 
-                                onPress = {this.props.processImage}
-                                disabled = {this.props.processDisabled}
-                                color = {'orange'}
-                                textColor = {'white'}
-                                style = { styles.button }
-                            >Get calories</Button>
-                       
+                    { !this.props.isProcessing ?
+                            <View>
+                                <Button 
+                                    onPress = {this.props.processImage}
+                                    disabled = {this.props.processDisabled}
+
+                                ><Text>Get calories</Text></Button>
+                            </View>
+
                             :
-                            <ActivityIndicator></ActivityIndicator>
+                            <View>
+                                <ActivityIndicator></ActivityIndicator>
+                            </View>
+                            
                         
                     }
-                    <Button 
-                        style = { styles.button}
-                        color = {'#32CD32'}
-                        textColor = { this.props.saveDisabled ? '#aaa' : 'white'}
-                        onPress = {this.saveToDiary}
-                        disabled = {this.props.saveDisabled}
-                    >Add to diary</Button>
+                    <View>
+                        <Button 
+                            success
+                            onPress = {this.saveToDiary}
+                            disabled = {this.props.saveDisabled}
+                        ><Text>Add to diary</Text></Button>
+                    </View>
                 </View>
             </View>
         );
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '80%',
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'center'
     },
     icon: {

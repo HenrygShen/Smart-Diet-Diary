@@ -24,7 +24,9 @@ const ResultSection = ({name, calories, pushCorrectionScreen}) => {
                         <MainText>
                             Click below
                         </MainText>
-                        <Button onPress = { () => {pushCorrectionScreen() }} light><Text>More</Text></Button>
+                        <View>
+                            <Button onPress = { () => {pushCorrectionScreen() }} info><Text>More</Text></Button>
+                        </View>
                     </View>
                 </View>
             :
