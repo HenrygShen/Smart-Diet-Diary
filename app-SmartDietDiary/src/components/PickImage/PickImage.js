@@ -62,6 +62,7 @@ class PickImage extends React.Component {
                                 onPress = {this.props.processImage}
                                 disabled = {this.props.processDisabled}
                                 color = {'orange'}
+                                textColor = {'white'}
                                 style = { styles.button }
                             >Get calories</Button>
                        

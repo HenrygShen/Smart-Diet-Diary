@@ -113,18 +113,17 @@ def get_list():
 def calculate_calories(data):
 
     list = data['list']
-
     connection = sqlite3.connect("fruit.db")
     cursor = connection.cursor()
     finalList = []
     for item in list:
-        for key in item:
-
-            cursor.execute("SELECT Calories FROM Fruit WHERE Name= ?", [key])
+        if item['type'] == "list":
+            cursor.execute("SELECT Calories FROM Fruit WHERE Name= ?", [item['name']])
             calories = cursor.fetchone()
-            calories = (calories[0]/100) * item[key]
-            finalList.append({ "name": key, "calories": calories })
-            print(calories)
+            calories = (calories[0]/100) * item['mass']
+            finalList.append({ "name": item['name'], "calories": calories })
+        else:
+            finalList.append({ "name": item['name'], "calories": item['calories']})
 
     cursor.close()
     connection.close()
@@ -133,4 +132,5 @@ def calculate_calories(data):
         "list": finalList
     }
     out = json.dumps(output)
+    print(out)
     return out
