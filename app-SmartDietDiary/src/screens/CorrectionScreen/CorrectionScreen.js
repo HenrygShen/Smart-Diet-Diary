@@ -3,7 +3,7 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 
 import { connect } from 'react-redux';
 import Button from '../../components/UI/Button/Button';
-import EditableEntry from './EditableEntry';
+import EditableEntry from './EditableEntry/EditableEntry';
 import { getList, calculateCalories } from '../../store/actions/otherAPI';
 import { CLEAR_CAL_RESULTS } from '../../store/constants';
 
@@ -57,7 +57,7 @@ class CorrectionScreen extends React.Component {
 
     addItem = () => {
         const items = this.state.items;
-        items.push({ name: '', mass: 0, calories: 0 })
+        items.push({ name: '', mass: 0, calories: 0, type: 'custom' })
         this.setState({ items: items});
     }
 
@@ -76,6 +76,22 @@ class CorrectionScreen extends React.Component {
         items[index] = item;
         this.setState({ items: items });
     }
+
+    hasInvalidItems = () => {
+        const items = this.state.items;
+        if (items.length === 0) {
+            return true;
+        }
+        else {
+            for (let i = 0; i < items.length; i++) {
+                console.log(items);
+                if (items[i].name === '' || (items[i].mass === 0 && items[i].calories === 0)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
     
     render() {
 
@@ -90,6 +106,7 @@ class CorrectionScreen extends React.Component {
                     removeItem = {this.removeItem} 
                     saveEdit = {this.saveEdit}
                     list = {this.props.list}
+                    type = {item.type}
                 />
             );
         })
@@ -100,7 +117,7 @@ class CorrectionScreen extends React.Component {
                 </ScrollView>
                 <View style = {styles.subContainer2}>
                     <Button style = {styles.button} onPress = {this.addItem}>Add new item</Button>
-                    <Button style = {styles.button} onPress = {this.onAddToDiary} disabled = {this.state.items.length === 0}>Done</Button>
+                    <Button style = {styles.button} onPress = {this.onAddToDiary} disabled = {this.hasInvalidItems}>Done</Button>
                 </View>
             </View>
         )
