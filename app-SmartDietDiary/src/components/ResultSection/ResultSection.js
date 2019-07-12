@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { View, StyleSheet } from 'react-native';
+import { Button, Text } from 'native-base';
 import MainText from '../../components/UI/MainText/MainText';
-import Button from '../../components/UI/Button/Button';
 
 const ResultSection = ({name, calories, pushCorrectionScreen}) => {   
     return (
@@ -24,7 +24,9 @@ const ResultSection = ({name, calories, pushCorrectionScreen}) => {
                         <MainText>
                             Click below
                         </MainText>
-                        <Button onPress = { () => {pushCorrectionScreen() }}>More</Button>
+                        <View>
+                            <Button onPress = { () => {pushCorrectionScreen() }} info><Text>More</Text></Button>
+                        </View>
                     </View>
                 </View>
             :
