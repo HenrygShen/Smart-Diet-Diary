@@ -2,12 +2,12 @@ import os
 import base64
 import random
 import json
-from keras.models import load_model
-from keras import backend as K
-from PIL import Image
+# from keras.models import load_model
+# from keras import backend as K
+# from PIL import Image
 import sqlite3
-import tensorflow as tf
-
+# import tensorflow as tf
+import detection
 
 import sys
 import numpy as np
@@ -37,39 +37,43 @@ def receive_and_process(data):
         file.write(decoded_file)
         file.close()
 
-    image = Image.open(filename)
-    image = image.resize((50, 50), Image.ANTIALIAS)
+    # image = Image.open(filename)
+    # image = image.resize((50, 50), Image.ANTIALIAS)
+    #
+    # image.load()
+    # data2 = np.asarray(image)
+    # data2 = data2.astype("float32")
+    # data2 /= 255
+    # image.close()
 
-    image.load()
-    data2 = np.asarray(image)
-    data2 = data2.astype("float32")
-    data2 /= 255
-    image.close()
-    os.remove(filename)
-
-    data2 = data2.reshape(-1, 50, 50, 3)
+    #Reshape data
+    # data2 = data2.reshape(-1, 50, 50, 3)
 
     # Predict answer
-    model = load_model(filepath=working_dir+'/Trained_model.h5')
-    model._make_predict_function()
-    prediction = model.predict(x=data2)
-    max_index = np.argmax(prediction[0])
+    # model = load_model(filepath=working_dir+'/Trained_model.h5')
+    # model._make_predict_function()
+    # prediction = model.predict(x=data2)
+    # max_index = np.argmax(prediction[0])
+    answer = detection.detect_api(filename)
 
     # Close session since method is called asynchronously - to prevent mem leak
-    K.clear_session()
+    # K.clear_session()
+    os.remove(filename)
 
-    answer = ''
     # Read labels
-    with open(working_dir+"/labels.json", 'r') as file:
-        labels_dict = json.load(file)
-        labels = labels_dict['labels']
+    # with open(working_dir+"/labels.json", 'r') as file:
+    #     labels_dict = json.load(file)
+    #     labels = labels_dict['labels']
 
     # Print labels with indices
-    labels = dict((name, index) for index, name in enumerate(labels))
-    for key, value in labels.items():
-        if value == max_index:
-            answer = key
+    # labels = dict((name, index) for index, name in enumerate(labels))
+    # for key, value in labels.items():
+    #     if value == max_index:
+    #         answer = key
 
+
+    print(answer)
+    answer = answer[0]['name']
     # Open database and get calories
     connection = sqlite3.connect("fruit.db")
     cursor = connection.cursor()
