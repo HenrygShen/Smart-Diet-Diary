@@ -26,11 +26,88 @@ ap.add_argument("-w", "--width", type=float, required=True,
 	help="width of the left-most object in the image (in inches)")
 args = vars(ap.parse_args())
 
+itest = cv2.imread('black-grapes.jpg')
+plt.imshow(itest)
+plt.show()
+
 # load the image, convert it to grayscale, and blur it slightly
 image = cv2.imread(args["image"])
+height, width, depth = image.shape
+print(height)
+print(width)
+
+scale = width/300 if width>height else height/300
+new_width = int(width/scale)
+new_height = int(height/scale)
+
+print(new_width)
+print(new_height)
+image = cv2.resize(image, (new_width, new_height))
 # rectangle around the object you want to find the size of (topleft x, topleft y, width, height)
-rect = (272,913,249,239)
-image = Foreground_Extraction.extract_foreground(image, rect)
+# rect = (272,913,249,239)
+# apple = (71, 107, 81, 79)
+
+# x = 59
+# y = 62
+# food_width = 97
+# food_height = 191
+x = 71
+y = 107
+food_width = 81
+food_height = 79
+food = (x, y, food_width, food_height)
+
+
+
+# coin = (9,152,30,34)
+coin_x = 18
+coin_y = 134
+coin_width = 27
+coin_height = 28
+coin = (coin_x,coin_y,coin_width,coin_height)
+
+
+image1 = Foreground_Extraction.extract_foreground(image, coin)
+image2 = Foreground_Extraction.extract_foreground(image, food)
+
+addedImages = cv2.add(image1, image2)
+
+lastValidCol = 0
+firstColPos = 0
+totalPixels = 0
+
+for i in range(y, food_height + y):
+	firstColPos = -1
+	for j in range(x, food_width + x):
+		if image2[i][j][0] != 0 and firstColPos != -1:
+			firstColPos = j
+		if image2[i][j][0] != 0:
+			lastValidCol = j
+		if j == food_width + x - 1:
+			totalPixels = totalPixels + (lastValidCol - firstColPos)
+
+print(totalPixels)
+
+
+lastValidCol = 0
+firstColPos = 0
+totalPixels = 0
+
+for i in range(coin_y, coin_height + coin_y):
+	firstColPos = -1
+	for j in range(coin_x, coin_width + coin_x):
+		if image1[i][j][0] != 0 and firstColPos != -1:
+			firstColPos = j
+		if image1[i][j][0] != 0:
+			lastValidCol = j
+		if j == coin_width + coin_x - 1:
+			totalPixels = totalPixels + (lastValidCol - firstColPos)
+
+print(totalPixels)
+# rect = (10, 10, new_width - 20, new_height - 20)
+# addedImages = Foreground_Extraction.extract_foreground(image, rect)
+plt.imshow(addedImages)
+plt.show()
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 gray = cv2.GaussianBlur(gray, (7, 7), 0)
 
