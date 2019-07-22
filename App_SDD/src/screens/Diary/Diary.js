@@ -22,10 +22,6 @@ const mapDispatchToProps = (dispatch) => {
 
 class DiaryScreen extends React.Component {
 
-    // static navigationOptions = {
-    //     title: 'Diary',
-    // };
-
     constructor(props) {
         super(props);
         this.state = {
@@ -34,17 +30,14 @@ class DiaryScreen extends React.Component {
     }
 
     componentDidMount() {
-
         this.updateEntries();
     }
 
     componentDidUpdate() {
-        
         if (!this.props.isLocked) {
             this.updateEntries();
             this.props.lockDiary();
         }
-        
     }
 
     onDelete = (ID) => {

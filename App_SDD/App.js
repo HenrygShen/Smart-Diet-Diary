@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer, createSwitchNavigator, createDrawerNavigator, createBottomTabNavigator } from "react-navigation";
+import { createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator } from "react-navigation";
 import StartUp from './src/screens/Startup/Startup';
 import Estimator from './src/screens/Estimator/Estimator';
 import Diary from './src/screens/Diary/Diary';
@@ -29,10 +29,22 @@ EstimatorPage.navigationOptions = ({navigation}) => {
 	}
 }
 
-const MainTabs = createBottomTabNavigator(
+const DiaryStack = createStackNavigator(
 	{
 		Diary: {
 			screen: Diary,
+			navigationOptions: {
+				title: 'Diary',
+				headerTitle: 'Diary'
+			}
+		}
+	}
+)
+
+const MainTabs = createBottomTabNavigator(
+	{
+		Diary: {
+			screen: DiaryStack,
 			navigationOptions: {
 				title: 'Your diary'
 			}

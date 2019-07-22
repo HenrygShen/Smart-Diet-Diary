@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { 
-    View,
-    StyleSheet
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import MainText from '../../components/UI/MainText/MainText';
-import Button from '../../components/UI/Button/Button';
+import { Button, Text } from 'native-base';
+
 import { checkUser, initDB, resetDB, insertUserData } from '../../utility/database';
 
 import Introduction from './Introduction';
@@ -130,7 +128,7 @@ class StartScreen extends React.Component {
                 <MainText>
                     For reference, your recommended daily calorie intake is { this.state.calorieIntake }
                 </MainText>
-                <Button onPress = { this.nextStep }>Next</Button>
+                <Button onPress = { this.nextStep }><Text>Next</Text></Button>
             </View> 
         }
 
