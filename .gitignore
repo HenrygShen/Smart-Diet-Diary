@@ -9,6 +9,10 @@ node_modules/
 
 .env
 
+rcnn/
+images/
+
+trained-inference-graphs/
 
 Trained_model/
 

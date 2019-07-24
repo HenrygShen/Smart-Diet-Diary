@@ -1,0 +1,6 @@
+Pillow
+lxml
+jupyter
+matplotlib
+opencv-python
+pandas
