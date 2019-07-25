@@ -179,14 +179,14 @@ class EstimatorScreen extends React.Component {
                             }
                         }
                     }
-                })
+                });
+                alert(`${items.length} items saved.`);
             })
-            .catch(() => {
+            .catch((e) => {
+                console.log(e);
                 alert('Could not save to diary. Please try again');
             })
         }
-        
-        alert(`${items.length} items saved.`);
     }
 
     
