@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 import MainText from '../../components/UI/MainText/MainText';
 
 class DiaryNavBar extends React.Component {
@@ -11,8 +12,13 @@ class DiaryNavBar extends React.Component {
     render() {
         return (
             <View style = {styles.container}>
+                <View style = {styles.menu}>
+                    <TouchableOpacity>
+                        <Icon name = {'md-menu'} size = {30} />
+                    </TouchableOpacity>
+                </View>
                 <View style = {styles.subContainer}>
-                    <MainText color = {'black'}>Test</MainText>
+                    <MainText style = {{fontSize: 20}} color = {'black'}>Diary</MainText>
                 </View>
             </View>
         )
@@ -24,18 +30,15 @@ export default DiaryNavBar;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        flexDirection: 'row'
+    },
+    menu: {
+        paddingLeft: 20,
+        paddingRight: 20
     },
     subContainer: {
         flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '95%'
-    },
-    imageContainer: {
-        width: 40,
-        height: 40,
-        borderRadius: 20
+        justifyContent: 'center'
     }
 })
