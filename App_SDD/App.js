@@ -34,8 +34,7 @@ const DiaryStack = createStackNavigator(
 		Diary: {
 			screen: Diary,
 			navigationOptions: {
-				title: 'Diary',
-				headerTitle: 'Diary'
+				title: 'Diary'
 			}
 		}
 	}

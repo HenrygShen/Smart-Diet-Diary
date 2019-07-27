@@ -5,6 +5,7 @@ import { getEntries, removeItemWithKey } from '../../utility/database';
 import DiaryEntry from './DiaryEntry';
 import { getDDMMYY, getIndexOfDate } from './dateUtility';
 import { SET_LOCK } from '../../store/constants';
+import DiaryNavBar from '../NavBar/DiaryNavBar';
 
 const mapStateToProps = (state) => {
     return {
@@ -20,7 +21,12 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
+
 class DiaryScreen extends React.Component {
+
+    static navigationOptions = ({ navigation }) => ({
+        headerTitle: <DiaryNavBar />
+    });
 
     constructor(props) {
         super(props);
