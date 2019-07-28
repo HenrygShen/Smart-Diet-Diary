@@ -14,3 +14,7 @@ item {
 	id: 4
 	name: 'coin'
 }
+item {
+	id: 5
+	name: 'chicken curry'
+}

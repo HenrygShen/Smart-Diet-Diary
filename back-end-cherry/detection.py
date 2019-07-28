@@ -9,7 +9,7 @@ import cv2
 
 from collections import defaultdict
 from io import StringIO
-from matplotlib import pyplot as plt
+# from matplotlib import pyplot as plt
 from PIL import Image
 from utils import label_map_util
 from utils import visualization_utils as vis_util
@@ -31,7 +31,7 @@ def detect_api(filename):
     # Models can bee found here: https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
     # MODEL_NAME = 'ssd_inception_v2_coco_2017_11_17'
     # MODEL_NAME = 'pre-trained-model'
-    MODEL_NAME = 'output_inference_graph_rcnn2.pb'
+    MODEL_NAME = 'output_inference_graph_rcnnv4v2.pb'
     # DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
     # Path to frozen detection graph. This is the actual model that is used for the object detection.

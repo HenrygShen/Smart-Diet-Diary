@@ -4,5 +4,13 @@ item {
 }
 item {
 	id: 2
+	name: 'orange'
+}
+item {
+	id: 3
+	name: 'apple granny smith'
+}
+item {
+	id: 4
 	name: 'coin'
 }

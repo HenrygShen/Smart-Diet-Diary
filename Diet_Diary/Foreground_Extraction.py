@@ -31,7 +31,7 @@ def extract_foreground(img, rect):
 	# rect = (272,913,249,239)
 
 	# rect = (int(267/divisor),int(581/divisor),int(1055/divisor),int(1197/divisor))
-	print(rect)
+	# print(rect)
 
 	cv2.grabCut(img,mask,rect,bgdModel,fgdModel,5,cv2.GC_INIT_WITH_RECT)
 	mask2 = np.where((mask==2)|(mask==0),0,1).astype('uint8')

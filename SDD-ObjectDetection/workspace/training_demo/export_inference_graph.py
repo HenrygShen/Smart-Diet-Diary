@@ -13,7 +13,11 @@
 # limitations under the License.
 # ==============================================================================
 
-# python export_inference_graph.py --input_type image_tensor --pipeline_config_path training_rcnn2/faster_rcnn_inception_v2_coco.config --trained_checkpoint_prefix training_rcnn2/model.ckpt-22312 --output_directory trained-inference-graphs/output_inference_graph_rcnnv4v2.pb
+# python export_inference_graph.py --input_type image_tensor --pipeline_config_path training_rcnn2/faster_rcnn_inception_v2_coco.config --trained_checkpoint_prefix training_rcnn2/model.ckpt-20397 --output_directory trained-inference-graphs/output_inference_graph_rcnnv5.pb
+
+# faster_rcnn_resnet
+# python export_inference_graph.py --input_type image_tensor --pipeline_config_path faster_rcnn_resnet_train/faster_rcnn_resnet50_coco.config --trained_checkpoint_prefix faster_rcnn_resnet_train/model.ckpt-21426 --output_directory trained-inference-graphs/output_inference_graph_rcnn_resnetv5.pb
+
 
 r"""Tool to export an object detection model for inference.
 

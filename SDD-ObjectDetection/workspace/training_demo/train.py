@@ -17,6 +17,10 @@
 # python train.py --logtostderr --train_dir=training_rcnn2/ --pipeline_config_path=training_rcnn2/faster_rcnn_inception_v2_coco.config --worker_replicas=1
 
 
+# faster rcnn resnet
+# python train.py --logtostderr --train_dir=faster_rcnn_resnet_train/ --pipeline_config_path=faster_rcnn_resnet_train/faster_rcnn_resnet50_coco.config --worker_replicas=1
+
+
 r"""Training executable for detection models.
 
 This executable is used to train DetectionModels. There are two ways of

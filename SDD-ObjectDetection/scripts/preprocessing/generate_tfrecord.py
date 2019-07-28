@@ -52,9 +52,11 @@ def class_text_to_int(row_label):
     #     return 1
     # comment upper if statement and uncomment these statements for multiple labelling
     if row_label == 'apple':
-      return 0
+        return 0
     elif row_label == 'coin':
-      return 1
+        return 1
+    elif row_label == 'chicken curry':
+        return 1
     # elif row_label == 'banana':
     #   return 1
     # elif row_label == 'coca cola can':
@@ -64,11 +66,11 @@ def class_text_to_int(row_label):
     # elif row_label == 'doritos bbq':
     #   return 1
     elif row_label == 'apple granny smith':
-      return 1
+        return 1
     # elif row_label == 'kiwifruit':
     #   return 1
     elif row_label == 'orange':
-      return 1
+        return 1
     # elif row_label == 'pear':
     #   return 1
     # elif row_label == 'strawberry':
