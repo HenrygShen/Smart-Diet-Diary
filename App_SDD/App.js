@@ -5,6 +5,7 @@ import Estimator from './src/screens/Estimator/Estimator';
 import Diary from './src/screens/Diary/Diary';
 import CorrectionScreen from './src/screens/CorrectionScreen/CorrectionScreen';
 import SideDrawer from './src/screens/SideDrawer/SideDrawer';
+import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen';
 
 
 const EstimatorPage = createStackNavigator(
@@ -37,9 +38,21 @@ const DiaryStack = createStackNavigator(
 			navigationOptions: {
 				title: 'Diary'
 			}
+		},
+		ProfileScreen: {
+			screen: ProfileScreen,
+			navigationOptions: {
+				title: 'Profile'
+			}
 		}
 	}
 )
+
+DiaryStack.navigationOptions = ({navigation}) => {
+	return {
+		tabBarVisible: navigation.state.index === 0
+	}
+}
 
 
 
@@ -67,7 +80,6 @@ const MainTabs = createDrawerNavigator(
 	{
 		contentComponent: SideDrawer
 	}
-	
 )
 
 const RootNavigator = createSwitchNavigator(

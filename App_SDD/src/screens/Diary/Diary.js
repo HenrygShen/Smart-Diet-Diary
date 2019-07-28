@@ -73,8 +73,6 @@ class DiaryScreen extends React.Component {
                 {cancelable: false}
             ]
         )
-
-        
     }
 
     updateEntries = () => {
