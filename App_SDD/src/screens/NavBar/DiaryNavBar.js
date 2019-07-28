@@ -9,11 +9,15 @@ class DiaryNavBar extends React.Component {
         super(props);
     }
 
+    toggleDrawer = () => {
+        this.props.toggleDrawer();
+    }
+
     render() {
         return (
             <View style = {styles.container}>
                 <View style = {styles.menu}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress = {this.toggleDrawer}>
                         <Icon name = {'md-menu'} size = {30} />
                     </TouchableOpacity>
                 </View>

@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => {
 class DiaryScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: <DiaryNavBar />
+        headerTitle: <DiaryNavBar toggleDrawer = {navigation.getParam('toggleDrawer')}/>
     });
 
     constructor(props) {
@@ -36,14 +36,19 @@ class DiaryScreen extends React.Component {
     }
 
     componentDidMount() {
+        this.props.navigation.setParams({ toggleDrawer: this.toggleDrawer });
         this.updateEntries();
     }
-
+    
     componentDidUpdate() {
         if (!this.props.isLocked) {
             this.updateEntries();
             this.props.lockDiary();
         }
+    }
+
+    toggleDrawer = () => {
+        this.props.navigation.toggleDrawer();
     }
 
     onDelete = (ID) => {

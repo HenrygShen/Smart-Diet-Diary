@@ -6,14 +6,12 @@ import { View, StyleSheet } from 'react-native';
 import MainText from '../../components/UI/MainText/MainText';
 import { Button, Text } from 'native-base';
 
-import { checkUser, initDB, resetDB, insertUserData } from '../../utility/database';
+import { checkUser, initDB, insertUserData } from '../../utility/database';
 
 import Introduction from './Introduction';
 import AskQuestions from './AskQuestions';
 import { calculateCalorieIntake } from './utility/calorieCalculator';
 import { loadCalories } from '../../store/actions/user';
-
-const FLAG = 0;
 
 export const mapDispatchToProps = (dispatch) => {
     return {
@@ -39,35 +37,29 @@ class StartScreen extends React.Component {
 
     componentDidMount() {
 
-        if (FLAG === 0) {
-            initDB()
-            .then(() => {
-                checkUser()
-                .then(user => {
-                    if (user.length !== 0) {
-                        if (user.CalorieIntake === -1) {
-                            alert('Something went wrong when fetching calories.');
-                        }
-                        else {
-                            this.props.loadCalories(user.item(0).CalorieIntake);
-                            this.props.navigation.navigate('MainTabs');
-                        }
+        initDB()
+        .then(() => {
+            checkUser()
+            .then(user => {
+                if (user.length !== 0) {
+                    if (user.CalorieIntake === -1) {
+                        alert('Something went wrong when fetching calories.');
                     }
                     else {
-                        this.setState(prevState => {
-                            return {
-                                ...prevState,
-                                step: 0
-                            }
-                        })
+                        this.props.loadCalories(user.item(0).CalorieIntake);
+                        this.props.navigation.navigate('MainTabs');
                     }
-                })
+                }
+                else {
+                    this.setState(prevState => {
+                        return {
+                            ...prevState,
+                            step: 0
+                        }
+                    })
+                }
             })
-
-        }
-        else {
-            resetDB();
-        }  
+        });
     }
 
 

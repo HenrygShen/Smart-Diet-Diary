@@ -1,9 +1,10 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator } from "react-navigation";
+import { createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator, createDrawerNavigator } from "react-navigation";
 import StartUp from './src/screens/Startup/Startup';
 import Estimator from './src/screens/Estimator/Estimator';
 import Diary from './src/screens/Diary/Diary';
 import CorrectionScreen from './src/screens/CorrectionScreen/CorrectionScreen';
+import SideDrawer from './src/screens/SideDrawer/SideDrawer';
 
 
 const EstimatorPage = createStackNavigator(
@@ -40,7 +41,9 @@ const DiaryStack = createStackNavigator(
 	}
 )
 
-const MainTabs = createBottomTabNavigator(
+
+
+const MainTabsWithoutDrawer = createBottomTabNavigator(
 	{
 		Diary: {
 			screen: DiaryStack,
@@ -55,6 +58,16 @@ const MainTabs = createBottomTabNavigator(
 			}
 		}
 	}
+)
+
+const MainTabs = createDrawerNavigator(
+	{
+		MainTabsWithoutDrawer
+	},
+	{
+		contentComponent: SideDrawer
+	}
+	
 )
 
 const RootNavigator = createSwitchNavigator(
