@@ -1,4 +1,4 @@
-import { UPDATE_DIARY, CLEAR_LOCK, SET_LOCK } from "../constants";
+import { UPDATE_DIARY, CLEAR_LOCK, SET_LOCK, RESET_APP_STATE } from "../constants";
 
 const initialState = {
     count: 0,
@@ -23,6 +23,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 locked: true
             }
+        case RESET_APP_STATE:
+            return initialState;
         default:
             return state;
     }

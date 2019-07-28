@@ -16,6 +16,8 @@ export const LOAD_CALORIES = 'LOAD_CALORIES';
 export const LOAD_CALCULATED_CALORIES = 'LOAD_CALCULATED_CALORIES';
 export const CLEAR_CAL_RESULTS = 'CLEAR_CAL_RESULTS';
 
+export const RESET_APP_STATE = 'RESET_APP_STATE';
+
 //Henry's
 // export const ADDRESS = 'http://121.74.249.224:3001';
 export const ADDRESS = 'http://192.168.1.80:3001';

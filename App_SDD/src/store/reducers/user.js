@@ -1,4 +1,4 @@
-import { LOAD_CALORIES } from "../constants";
+import { LOAD_CALORIES, RESET_APP_STATE } from "../constants";
 
 const initialState = {
     recommendedCalories: -1
@@ -10,6 +10,8 @@ const reducer = (state = initialState, action) => {
             return {
                 recommendedCalories: action.payload
             }
+        case RESET_APP_STATE:
+            return initialState;
         default:
             return state;
     }
