@@ -135,9 +135,13 @@ class EditableEntry extends React.Component {
             if (this.state.editMode === 'default') {
                 mainSection =
                 <View style = {styles.inputContainer}>
-                    <View style = {{flex:1, flexDirection: 'row', justifyContent: 'space-around', margin: 20}}>
-                        <Button onPress = { () => { this.setEditMode('list')}} primary><Text>Choose from list</Text></Button>
-                        <Button onPress = { () => { this.setEditMode('custom')}} primary><Text>Add your own item</Text></Button>
+                    <View style = {{flex:1, flexDirection: 'column', alignItems: 'center', margin: 20}}>
+                        <View style = {styles.button}>
+                            <Button onPress = { () => { this.setEditMode('list')}} primary><Text>Choose from list</Text></Button>
+                        </View>
+                        <View style = {styles.button}>
+                            <Button onPress = { () => { this.setEditMode('custom')}} primary><Text>Add your own item</Text></Button>
+                        </View>
                     </View>
                 </View>
             }
@@ -222,12 +226,17 @@ const styles = StyleSheet.create({
         flex: 1,
         borderWidth: 1,
     },
+    button: {
+        marginTop: 10
+    },  
     reverseButtonContainer: {
+        marginTop: 10,
         flex: 1,
         flexDirection: 'row-reverse',
-        justifyContent: 'space-around', 
+        justifyContent: 'space-around'
     },
     buttonContainer: {
+        marginTop: 10,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-around',

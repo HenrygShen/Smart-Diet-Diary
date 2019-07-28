@@ -13,8 +13,6 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 
 const sqlite3 = require('sqlite3').verbose();
 
-
-
 var userDB = require('knex')({
 	client: 'sqlite3',
 	connection: {
@@ -28,7 +26,7 @@ var userDB = require('knex')({
 app.get('/', (req, res) => { res.send('Server is up'); });
 
 app.post('/processImage', (req, res) => {
-    res.json({ 
+    return res.json({ 
         code: 0,
         result: {
             name: 'Apple',

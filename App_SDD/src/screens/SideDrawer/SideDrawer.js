@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { View, Dimensions, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, Dimensions, StyleSheet, TouchableOpacity, Platform, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MainText from '../../components/UI/MainText/MainText';
 
-// import { resetDB } from '../../utility/database';
 import { RESET_APP_STATE } from '../../store/constants';
 import { resetDB } from '../../utility/database';
 
@@ -28,12 +27,30 @@ class SideDrawer extends React.Component {
         Dimensions.removeEventListener('change',this.updateStyles);
     }
 
+    onViewProfile = () => {
+        this.props.navigation.navigate('ProfileScreen');
+    }
+
     onSignOut = () => {
-        resetDB()
-        .then(() => {
-            this.props.navigation.navigate('StartUp');
-            this.props.resetAppState();
-        })
+        Alert.alert(
+            '',
+            'Are you sure you want to sign out?',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel'
+                },
+                { text: 'Yes', onPress: () => {
+                    resetDB()
+                    .then(() => {
+                        this.props.navigation.navigate('StartUp');
+                        this.props.resetAppState();
+                    })
+                }},
+                {cancelable: false}
+            ]
+        )
+
     }
 
     render() {
@@ -58,6 +75,7 @@ class SideDrawer extends React.Component {
 }
 
 export default connect(null, mapDispatchToProps)(SideDrawer);
+
 
 const styles = StyleSheet.create({
     container: {

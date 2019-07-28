@@ -164,3 +164,18 @@ export const removeItemWithKey = (ID) => {
         })
     })
 }
+
+export const getDetails = () => {
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+            DB.executeSql(`SELECT * FROM User`, [])
+            .then(([results]) => {
+                resolve(results.rows);
+            })
+            .catch((e) => {
+                reject(e);
+            })
+        })
+    })
+}
