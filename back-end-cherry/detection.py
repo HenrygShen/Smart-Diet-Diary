@@ -22,6 +22,22 @@ def load_image_into_numpy_array(image):
         (im_height, im_width, 3)).astype(np.uint8)
 
 
+def get_bounding_box(boxes, height, width, index):
+    y_min = boxes[0][index][0] * height
+    x_min = boxes[0][index][1] * width
+    y_max = boxes[0][index][2] * height
+    x_max = boxes[0][index][3] * width
+
+    # Get bounding box in format (topleft x, topleft y, width, height)
+    TL_x = int(x_min)
+    TL_y = int(y_min)
+    box_width = int(x_max - x_min)
+    box_height = int(y_max - y_min)
+
+    rect = (TL_x, TL_y, box_width, box_height)
+    return rect
+
+
 def detect_api(filename):
 
     # Define the video stream
@@ -119,29 +135,39 @@ def detect_api(filename):
             # print answer
             # Here output the category as string and score to terminal
             temp_list = []
+            smallest_coin = 0
+            coin_index = 0
             for i in range(0, scores[0].size):
                 if scores[0][i] > 0.7:
                     if category_index.get(classes[0][i])['name'].capitalize() != "Coin":
+                        rect = get_bounding_box(boxes, height, width, i)
+
                         temp_list.append({
                             "score": scores[0][i],
-                            "name": category_index.get(classes[0][i])['name'].capitalize()
+                            "name": category_index.get(classes[0][i])['name'].capitalize(),
+                            "box": rect
                         })
+                    else:
+                        temp_width = boxes[0][i][3] * width - boxes[0][i][1] * width
+                        if smallest_coin == 0 or smallest_coin < temp_width:
+                            smallest_coin = temp_width
+                            coin_index = i
 
+            rect = get_bounding_box(boxes, height, width, coin_index)
+
+            temp_list.append({
+                "score": scores[0][coin_index],
+                "name": category_index.get(classes[0][coin_index])['name'].capitalize(),
+                "box": rect
+            })
             return temp_list
             #y min, x min, y max, x max
             #left, right, top, bottom
-            y_min = boxes[0][0][0] * height
-            x_min = boxes[0][0][1] * width
-            y_max = boxes[0][0][2] * height
-            x_max = boxes[0][0][3] * width
 
-            # Get bounding box in format (topleft x, topleft y, width, height)
-            TL_x = int(x_min)
-            TL_y = int(y_min)
-            box_width = int(x_max - x_min)
-            box_height = int(y_max - y_min)
 
-            rect = (TL_x, TL_y, box_width, box_height)
+
+
+
             # print("Image Size = " + str(width) + " x " + str(height))
 
             # print(rect)
