@@ -72,35 +72,42 @@ export const insertUserData = (weight, height, age, calorieIntake) => {
 }
 
 export const resetDB = () => {
-    SQLite.openDatabase({name: 'diary.db', location: 'Library'})
-    .then(DB => {
-
-        DB.executeSql('DROP TABLE Calendar')
-        .then(() => {
-            DB.executeSql('DROP TABLE User')
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+            DB.executeSql('DROP TABLE Calendar')
             .then(() => {
-                DB.close()
-                .then(status => {
-                    console.log('DB closed.');
+                DB.executeSql('DROP TABLE User')
+                .then(() => {
+                    DB.close()
+                    .then(status => {
+                        console.log('DB closed.');
+                        resolve(true);
+                    })
+                })
+                .catch((e) => {
+                    console.log('Tried to drop User table, nothing exists.');
+                    reject(e);
                 })
             })
             .catch(() => {
-                console.log('Tried to drop User table, nothing exists.');
+                console.log('Tried to drop Calendar table, nothing exists.');
+        
+                DB.executeSql('DROP TABLE User')
+                .then(() => {
+                    resolve(true);
+                })
+                .catch((e) => {
+                    console.log('Tried to drop User table, nothing exists.');
+                    reject(e);
+                })
             })
         })
-        .catch(() => {
-            console.log('Tried to drop Calendar table, nothing exists.');
-    
-            DB.executeSql('DROP TABLE User')
-            .then(() => {
-            })
-            .catch(() => {
-                console.log('Tried to drop User table, nothing exists.');
-            })
-        })
+        .catch((e) => {
+            reject(e);
+        });
     })
-    .catch(() => {
-    });
+
 }
 
 export const insertData = (name, calories) => {
@@ -153,6 +160,21 @@ export const removeItemWithKey = (ID) => {
             .catch(() => {
                 console.log('Could not get entries.');
                 reject(false);
+            })
+        })
+    })
+}
+
+export const getDetails = () => {
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+            DB.executeSql(`SELECT * FROM User`, [])
+            .then(([results]) => {
+                resolve(results.rows);
+            })
+            .catch((e) => {
+                reject(e);
             })
         })
     })

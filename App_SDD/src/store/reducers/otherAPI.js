@@ -1,4 +1,4 @@
-import { LOAD_LIST, LOAD_CALCULATED_CALORIES, CLEAR_CAL_RESULTS } from "../constants";
+import { LOAD_LIST, LOAD_CALCULATED_CALORIES, CLEAR_CAL_RESULTS, RESET_APP_STATE } from "../constants";
 
 const initialState = {
     list: [],
@@ -27,6 +27,8 @@ const reducer = (state = initialState, action) => {
                 calorieResults: null,
                 resultsCleared: 1
             }
+        case RESET_APP_STATE:
+            return initialState;
         default:
             return state;
     }

@@ -1,9 +1,11 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator } from "react-navigation";
+import { createStackNavigator, createAppContainer, createSwitchNavigator, createBottomTabNavigator, createDrawerNavigator } from "react-navigation";
 import StartUp from './src/screens/Startup/Startup';
 import Estimator from './src/screens/Estimator/Estimator';
 import Diary from './src/screens/Diary/Diary';
 import CorrectionScreen from './src/screens/CorrectionScreen/CorrectionScreen';
+import SideDrawer from './src/screens/SideDrawer/SideDrawer';
+import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen';
 
 
 const EstimatorPage = createStackNavigator(
@@ -34,14 +36,27 @@ const DiaryStack = createStackNavigator(
 		Diary: {
 			screen: Diary,
 			navigationOptions: {
-				title: 'Diary',
-				headerTitle: 'Diary'
+				title: 'Diary'
+			}
+		},
+		ProfileScreen: {
+			screen: ProfileScreen,
+			navigationOptions: {
+				title: 'Profile'
 			}
 		}
 	}
 )
 
-const MainTabs = createBottomTabNavigator(
+DiaryStack.navigationOptions = ({navigation}) => {
+	return {
+		tabBarVisible: navigation.state.index === 0
+	}
+}
+
+
+
+const MainTabsWithoutDrawer = createBottomTabNavigator(
 	{
 		Diary: {
 			screen: DiaryStack,
@@ -55,6 +70,15 @@ const MainTabs = createBottomTabNavigator(
 				title: 'Estimator'
 			}
 		}
+	}
+)
+
+const MainTabs = createDrawerNavigator(
+	{
+		MainTabsWithoutDrawer
+	},
+	{
+		contentComponent: SideDrawer
 	}
 )
 

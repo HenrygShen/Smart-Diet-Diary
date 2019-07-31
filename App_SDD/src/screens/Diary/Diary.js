@@ -5,6 +5,7 @@ import { getEntries, removeItemWithKey } from '../../utility/database';
 import DiaryEntry from './DiaryEntry';
 import { getDDMMYY, getIndexOfDate } from './dateUtility';
 import { SET_LOCK } from '../../store/constants';
+import DiaryNavBar from '../NavBar/DiaryNavBar';
 
 const mapStateToProps = (state) => {
     return {
@@ -20,7 +21,12 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
+
 class DiaryScreen extends React.Component {
+
+    static navigationOptions = ({ navigation }) => ({
+        headerTitle: <DiaryNavBar toggleDrawer = {navigation.getParam('toggleDrawer')}/>
+    });
 
     constructor(props) {
         super(props);
@@ -30,14 +36,19 @@ class DiaryScreen extends React.Component {
     }
 
     componentDidMount() {
+        this.props.navigation.setParams({ toggleDrawer: this.toggleDrawer });
         this.updateEntries();
     }
-
+    
     componentDidUpdate() {
         if (!this.props.isLocked) {
             this.updateEntries();
             this.props.lockDiary();
         }
+    }
+
+    toggleDrawer = () => {
+        this.props.navigation.toggleDrawer();
     }
 
     onDelete = (ID) => {
@@ -62,8 +73,6 @@ class DiaryScreen extends React.Component {
                 {cancelable: false}
             ]
         )
-
-        
     }
 
     updateEntries = () => {
