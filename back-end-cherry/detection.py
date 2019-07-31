@@ -47,7 +47,7 @@ def detect_api(filename):
     # Models can bee found here: https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
     # MODEL_NAME = 'ssd_inception_v2_coco_2017_11_17'
     # MODEL_NAME = 'pre-trained-model'
-    MODEL_NAME = 'output_inference_graph_rcnnv4v2.pb'
+    MODEL_NAME = 'output_inference_graph_rcnn_resnetv5.pb'
     # DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
     # Path to frozen detection graph. This is the actual model that is used for the object detection.
@@ -58,7 +58,7 @@ def detect_api(filename):
     PATH_TO_LABELS = os.path.join('annotations', 'label_map.pbtxt')
 
     # Number of classes to detect
-    NUM_CLASSES = 2
+    NUM_CLASSES = 6
 
     # # Download Model
     # opener = urllib.request.URLopener()
@@ -86,7 +86,6 @@ def detect_api(filename):
     categories = label_map_util.convert_label_map_to_categories(
         label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
     category_index = label_map_util.create_category_index(categories)
-
 
 
 
@@ -119,6 +118,7 @@ def detect_api(filename):
             num_detections = detection_graph.get_tensor_by_name(
                 'num_detections:0')
             # Actual detection.
+
             (boxes, scores, classes, num_detections) = sess.run(
                 [boxes, scores, classes, num_detections],
                 feed_dict={image_tensor: image_np_expanded})
@@ -136,9 +136,9 @@ def detect_api(filename):
             # Here output the category as string and score to terminal
             temp_list = []
             smallest_coin = 0
-            coin_index = 0
+            coin_index = -1
             for i in range(0, scores[0].size):
-                if scores[0][i] > 0.7:
+                if scores[0][i] > 0.5:
                     if category_index.get(classes[0][i])['name'].capitalize() != "Coin":
                         rect = get_bounding_box(boxes, height, width, i)
 
@@ -153,13 +153,15 @@ def detect_api(filename):
                             smallest_coin = temp_width
                             coin_index = i
 
-            rect = get_bounding_box(boxes, height, width, coin_index)
+            if not coin_index == -1:
+                rect = get_bounding_box(boxes, height, width, coin_index)
 
-            temp_list.append({
-                "score": scores[0][coin_index],
-                "name": category_index.get(classes[0][coin_index])['name'].capitalize(),
-                "box": rect
-            })
+                temp_list.append({
+                    "score": scores[0][coin_index],
+                    "name": category_index.get(classes[0][coin_index])['name'].capitalize(),
+                    "box": rect
+                })
+
             return temp_list
             #y min, x min, y max, x max
             #left, right, top, bottom

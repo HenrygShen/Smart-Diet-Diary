@@ -8,6 +8,7 @@ import json
 import sqlite3
 # import tensorflow as tf
 import detection
+import Object_Size
 
 import sys
 import numpy as np
@@ -56,39 +57,42 @@ def receive_and_process(data):
     # max_index = np.argmax(prediction[0])
     answer = detection.detect_api(filename)
 
+    food_volume_list = []
+    answer_size = len(answer)
+    for i in range(0, answer_size-1):
+        food_volume = Object_Size.get_object_size(answer[answer_size-1]['box'],answer[i]['box'],filename)
+        food_volume_list.append({
+            "name": answer[i]['name'],
+            "volume": food_volume
+        })
+
+
     # Close session since method is called asynchronously - to prevent mem leak
     # K.clear_session()
     os.remove(filename)
 
-    # Read labels
-    # with open(working_dir+"/labels.json", 'r') as file:
-    #     labels_dict = json.load(file)
-    #     labels = labels_dict['labels']
-
-    # Print labels with indices
-    # labels = dict((name, index) for index, name in enumerate(labels))
-    # for key, value in labels.items():
-    #     if value == max_index:
-    #         answer = key
-
-
-    print(answer)
-    answer = answer[0]['name']
-    # Open database and get calories
-    connection = sqlite3.connect("fruit.db")
+    results = []
+    connection = sqlite3.connect("food.db")
     cursor = connection.cursor()
-    cursor.execute(" SELECT Calories FROM Fruit WHERE Name= ?", [answer])
-    calories = cursor.fetchone()
+    for item in food_volume_list:
+        print(item['name'])
+        cursor.execute(" SELECT Calories,Density FROM Food WHERE Name= ?", [item['name']])
+        ans = cursor.fetchone()
+        mass = item['volume'] * ans[1]
+        calories = int((ans[0] * mass)/100)
+        results.append({
+            'name': item['name'],
+            'mass': mass,
+            'calories': calories
+        })
+
+
     cursor.close()
     connection.close()
 
     answers = {
         "code": 0,
-        "result": {
-            "name": answer,
-            "mass": 100,
-            "calories": calories[0]
-        }
+        "result": results
     }
     out = json.dumps(answers)
     print(out)
@@ -117,12 +121,12 @@ def get_list():
 def calculate_calories(data):
 
     list = data['list']
-    connection = sqlite3.connect("fruit.db")
+    connection = sqlite3.connect("food.db")
     cursor = connection.cursor()
     finalList = []
     for item in list:
         if item['type'] == "list":
-            cursor.execute("SELECT Calories FROM Fruit WHERE Name= ?", [item['name']])
+            cursor.execute("SELECT Calories FROM Food WHERE Name= ?", [item['name']])
             calories = cursor.fetchone()
             calories = (calories[0]/100) * item['mass']
             finalList.append({ "name": item['name'], "calories": calories })

@@ -20,7 +20,6 @@ class MainApp(object):
         output = {
             "output": "Smart Diet Diary server is up."
         }
-
         return json.dumps(output)
 
     @cherrypy.expose
