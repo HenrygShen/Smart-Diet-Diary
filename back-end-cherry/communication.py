@@ -59,21 +59,23 @@ def receive_and_process(data):
 
     food_volume_list = []
     answer_size = len(answer)
+
+    connection = sqlite3.connect("food.db")
+    cursor = connection.cursor()
     for i in range(0, answer_size-1):
-        food_volume = Object_Size.get_object_size(answer[answer_size-1]['box'],answer[i]['box'],filename)
+        cursor.execute(" SELECT Shape FROM Food WHERE Name= ?", [answer[i]['name']])
+        ans = cursor.fetchone()
+        food_volume = Object_Size.get_object_size(answer[answer_size-1]['box'], answer[i]['box'], ans[0], filename)
         food_volume_list.append({
             "name": answer[i]['name'],
             "volume": food_volume
         })
-
 
     # Close session since method is called asynchronously - to prevent mem leak
     # K.clear_session()
     os.remove(filename)
 
     results = []
-    connection = sqlite3.connect("food.db")
-    cursor = connection.cursor()
     for item in food_volume_list:
         print(item['name'])
         cursor.execute(" SELECT Calories,Density FROM Food WHERE Name= ?", [item['name']])

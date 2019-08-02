@@ -1,7 +1,7 @@
 from PIL import Image
 import os, sys
 
-path = "C:/Users/Henry/Desktop/SDD-ObjectDetection/workspace/training_demo/images/New folder/"
+path = "C:/Users/Henry/Desktop/orange/"
 dirs = os.listdir(path)
 final_size = 600;
 

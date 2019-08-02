@@ -53,7 +53,7 @@ def row_major_count_pixel(bounding_box, image_data):
 	return out
 
 
-def get_object_size(coin_box, food_box, fname):
+def get_object_size(coin_box, food_box, shape, fname):
 	# inputs
 	# rectangle around the object you want to find the size of (topleft x, topleft y, width, height)
 	# coin_box = (18, 134, 27, 28)
@@ -92,13 +92,25 @@ def get_object_size(coin_box, food_box, fname):
 
 	coin_area = (ref_width/2)**2 * math.pi
 	food_area = food_measure_row_major[0]/coin_measure_row_major[0] * coin_area
-	food_width = food_measure_col_major[1]/coin_measure_col_major[1] * ref_width
+	temp_width = food_measure_col_major[1]/coin_measure_col_major[1] * ref_width
+	temp_height = food_measure_row_major[1]/coin_measure_col_major[1] * ref_width
 
+	# Assume smaller measurement is width
+	if temp_width > temp_height:
+		food_width = temp_width
+		food_height = temp_height
+	else:
+		food_width = temp_height
+		food_height = temp_width
 	print("coin_area: {} cm2".format(coin_area))
 	print("food_area: {} cm2".format(food_area))
 	print("food_width: {} cm".format(food_width))
 
-	food_volume = (4 * math.pi * (food_width/2)**3)/3
+	print("food_shape: {}".format(shape))
+	if shape == 'Sphere':
+		food_volume = (4 * math.pi * (food_width/2)**3)/3
+	elif shape == 'Cylinder':
+		food_volume = (food_height * math.pi * (food_width/2)**2)
 
 	print("food_volume: {} cm3".format(food_volume))
 	return food_volume

@@ -42,11 +42,7 @@ class EstimatorScreen extends React.Component {
                     valid: false
                 }
             },
-            answer: {
-                name: null,
-                calories: null,
-                mass: null
-            }
+            answer: null
         }
     }
 
@@ -56,11 +52,7 @@ class EstimatorScreen extends React.Component {
             this.setState(prevState => {
                 return {
                     ...prevState,
-                    answer: {
-                        name: this.props.imageState.result['name'],
-                        calories: this.props.imageState.result['calories'],
-                        mass: this.props.imageState.result['mass']
-                    }
+                    answer: this.props.imageState.result
                 }
             });
             this.props.clearResult();
@@ -88,46 +80,39 @@ class EstimatorScreen extends React.Component {
         this.setState(prevState => {
             return {
                 ...prevState,
-                answer: {
-                    name: null,
-                    calories: null,
-                    mass: null
-                }
+                answer: null
             }
         });
         this.props.processImage(this.state.controls.image.value.base64);
     }
 
     saveToDiary = () => {
-
-        const { name, calories } = this.state.answer;
-
-        insertData(name, calories)
-        .then(() => {
-            this.props.clearLock();
-            this.props.updateDiary();
-            this.setState(prevState => {
-                return {
-                    ...prevState,
-                    answer: {
-                        name: null,
-                        calories: null,
-                        mass: null
-                    },
-                    controls: {
-                        ...prevState.controls,
-                        image: {
-                            value: null,
-                            valid: false
-                        }
+        
+        for (var i = 0; i < this.state.answer.length; i++) {
+            const { name, calories } = this.state.answer[i];
+            insertData(name, calories)
+            .then(() => {
+                this.props.clearLock();
+                this.props.updateDiary();
+            })
+            .catch(() => {
+                alert('Could not save to diary. Please try again');
+            })
+        }
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                answer: null,
+                controls: {
+                    ...prevState.controls,
+                    image: {
+                        value: null,
+                        valid: false
                     }
                 }
-            })
-            alert('Saved');
+            }
         })
-        .catch(() => {
-            alert('Could not save to diary. Please try again');
-        })
+        alert('Saved');
     }
 
 
@@ -166,11 +151,7 @@ class EstimatorScreen extends React.Component {
                 this.setState(prevState => {
                     return {
                         ...prevState,
-                        answer: {
-                            name: null,
-                            calories: null,
-                            mass: null
-                        },
+                        answer: null,
                         controls: {
                             ...prevState.controls,
                             image: {
@@ -197,14 +178,14 @@ class EstimatorScreen extends React.Component {
                 <PickImage 
                     onImagePicked = {this.imagePickedHandler} 
                     processDisabled = {this.state.controls.image.value === null}
-                    saveDisabled = {this.state.answer.name === null}
+                    saveDisabled = {this.state.answer === null}
                     processImage = {this.processImage}
                     isProcessing = {this.props.isLoading}
                     saveToDiary = {this.saveToDiary}
                 />
 
                 {/* Show results if done loading */}
-                <ResultSection name = {this.state.answer.name} calories = { this.state.answer.calories } pushCorrectionScreen = {this.pushCorrectionScreen}/>
+                <ResultSection result={this.state.answer} pushCorrectionScreen = {this.pushCorrectionScreen}/>
                 
             </View>
         )

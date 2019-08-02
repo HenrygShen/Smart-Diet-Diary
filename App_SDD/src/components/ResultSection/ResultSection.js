@@ -1,21 +1,34 @@
 import React from 'react';
 
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Text } from 'native-base';
 import MainText from '../../components/UI/MainText/MainText';
 
-const ResultSection = ({name, calories, pushCorrectionScreen}) => {   
+const ResultSection = ({result, pushCorrectionScreen}) => {   
+
+    let list;
+    if (result !== null) {
+        list = result.map((object, i) => { 
+            return (
+            <View key = {`${Math.random()} ${Math.random()}`}>
+                <MainText>
+                    Item: {object.name}
+                </MainText>
+                <MainText>
+                    Calories: {object.calories}
+                </MainText>
+            </View>
+            )
+        })
+    }
     return (
         <View style = {styles.container}>
-            { (name !== null) ? 
+            { (result !== null) ? 
                 <View style = {styles.subContainer}>
                     <View style = {styles.subTextContainer}>
-                        <MainText>
-                            Item: { name }
-                        </MainText>
-                        <MainText>
-                            Calories: { calories }
-                        </MainText>
+                        <ScrollView>
+                            {list}
+                        </ScrollView>
                     </View>
                     <View style = {styles.subTextContainer}>
                         <MainText>
