@@ -33,12 +33,7 @@ EstimatorPage.navigationOptions = ({navigation}) => {
 
 const DiaryStack = createStackNavigator(
 	{
-		Diary: {
-			screen: Diary,
-			navigationOptions: {
-				title: 'Diary'
-			}
-		},
+		Diary: Diary,
 		ProfileScreen: {
 			screen: ProfileScreen,
 			navigationOptions: {

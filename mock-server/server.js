@@ -28,11 +28,14 @@ app.get('/', (req, res) => { res.send('Server is up'); });
 app.post('/processImage', (req, res) => {
     return res.json({ 
         code: 0,
-        result: {
-            name: 'Apple',
-            mass: 100,
-            calories: 95
-        }
+        result: [
+            {
+                name: 'Apple',
+                mass: 100,
+                calories: 95
+            }
+        ]
+
     })
 });
 
