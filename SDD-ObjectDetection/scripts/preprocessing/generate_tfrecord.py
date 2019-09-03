@@ -59,14 +59,12 @@ def class_text_to_int(row_label):
         return 1
     # elif row_label == 'banana':
     #   return 1
-    # elif row_label == 'coca cola can':
-    #   return 1
-    # elif row_label == 'fanta can':
-    #   return 1
+    elif row_label == 'coca cola can':
+        return 1
+    elif row_label == 'fanta can':
+        return 1
     # elif row_label == 'doritos bbq':
     #   return 1
-    elif row_label == 'apple granny smith':
-        return 1
     # elif row_label == 'kiwifruit':
     #   return 1
     elif row_label == 'orange':

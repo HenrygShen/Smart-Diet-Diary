@@ -21,7 +21,8 @@ from utils import visualization_utils as vis_util
 # Models can bee found here: https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
 # MODEL_NAME = 'ssd_inception_v2_coco_2017_11_17'
 # MODEL_NAME = 'pre-trained-model'
-MODEL_NAME = 'trained-inference-graphs/output_inference_graph_rcnn_resnetv5.pb'
+# MODEL_NAME = 'trained-inference-graphs/output_inference_graph_rcnn_resnetv5.pb'
+MODEL_NAME = 'trained-inference-graphs/output_inference_graph_rcnnv6.pb'
 # DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
@@ -32,7 +33,7 @@ PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
 PATH_TO_LABELS = os.path.join('annotations', 'label_map.pbtxt')
 
 # Number of classes to detect
-NUM_CLASSES = 5
+NUM_CLASSES = 6
 
 # # Download Model
 # opener = urllib.request.URLopener()
@@ -77,11 +78,12 @@ with detection_graph.as_default():
         # Read frame from camera
         # ret, image_np = cap.read()
         # image_np = cv2.imread('../../../../chicken curry.jpg')
-        image_np = cv2.imread('../../../Diet_Diary/testora2gray.jpg')
-        # image_np = cv2.imread('images/train3/coin (1030).jpg')
+        # image_np = cv2.imread('../../../Diet_Diary/wow2.jpg')
+        image_np = cv2.imread('images/test/coin (1811).jpg')
+        # image_np = cv2.imread('images/train/orange (100).jpg')
         height, width, channels = image_np.shape
-        # scale = width / 300 if width > height else height / 300
-        # width = int(width / scale) 
+        # scale = width / 600 if width > height else height / 600
+        # width = int(width / scale)
         # height = int(height / scale)
         #
         # image_np = cv2.resize(image_np, (width, height))
@@ -134,7 +136,7 @@ with detection_graph.as_default():
 
         print(rect)
         # Display output
-        cv2.imshow('object detection', cv2.resize(image_np, (1200, 900)))
+        cv2.imshow('object detection', cv2.resize(image_np, (600, 600)))
         cv2.waitKey(0)
         # if cv2.waitKey(25) & 0xFF == ord('q'):
         #     cv2.destroyAllWindows()

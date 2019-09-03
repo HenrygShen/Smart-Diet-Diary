@@ -8,13 +8,17 @@ item {
 }
 item {
 	id: 3
-	name: 'apple granny smith'
-}
-item {
-	id: 4
 	name: 'coin'
 }
 item {
-	id: 5
+	id: 4
 	name: 'chicken curry'
+}
+item {
+	id: 5
+	name: 'coca cola can'
+}
+item {
+	id: 6
+	name: 'fanta can'
 }

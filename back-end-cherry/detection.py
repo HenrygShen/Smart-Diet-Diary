@@ -47,7 +47,7 @@ def detect_api(filename):
     # Models can bee found here: https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
     # MODEL_NAME = 'ssd_inception_v2_coco_2017_11_17'
     # MODEL_NAME = 'pre-trained-model'
-    MODEL_NAME = 'output_inference_graph_rcnn_resnetv5.pb'
+    MODEL_NAME = 'output_inference_graph_rcnnv6.pb'
     # DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
     # Path to frozen detection graph. This is the actual model that is used for the object detection.
@@ -99,11 +99,8 @@ def detect_api(filename):
             # image_np = cv2.imread('images/train/coin (362).jpg')
             image_np = cv2.imread(filename)
             height, width, channels = image_np.shape
-            scale = width / 300 if width > height else height / 300
-            width = int(width / scale)
-            height = int(height / scale)
+            print(str(height) + "           " + str(width))
 
-            image_np = cv2.resize(image_np, (width, height))
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
             image_np_expanded = np.expand_dims(image_np, axis=0)
             # Extract image tensor
@@ -162,6 +159,7 @@ def detect_api(filename):
                     "box": rect
                 })
 
+            print(temp_list)
             return temp_list
             #y min, x min, y max, x max
             #left, right, top, bottom

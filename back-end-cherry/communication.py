@@ -4,7 +4,7 @@ import random
 import json
 # from keras.models import load_model
 # from keras import backend as K
-# from PIL import Image
+from PIL import Image
 import sqlite3
 # import tensorflow as tf
 import detection
@@ -38,23 +38,17 @@ def receive_and_process(data):
         file.write(decoded_file)
         file.close()
 
-    # image = Image.open(filename)
-    # image = image.resize((50, 50), Image.ANTIALIAS)
-    #
-    # image.load()
-    # data2 = np.asarray(image)
-    # data2 = data2.astype("float32")
-    # data2 /= 255
-    # image.close()
+    # resize and save
+    final_size = 600;
+    im = Image.open(filename)
+    size = im.size
+    ratio = float(final_size) / max(size)
+    new_image_size = tuple([int(x * ratio) for x in size])
+    im = im.resize(new_image_size, Image.ANTIALIAS)
+    new_im = Image.new("RGB", (final_size, final_size))
+    new_im.paste(im, ((final_size - new_image_size[0]) // 2, (final_size - new_image_size[1]) // 2))
+    new_im.save(filename, 'JPEG', quality=90)
 
-    #Reshape data
-    # data2 = data2.reshape(-1, 50, 50, 3)
-
-    # Predict answer
-    # model = load_model(filepath=working_dir+'/Trained_model.h5')
-    # model._make_predict_function()
-    # prediction = model.predict(x=data2)
-    # max_index = np.argmax(prediction[0])
     answer = detection.detect_api(filename)
 
     food_volume_list = []
@@ -65,6 +59,10 @@ def receive_and_process(data):
     for i in range(0, answer_size-1):
         cursor.execute(" SELECT Shape FROM Food WHERE Name= ?", [answer[i]['name']])
         ans = cursor.fetchone()
+        print(filename)
+        print(answer[answer_size-1]['box'])
+        print(answer[i]['box'])
+        print(ans)
         food_volume = Object_Size.get_object_size(answer[answer_size-1]['box'], answer[i]['box'], ans[0], filename)
         food_volume_list.append({
             "name": answer[i]['name'],

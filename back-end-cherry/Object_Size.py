@@ -64,14 +64,14 @@ def get_object_size(coin_box, food_box, shape, fname):
 	# print("orig height: " + str(height))
 	# print("orig width: " + str(width))
 
-	scale = width/300 if width>height else height/300
-	new_width = int(width/scale)
-	new_height = int(height/scale)
+	# scale = width/300 if width>height else height/300
+	# new_width = int(width/scale)
+	# new_height = int(height/scale)
 
 	# print("new height: " + str(new_height))
 	# print("new width: " + str(new_width))
 
-	image = cv2.resize(image, (new_width, new_height))
+	# image = cv2.resize(image, (new_width, new_height))
 
 	coin_image = extract_foreground(image, coin_box)
 	food_image = extract_foreground(image, food_box)
@@ -97,14 +97,15 @@ def get_object_size(coin_box, food_box, shape, fname):
 
 	# Assume smaller measurement is width
 	if temp_width > temp_height:
-		food_width = temp_width
-		food_height = temp_height
-	else:
 		food_width = temp_height
 		food_height = temp_width
+	else:
+		food_width = temp_width
+		food_height = temp_height
 	print("coin_area: {} cm2".format(coin_area))
 	print("food_area: {} cm2".format(food_area))
 	print("food_width: {} cm".format(food_width))
+	print("food_height: {} cm".format(food_height))
 
 	print("food_shape: {}".format(shape))
 	if shape == 'Sphere':
