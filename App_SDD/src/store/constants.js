@@ -20,9 +20,9 @@ export const RESET_APP_STATE = 'RESET_APP_STATE';
 
 //Henry's
 // export const ADDRESS = 'http://121.74.249.224:3001';
-export const ADDRESS = 'http://192.168.1.80:3001';
+// export const ADDRESS = 'http://192.168.1.80:3001';
 //Lincoln's
 // export const ADDRESS = 'http://192.168.1.76:3001';
-// export const ADDRESS = 'http://192.168.1.87:3001';
+export const ADDRESS = 'http://192.168.1.84:3001';
 
 // export const ADDRESS = 'https://sdd-api.herokuapp.com';

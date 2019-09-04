@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, } from 'react-native';
+import EstimatorNavBar from './EstimatorNavBar';
 
 import { connect } from 'react-redux';
 
@@ -32,6 +33,10 @@ const mapDispatchToProps = (dispatch) => {
 
 class EstimatorScreen extends React.Component {
 
+    static navigationOptions = ({ navigation }) => ({
+        headerTitle: <EstimatorNavBar toggleDrawer = {navigation.getParam('toggleDrawer')}/>
+    });
+
     constructor(props) {
         super(props);
         
@@ -46,6 +51,10 @@ class EstimatorScreen extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.props.navigation.setParams({ toggleDrawer: this.toggleDrawer });
+    }
+
     componentDidUpdate() {
         if (this.props.imageState.response === 0) {
             this.props.stopLoading();
@@ -57,6 +66,10 @@ class EstimatorScreen extends React.Component {
             });
             this.props.clearResult();
         }
+    }
+
+    toggleDrawer = () => {
+        this.props.navigation.toggleDrawer();
     }
 
     /* Gets base64 image from PickImage component */
@@ -130,15 +143,6 @@ class EstimatorScreen extends React.Component {
             itemArray: itemArray,
             saveToDiary: this.saveCorrectionToDiary
         });
-        // this.props.navigator.push({
-        //     screen: 'sdd.CorrectionScreen',
-        //     title: 'Correction',
-        //     animationType: 'fade',
-        //     passProps: {
-        //         itemArray: itemArray,
-        //         saveToDiary: this.saveCorrectionToDiary
-        //     }
-        // })
     }
 
     saveCorrectionToDiary = (items) => {
