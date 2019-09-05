@@ -69,6 +69,10 @@ def class_text_to_int(row_label):
     #   return 1
     elif row_label == 'orange':
         return 1
+    elif row_label == 'ETA sour cream':
+        return 1
+    elif row_label == 'bluebird sour cream':
+        return 1
     # elif row_label == 'pear':
     #   return 1
     # elif row_label == 'strawberry':

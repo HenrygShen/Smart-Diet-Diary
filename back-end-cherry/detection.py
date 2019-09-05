@@ -45,10 +45,7 @@ def detect_api(filename):
 
     # What model to download.
     # Models can bee found here: https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
-    # MODEL_NAME = 'ssd_inception_v2_coco_2017_11_17'
-    # MODEL_NAME = 'pre-trained-model'
-    MODEL_NAME = 'output_inference_graph_rcnnv6.pb'
-    # DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
+    MODEL_NAME = '../SDD-ObjectDetection/workspace/training_demo/trained-inference-graphs/output_inference_graph_rcnnv8.pb'
 
     # Path to frozen detection graph. This is the actual model that is used for the object detection.
     PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
@@ -58,7 +55,7 @@ def detect_api(filename):
     PATH_TO_LABELS = os.path.join('annotations', 'label_map.pbtxt')
 
     # Number of classes to detect
-    NUM_CLASSES = 6
+    NUM_CLASSES = 8
 
     # # Download Model
     # opener = urllib.request.URLopener()

@@ -14,6 +14,7 @@ import sys
 import numpy as np
 np.set_printoptions(threshold=sys.maxsize)
 
+
 def receive_and_process(data):
 
     # Attempt to get compulsory fields
@@ -63,6 +64,7 @@ def receive_and_process(data):
         print(answer[answer_size-1]['box'])
         print(answer[i]['box'])
         print(ans)
+        print([answer[i]['name']])
         food_volume = Object_Size.get_object_size(answer[answer_size-1]['box'], answer[i]['box'], ans[0], filename)
         food_volume_list.append({
             "name": answer[i]['name'],
@@ -78,14 +80,17 @@ def receive_and_process(data):
         print(item['name'])
         cursor.execute(" SELECT Calories,Density FROM Food WHERE Name= ?", [item['name']])
         ans = cursor.fetchone()
-        mass = item['volume'] * ans[1]
-        calories = int((ans[0] * mass)/100)
+        if item['volume'] == 0:
+            mass = 0
+            calories = ans[0]
+        else:
+            mass = item['volume'] * ans[1]
+            calories = int((ans[0] * mass)/100)
         results.append({
             'name': item['name'],
             'mass': mass,
             'calories': calories
         })
-
 
     cursor.close()
     connection.close()

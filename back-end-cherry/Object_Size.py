@@ -61,17 +61,6 @@ def get_object_size(coin_box, food_box, shape, fname):
 	ref_width = 2.65  # size of coin
 	image = cv2.imread(fname)
 	height, width, depth = image.shape
-	# print("orig height: " + str(height))
-	# print("orig width: " + str(width))
-
-	# scale = width/300 if width>height else height/300
-	# new_width = int(width/scale)
-	# new_height = int(height/scale)
-
-	# print("new height: " + str(new_height))
-	# print("new width: " + str(new_width))
-
-	# image = cv2.resize(image, (new_width, new_height))
 
 	coin_image = extract_foreground(image, coin_box)
 	food_image = extract_foreground(image, food_box)
@@ -112,6 +101,8 @@ def get_object_size(coin_box, food_box, shape, fname):
 		food_volume = (4 * math.pi * (food_width/2)**3)/3
 	elif shape == 'Cylinder':
 		food_volume = (food_height * math.pi * (food_width/2)**2)
+	elif shape == 'Fixed':
+		food_volume = 0
 
 	print("food_volume: {} cm3".format(food_volume))
 	return food_volume

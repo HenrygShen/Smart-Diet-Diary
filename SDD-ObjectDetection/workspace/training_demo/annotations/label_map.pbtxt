@@ -22,3 +22,11 @@ item {
 	id: 6
 	name: 'fanta can'
 }
+item {
+	id: 7
+	name: 'ETA sour cream'
+}
+item {
+	id: 8
+	name: 'bluebird sour cream'
+}
