@@ -51,7 +51,7 @@ class PickImage extends React.Component {
                             <Image source = {this.state.pickedImage} style = {styles.previewImage} />
                             :
                             <View style = {styles.icon}>
-                                <Icon name = {'ios-camera'} size = {100} />
+                                <Icon name = {'md-camera'} size = {100} />
                             </View>
                             
                         }

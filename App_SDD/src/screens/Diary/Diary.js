@@ -5,7 +5,7 @@ import { getEntries, removeItemWithKey } from '../../utility/database';
 import DiaryEntry from './DiaryEntry';
 import { getDDMMYY, getIndexOfDate } from './dateUtility';
 import { SET_LOCK } from '../../store/constants';
-import DiaryNavBar from '../NavBar/DiaryNavBar';
+import DiaryNavBar from './DiaryNavBar';
 
 const mapStateToProps = (state) => {
     return {
