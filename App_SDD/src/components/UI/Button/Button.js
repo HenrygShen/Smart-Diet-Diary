@@ -9,10 +9,10 @@ import {
 
 import MainText from '../MainText/MainText';
 
-const button = (props) => {
+const Button = (props) => {
 
     const content = (
-        <View style = {[styles.button, {backgroundColor: props.color}, (props.disabled) ? styles.disabled : null , props.style]}>
+        <View style = {[styles.button, {backgroundColor: props.backgroundolor}, (props.disabled) ? styles.disabled : null , props.style]}>
             <MainText style = {[styles.text, (props.disabled) ? styles.disabledText : null, { color : props.textColor}]}>
                 { props.children }
             </MainText>
@@ -39,7 +39,7 @@ const button = (props) => {
     }
 }
 
-export default button;
+export default Button;
 
 const styles = StyleSheet.create({
 
@@ -48,7 +48,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         borderWidth: 1,
-        borderColor: 'black'
+        borderColor: 'black',
+        borderRadius: 20,
+        backgroundColor: '#ADDE86'
     },
     text: {
         color: 'black'
