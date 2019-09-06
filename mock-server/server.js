@@ -16,7 +16,7 @@ const sqlite3 = require('sqlite3').verbose();
 var userDB = require('knex')({
 	client: 'sqlite3',
 	connection: {
-		filename: "./fruit.db"
+		filename: "./food.db"
 	},
 	useNullAsDefault: true
 });
@@ -30,9 +30,9 @@ app.post('/processImage', (req, res) => {
         code: 0,
         result: [
             {
-                name: 'Apple',
-                mass: 100,
-                calories: 95
+                name: 'Fanta can',
+                mass: 330,
+                calories: 164
             }
         ]
 
@@ -57,13 +57,12 @@ app.post('/calculateCalories', (req, res) => {
     const list = req.body['list'];
 
     const finalList = [];
-
+    console.log(list);
     userDB.select('*')
-    .from('Fruit')
+    .from('Food')
     .then(rows => {
 
         for (var item of list) {
-            console.log(item);
             if (item['type'] === 'list') {
                 const index = getIndex(rows, item['name']);
                 if (index !== -1) {
@@ -73,6 +72,7 @@ app.post('/calculateCalories', (req, res) => {
                 else {
                     return res.json({ 
                         code: 2,
+                        list: [],
                         message: 'Item not found in database'
                     })
                 }
@@ -91,6 +91,7 @@ app.post('/calculateCalories', (req, res) => {
 
 
 const getIndex = (rows, itemName) => {
+    console.log(rows);
     for (var i = 0; i < rows.length; i++) {
         if (rows[i]['Name'] === itemName) {
             return i;
