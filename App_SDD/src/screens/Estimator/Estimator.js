@@ -131,13 +131,14 @@ class EstimatorScreen extends React.Component {
 
     pushCorrectionScreen = () => {
         let itemArray = [];
-        let currentItem = {
-            name: this.state.answer.name, 
-            calories: this.state.answer.calories,
-            mass: this.state.answer.mass
+        const { result } =  this.props.imageState;
+        for (var i = 0; i < result.length; i++) {
+            itemArray.push({
+                name: result[i].name, 
+                calories: result[i].calories,
+                mass: result[i].mass
+            });
         }
-        itemArray.push(currentItem);
-
 
         this.props.navigation.push('CorrectionScreen', {
             itemArray: itemArray,
@@ -146,6 +147,23 @@ class EstimatorScreen extends React.Component {
     }
 
     saveCorrectionToDiary = (items) => {
+        if (items.length === 0) {
+            this.props.clearLock();
+            this.props.updateDiary();
+            this.setState(prevState => {
+                return {
+                    ...prevState,
+                    answer: null,
+                    controls: {
+                        ...prevState.controls,
+                        image: {
+                            value: null,
+                            valid: false
+                        }
+                    }
+                }
+            });
+        }
         for (let i = 0; i < items.length; i++) {
             const { name, calories} = items[i];
             insertData(name, calories)

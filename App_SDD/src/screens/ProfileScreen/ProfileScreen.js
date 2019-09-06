@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import RadioForm from 'react-native-simple-radio-button';
 
 import { getDetails, saveUserData } from '../../utility/database';
 import MainText from '../../components/UI/MainText/MainText';
 import Button from '../../components/UI/Button/Button';
 import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
+import { calculateCalorieIntake } from '../Startup/utility/calorieCalculator';
+import { loadCalories } from '../../store/actions/user';
 
 const radio_props = [
     {label: 'Little to no exercise', value: 0 },
@@ -15,6 +18,11 @@ const radio_props = [
     {label: 'Very hard exercise all week', value: 4 }
 ]
 
+export const mapDispatchToProps = (dispatch) => {
+    return {
+        loadCalories: (calories) => dispatch(loadCalories(calories))
+    }
+}
 
 class ProfileScreen extends React.Component {
 
@@ -25,6 +33,7 @@ class ProfileScreen extends React.Component {
                 age: null,
                 height: null,
                 weight: null,
+                gender: null,
                 activity: {
                     label: '',
                     value: 0
@@ -66,8 +75,9 @@ class ProfileScreen extends React.Component {
                         activity: {
                             label: radio_props[parseInt(details.Activity)].label,
                             value: radio_props[parseInt(details.Activity)].value
-                        }
-                    }
+                        },
+                        gender: details.Gender
+                    }  
                 }
             })
         });
@@ -105,10 +115,17 @@ class ProfileScreen extends React.Component {
     }
 
     onSave = () => {
-        saveUserData(this.state.controls.weight, this.state.controls.height, this.state.controls.age, this.state.controls.activity.value)
+        const state = {
+            ...this.state.controls,
+            gender: this.state.gender,
+            exercise: this.state.controls.activity.value
+        }
+        calorieIntake = calculateCalorieIntake(state);
+        saveUserData(this.state.controls.weight, this.state.controls.height, this.state.controls.age, this.state.controls.activity.value, calorieIntake)
         .then(() => {
             this.onToggleEdit();
             this.loadDetails();
+            this.props.loadCalories(calorieIntake);
             alert('Details saved');
         });
         
@@ -122,7 +139,9 @@ class ProfileScreen extends React.Component {
         if (!this.state.editMode) {
             mainContent =                
             <View style = {styles.infoContainer}>
-                <MainText style = {{fontSize: 25}}>Your details are as below</MainText>
+                <View style = {{marginBottom: 20}}>
+                    <MainText style = {{fontSize: 25}}>Your details are as below</MainText>
+                </View>
                 <View style = {styles.inputContainer}>
                     <MainText style = {{fontSize: 15}}>Age: {age} years old</MainText>
                 </View>
@@ -135,12 +154,12 @@ class ProfileScreen extends React.Component {
                 <View style = {styles.inputContainer}>
                     <MainText style = {{fontSize: 15}}>Activity: {activity.label}</MainText>
                 </View>
-                <Button style = {{width: '50%', alignSelf: 'center'}} onPress = {this.onToggleEdit}>Edit</Button>
+                <Button style = {{width: '50%', marginTop: 20, alignSelf: 'center'}} onPress = {this.onToggleEdit}>Edit</Button>
             </View>
         }
         else {
             mainContent = 
-            <View style = {styles.infoContainer}>
+            <ScrollView contentContainerStyle = {styles.infoContainer}>
                 <MainText style = {{fontSize: 25}}>Edit information</MainText>
                 <View style = {styles.inputContainer}>
                     <MainText style = {{fontSize: 15}}>Age</MainText>
@@ -192,7 +211,7 @@ class ProfileScreen extends React.Component {
                     <Button style = {{width: '38%'}} onPress = {this.onSave}>Save</Button>
                     <Button style = {{width: '38%'}} onPress = {this.onToggleEdit}>Cancel</Button>
                 </View>
-            </View>
+            </ScrollView>
         }
         return (
             /* Profile viewing mode */
@@ -203,20 +222,19 @@ class ProfileScreen extends React.Component {
     }
 }
 
-export default ProfileScreen;
+export default connect(null, mapDispatchToProps)(ProfileScreen);
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
-        alignItems: 'flex-start'
+        width: '100%'
     },
     infoContainer: {
         paddingTop: 20,
-        paddingLeft: 20,
-        paddingRight: 20,
-        flex: 1,
-        width: '100%'
+        paddingHorizontal: 20,
+        width: '100%',
+        marginBottom: 40
     },
     inputContainer: {
         padding: 5
