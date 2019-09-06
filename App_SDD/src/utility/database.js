@@ -32,7 +32,7 @@ export const checkUser = () => {
     
             console.log('Database opened.');
     
-            DB.executeSql('CREATE table IF NOT EXISTS User(Weight integer, Height integer, Age integer, CalorieIntake integer)')
+            DB.executeSql('CREATE table IF NOT EXISTS User(Weight integer, Height integer, Gender integer, Activity integer, Age integer, CalorieIntake integer)')
             .then(() => {
                 DB.executeSql("SELECT * from User", [])
                 .then(([results]) => {
@@ -51,14 +51,14 @@ export const checkUser = () => {
 
 }
 
-export const insertUserData = (weight, height, age, calorieIntake) => {
+export const insertUserData = (weight, height, gender, age, activity, calorieIntake) => {
     return new Promise((resolve, reject) => {
         SQLite.openDatabase({name: 'diary.db', location: 'Library'})
         .then(DB => {
     
             console.log('Database opened.');
     
-            DB.executeSql(`INSERT INTO User (Weight, Height, Age, CalorieIntake) VALUES(${weight},${height}, ${age}, ${calorieIntake})`)
+            DB.executeSql(`INSERT INTO User (Weight, Height, Gender, Age, Activity, CalorieIntake) VALUES(${weight},${height},${gender}, ${age}, ${activity}, ${calorieIntake})`)
             .then(() => {
                 console.log('User data inserted');
                 resolve(true);
@@ -70,6 +70,27 @@ export const insertUserData = (weight, height, age, calorieIntake) => {
         })
     })
 }
+
+
+export const saveUserData = (weight, height, age, activity, calorieIntake) => {
+    return new Promise((resolve, reject) => {
+        SQLite.openDatabase({name: 'diary.db', location: 'Library'})
+        .then(DB => {
+    
+            console.log('Database opened.');
+            DB.executeSql(`UPDATE User SET Weight=${parseInt(weight)}, Height=${parseInt(height)}, Age=${parseInt(age)}, Activity=${parseInt(activity)}, CalorieIntake = ${calorieIntake}`)
+            .then(() => {
+                console.log('User data updated');
+                resolve(true);
+            })
+            .catch((e) => {
+                console.log('Could not update data.');
+                reject(e);
+            });
+        })
+    })
+}
+
 
 export const resetDB = () => {
     return new Promise((resolve, reject) => {

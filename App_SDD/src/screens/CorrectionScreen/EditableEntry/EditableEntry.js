@@ -94,7 +94,6 @@ class EditableEntry extends React.Component {
                 }
             }
         });
-        console.log(this.state);
     }
 
     onRadioInputChange = (value) => {
@@ -224,7 +223,7 @@ export default EditableEntry;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        borderWidth: 1,
+        borderWidth: 1
     },
     button: {
         marginTop: 10

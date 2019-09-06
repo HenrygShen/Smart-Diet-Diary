@@ -65,7 +65,7 @@ class StartScreen extends React.Component {
 
     nextStep = () => {
         if (this.state.step === 7) {
-            insertUserData(parseInt(this.state.weight), parseInt(this.state.height), parseInt(this.state.age), this.state.calorieIntake)
+            insertUserData(parseInt(this.state.weight), parseInt(this.state.height), parseInt(this.state.gender), parseInt(this.state.age), this.state.exercise, this.state.calorieIntake)
             .then((complete) => {
                 this.props.loadCalories(this.state.calorieIntake);
                 this.props.navigation.navigate('MainTabs');

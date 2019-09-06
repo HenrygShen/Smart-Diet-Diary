@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, Keyboard, StyleSheet, ScrollView } from 'react-native';
 
 import { connect } from 'react-redux';
 import { Button, Text } from 'native-base';
@@ -33,19 +33,39 @@ class CorrectionScreen extends React.Component {
         super(props);
         itemArrayState = [];
         const paramsItemArray = this.props.navigation.getParam('itemArray');
-        itemArrayState.push({
-            name: paramsItemArray[0].name,
-            calories: paramsItemArray[0].calories,
-            mass: paramsItemArray[0].mass,
-            type: 'list'
-        });
-        this.state = {
-            items: itemArrayState
+        for (var i = 0; i < paramsItemArray.length; i++) {
+            itemArrayState.push({
+                name: paramsItemArray[i].name,
+                calories: paramsItemArray[i].calories,
+                mass: paramsItemArray[i].mass,
+                type: 'list'
+            });
         }
+
+        this.state = {
+            items: itemArrayState,
+            keyboard: 'hidden'
+        }
+
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     }
 
     componentDidMount() {
         this.props.getList();
+    }
+
+    componentWillUnmount () {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+    }
+
+    _keyboardDidHide = () => {
+        this.setState({ keyboard: 'hidden'}); 
+    }
+
+    _keyboardDidShow = () => {
+        this.setState({ keyboard: 'show'});
     }
 
     componentDidUpdate() {
@@ -69,7 +89,12 @@ class CorrectionScreen extends React.Component {
     }
 
     onAddToDiary = () => {
-        this.props.calculateCalories(this.state.items);
+        if (this.hasInvalidItems()) {
+            alert('Invalid items found in list');
+        }
+        else {
+            this.props.calculateCalories(this.state.items);
+        }
     }
 
     saveEdit = (item, index) => {
@@ -85,7 +110,6 @@ class CorrectionScreen extends React.Component {
         }
         else {
             for (let i = 0; i < items.length; i++) {
-                console.log(items);
                 if (items[i].name === '' || (items[i].mass === 0 && items[i].calories === 0)) {
                     return true;
                 }
@@ -113,7 +137,7 @@ class CorrectionScreen extends React.Component {
         })
         return (
             <View style = {styles.container}>
-                <ScrollView style = {styles.subContainer}>
+                <ScrollView>
                     { listOfItems }
                 </ScrollView>
                 <View style = {styles.subContainer2}>
@@ -133,9 +157,6 @@ const styles = StyleSheet.create({
         flex:1,
         height: '100%',
         flexDirection: 'column'
-    },
-    subContainer: {
-        height: '90%',
     },
     subContainer2: {
         flexDirection: 'row',
