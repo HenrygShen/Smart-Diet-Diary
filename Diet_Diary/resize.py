@@ -1,7 +1,7 @@
 from PIL import Image
 import os, sys
 
-path = "C:/Users/linco/Downloads/ETA chicken/"
+path = "C:/Users/Henry/Desktop/McDonalds mcchicken/"
 dirs = os.listdir(path)
 final_size = 600;
 

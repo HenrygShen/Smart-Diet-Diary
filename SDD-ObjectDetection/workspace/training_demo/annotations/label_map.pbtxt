@@ -30,3 +30,23 @@ item {
 	id: 8
 	name: 'bluebird sour cream'
 }
+item {
+	id: 9
+	name: 'ETA chicken'
+}
+item {
+	id: 10
+	name: 'McDonalds fries'
+}
+item {
+	id: 11
+	name: 'McDonalds big-mac'
+}
+item {
+	id: 12
+	name: 'McDonalds mcchicken'
+}
+item {
+	id: 13
+	name: 'McDonalds filet-o-fish'
+}

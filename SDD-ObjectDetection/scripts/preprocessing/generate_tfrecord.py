@@ -71,7 +71,17 @@ def class_text_to_int(row_label):
         return 1
     elif row_label == 'ETA sour cream':
         return 1
+    elif row_label == 'ETA chicken':
+        return 1
     elif row_label == 'bluebird sour cream':
+        return 1
+    elif row_label == 'McDonalds fries':
+        return 1
+    elif row_label == 'McDonalds big-mac':
+        return 1
+    elif row_label == 'McDonalds mcchicken':
+        return 1
+    elif row_label == 'McDonalds filet-o-fish':
         return 1
     # elif row_label == 'pear':
     #   return 1
