@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 
 import MainText from '../../components/UI/MainText/MainText';
-import { Button, Text } from 'native-base';
+import Button from '../../components/UI/Button/Button';
 import DefaultInput from '../../components/UI/DefaultInput/DefaultInput';
 import RadioForm from 'react-native-simple-radio-button';
 
@@ -23,7 +23,7 @@ const askQuestions = (props) => {
             <Button 
                 onPress = { () => { props.nextStep() }} 
                 disabled = { props.state.age === '' || props.state.age === null }
-            ><Text>Next</Text></Button>
+            >Next</Button>
         </View>
     }
     else if (step === 3) {
@@ -40,7 +40,7 @@ const askQuestions = (props) => {
             initial={0}
             onPress={(value) => { props.onInputChange(value, 'gender')}}
             />
-            <Button onPress = { () => { props.nextStep() }}><Text>Next</Text></Button>
+            <Button onPress = { () => { props.nextStep() }}>Next</Button>
         </View>
     }
     else if (step === 4) {
@@ -53,7 +53,7 @@ const askQuestions = (props) => {
             <Button 
                 onPress = { () => { props.nextStep() }} 
                 disabled = { props.state.height === '' || props.state.height === null }
-            ><Text>Next</Text></Button>
+            >Next</Button>
         </View>
     }
     else if (step === 5) {
@@ -66,7 +66,7 @@ const askQuestions = (props) => {
             <Button 
                 onPress = { () => { props.nextStep() }} 
                 disabled = { props.state.weight === '' || props.state.weight === null }
-            ><Text>Next</Text></Button>
+            >Next</Button>
         </View>
     }
     else {
@@ -86,7 +86,7 @@ const askQuestions = (props) => {
             initial={0}
             onPress={(value) => { props.onInputChange(value, 'exercise')}}
             />
-            <Button onPress = { () => { props.nextStep() } }><Text>Next</Text></Button>
+            <Button onPress = { () => { props.nextStep() } }>Next</Button>
         </View>
     }
 

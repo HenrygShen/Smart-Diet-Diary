@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { Button, Text } from 'native-base';
 import MainText from '../UI/MainText/MainText';
+import Button from '../../components/UI/Button/Button';
 
 class ResultScreen extends React.Component {  
     
@@ -45,7 +45,7 @@ class ResultScreen extends React.Component {
                                 Click below
                             </MainText>
                             <View>
-                                <Button onPress = { () => {this.props.navigation.getParam('pushCorrectionScreen') }} info><Text>More</Text></Button>
+                                <Button onPress = { () => {this.props.navigation.getParam('pushCorrectionScreen') }} info>More</Button>
                             </View>
                         </View>
                     </View>

@@ -14,17 +14,24 @@ export const processImage = (image) => (dispatch) => {
     })
     .then(res => res.json())
     .then((res) => {
-        dispatch({
-            type: LOAD_IMAGE_RESULT,
-            payload: res['result']
-        });
-        // dispatch(uiStopLoading());
+        if (res.code === 0) {
+            dispatch({
+                type: LOAD_IMAGE_RESULT,
+                payload: res['result']
+            });
+        }
+        else {
+            dispatch({
+                type: IMAGE_RESULT_FAILED,
+                payload: -1
+            })
+        }
     })
     .catch((e) => {
         dispatch(uiStopLoading());
-        return {
+        dispatch({
             type: IMAGE_RESULT_FAILED,
             payload: -1
-        }
+        })
     })
 }

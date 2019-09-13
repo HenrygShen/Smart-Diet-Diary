@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Image, StyleSheet, ActivityIndicator, TouchableNativeFeedback } from 'react-native';
-import { Button, Text } from 'native-base';
+
+import Button from '../../components/UI/Button/Button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-picker';
 
@@ -60,12 +61,12 @@ class PickImage extends React.Component {
                 </View>
                 <View style = {styles.buttonContainer}>
                     { !this.props.isProcessing ?
-                            <View>
+                            <View style = {styles.buttonWrapper}>
                                 <Button 
                                     onPress = {this.props.processImage}
                                     disabled = {this.props.processDisabled}
-
-                                ><Text>Get calories</Text></Button>
+                                    style = {styles.button}
+                                >Get calories</Button>
                             </View>
 
                             :
@@ -75,12 +76,12 @@ class PickImage extends React.Component {
                             
                         
                     }
-                    <View>
+                    <View style = {styles.buttonWrapper}>
                         <Button 
-                            success
+                            style = {styles.button}
                             onPress = {this.saveToDiary}
                             disabled = {this.props.saveDisabled}
-                        ><Text>Add to diary</Text></Button>
+                        >Add to diary</Button>
                     </View>
                 </View>
             </View>
@@ -107,6 +108,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         alignItems: 'center'
     },
+    buttonWrapper: {
+        width: '80%'
+    },
     icon: {
         flex:1,
         justifyContent: 'center',
@@ -127,6 +131,9 @@ const styles = StyleSheet.create({
     previewImage: {
         width: '100%',
         height: '100%'
+    },
+    button: {
+        backgroundColor: '#ADD8E6'
     }
 
 })

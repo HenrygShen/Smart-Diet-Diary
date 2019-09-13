@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 
 import MainText from '../../components/UI/MainText/MainText';
-import { Button, Text } from 'native-base';
 
 import { checkUser, initDB, insertUserData } from '../../utility/database';
 
@@ -12,6 +11,7 @@ import Introduction from './Introduction';
 import AskQuestions from './AskQuestions';
 import { calculateCalorieIntake } from './utility/calorieCalculator';
 import { loadCalories } from '../../store/actions/user';
+import Button from '../../components/UI/Button/Button';
 
 export const mapDispatchToProps = (dispatch) => {
     return {
@@ -120,7 +120,7 @@ class StartScreen extends React.Component {
                 <MainText>
                     For reference, your recommended daily calorie intake is { this.state.calorieIntake }
                 </MainText>
-                <Button onPress = { this.nextStep }><Text>Next</Text></Button>
+                <Button onPress = { this.nextStep }>Next</Button>
             </View> 
         }
 

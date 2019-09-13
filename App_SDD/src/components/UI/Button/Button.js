@@ -12,7 +12,7 @@ import MainText from '../MainText/MainText';
 const Button = (props) => {
 
     const content = (
-        <View style = {[styles.button, {backgroundColor: props.backgroundolor}, (props.disabled) ? styles.disabled : null , props.style]}>
+        <View style = {[styles.button, props.style , (props.disabled) ? styles.disabled : null]}>
             <MainText style = {[styles.text, (props.disabled) ? styles.disabledText : null, { color : props.textColor}]}>
                 { props.children }
             </MainText>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 20,
-        backgroundColor: '#ADDE86'
+        backgroundColor: 'white'
     },
     text: {
         color: 'black'

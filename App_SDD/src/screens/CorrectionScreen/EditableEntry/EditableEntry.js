@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet, Modal, ScrollView } from 'react-native';
-import { Button, Text } from 'native-base';
 
 import MainText from '../../../components/UI/MainText/MainText';
+import Button from '../../../components/UI/Button/Button';
 import HeadingText from '../../../components/UI/HeadingText/HeadingText';
 import DefaultInput from '../../../components/UI/DefaultInput/DefaultInput';
 import RadioForm from 'react-native-simple-radio-button';
@@ -136,10 +136,10 @@ class EditableEntry extends React.Component {
                 <View style = {styles.inputContainer}>
                     <View style = {{flex:1, flexDirection: 'column', alignItems: 'center', margin: 20}}>
                         <View style = {styles.button}>
-                            <Button onPress = { () => { this.setEditMode('list')}} primary><Text>Choose from list</Text></Button>
+                            <Button onPress = { () => { this.setEditMode('list')}}>Choose from list</Button>
                         </View>
                         <View style = {styles.button}>
-                            <Button onPress = { () => { this.setEditMode('custom')}} primary><Text>Add your own item</Text></Button>
+                            <Button onPress = { () => { this.setEditMode('custom')}}>Add your own item</Button>
                         </View>
                     </View>
                 </View>
@@ -174,7 +174,7 @@ class EditableEntry extends React.Component {
                         </View>
 
                         <View>
-                            <Button onPress = { () => { this.saveEdit('list') }} success><Text>Save</Text></Button>
+                            <Button onPress = { () => { this.saveEdit('list') }} >Save</Button>
                         </View>
                     </View>
                 </Modal>
@@ -201,14 +201,14 @@ class EditableEntry extends React.Component {
                     {mainSection}
                     <View style = {(this.state.mode === 'default') ? styles.buttonContainer : styles.reverseButtonContainer}>
                         {(this.state.mode === 'default') ?
-                        <Button onPress = { () => { this.toggleMode(); this.setEditMode('default'); }} warning><Text>Edit</Text></Button>
+                        <View style = {styles.buttonWrapper}><Button onPress = { () => { this.toggleMode(); this.setEditMode('default'); }}>Edit</Button></View>
                         :
-                        <Button onPress = { () => { this.toggleMode(); this.setEditMode('default'); }} danger><Text>Cancel edit</Text></Button>
+                        <View style = {styles.buttonWrapper}><Button onPress = { () => { this.toggleMode(); this.setEditMode('default'); }}>Cancel edit</Button></View>
                         }
                         {(this.state.mode === 'default') ?
-                            <Button onPress = { () => { this.props.removeItem(this.props.itemIndex)}} danger><Text>Remove item</Text></Button>
+                            <Button onPress = { () => { this.props.removeItem(this.props.itemIndex)}}>Remove item</Button>
                             :
-                            <Button onPress = { () => { this.saveEdit('custom') }} success><Text>Save</Text></Button>
+                            <Button onPress = { () => { this.saveEdit('custom') }}>Save</Button>
                         }
                         
                     </View>
@@ -255,5 +255,8 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '40%'
+    },
+    buttonWrapper: {
+        width: '45%'
     }
 })
