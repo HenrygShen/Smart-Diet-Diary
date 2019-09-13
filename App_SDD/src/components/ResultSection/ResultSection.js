@@ -1,13 +1,14 @@
 import React from 'react';
 
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { Button, Text } from 'native-base';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import Button from '../../components/UI/Button/Button';
 import MainText from '../../components/UI/MainText/MainText';
 
 const ResultSection = ({result, pushCorrectionScreen}) => {   
 
     let list;
-    if (result !== null) {
+    let mainContent;
+    if (result !== -1 && result !== null) {
         list = result.map((object, i) => { 
             return (
             <View key = {`${Math.random()} ${Math.random()}`}>
@@ -19,33 +20,37 @@ const ResultSection = ({result, pushCorrectionScreen}) => {
                 </MainText>
             </View>
             )
-        })
+        });
+
+        mainContent =                 
+        <View style = {styles.subContainer}>
+            <View style = {styles.subTextContainer}>
+                <ScrollView>
+                    {list}
+                </ScrollView>
+            </View>
+            <View style = {styles.subTextContainer}>
+                <MainText>
+                    Incorrect classification or missing an item? 
+                </MainText>
+                <MainText>
+                    Click below
+                </MainText>
+                <View>
+                    <Button onPress = { () => {pushCorrectionScreen() }} info>More</Button>
+                </View>
+            </View>
+        </View>;
+    }
+    else if (result === -1) {
+        mainContent = 
+        <View>
+            <Text>Coin not detected in image</Text>
+        </View>
     }
     return (
         <View style = {styles.container}>
-            { (result !== null) ? 
-                <View style = {styles.subContainer}>
-                    <View style = {styles.subTextContainer}>
-                        <ScrollView>
-                            {list}
-                        </ScrollView>
-                    </View>
-                    <View style = {styles.subTextContainer}>
-                        <MainText>
-                            Incorrect classification or missing an item? 
-                        </MainText>
-                        <MainText>
-                            Click below
-                        </MainText>
-                        <View>
-                            <Button onPress = { () => {pushCorrectionScreen() }} info><Text>More</Text></Button>
-                        </View>
-                    </View>
-                </View>
-            :
-            null
-            }
-
+            {mainContent}
         </View>
     );
         

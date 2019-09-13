@@ -155,6 +155,8 @@ def detect_api(filename):
                     "name": category_index.get(classes[0][coin_index])['name'].capitalize(),
                     "box": rect
                 })
+            else:
+                return []
 
             print(temp_list)
             return temp_list

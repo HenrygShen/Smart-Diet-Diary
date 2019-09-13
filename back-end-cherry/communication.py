@@ -54,6 +54,13 @@ def receive_and_process(data):
 
     food_volume_list = []
     answer_size = len(answer)
+    # When coin not detected
+    if answer_size == 0:
+        out = {
+            "code": -1
+        }
+        resp = json.dumps(out)
+        return resp
 
     connection = sqlite3.connect("food.db")
     cursor = connection.cursor()

@@ -58,12 +58,12 @@ class EstimatorScreen extends React.Component {
     componentDidUpdate() {
         if (this.props.imageState.response === 0) {
             this.props.stopLoading();
-            this.setState(prevState => {
-                return {
-                    ...prevState,
-                    answer: this.props.imageState.result
-                }
-            });
+            this.setState({ answer: this.props.imageState.result })
+            this.props.clearResult();
+        }
+        else if (this.props.imageState.response === -1){
+            this.props.stopLoading();
+            this.setState({ answer: -1 });
             this.props.clearResult();
         }
     }

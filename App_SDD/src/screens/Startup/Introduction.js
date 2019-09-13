@@ -1,8 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import MainText from '../../components/UI/MainText/MainText';
-import { Button, Text } from 'native-base';
-
+import Button from '../../components/UI/Button/Button';
 
 const intro = (props) => {
 
@@ -16,7 +15,7 @@ const intro = (props) => {
             <MainText>
                 { text }
             </MainText>
-            <Button onPress = { () => { props.nextStep() }}><Text>Next</Text></Button>
+            <Button onPress = { () => { props.nextStep() }}>Next</Button>
         </View>
     )
 }

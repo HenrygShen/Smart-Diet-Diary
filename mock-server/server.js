@@ -26,6 +26,9 @@ var userDB = require('knex')({
 app.get('/', (req, res) => { res.send('Server is up'); });
 
 app.post('/processImage', (req, res) => {
+    return res.json({
+        code: -1
+    })
     return res.json({ 
         code: 0,
         result: [
