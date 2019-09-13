@@ -1,9 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Keyboard, StyleSheet, ScrollView } from 'react-native';
 
-import { connect } from 'react-redux';
-import { Button, Text } from 'native-base';
 import EditableEntry from './EditableEntry/EditableEntry';
+import Button from '../../components/UI/Button/Button';
 import { getList, calculateCalories } from '../../store/actions/otherAPI';
 import { CLEAR_CAL_RESULTS } from '../../store/constants';
 
@@ -141,8 +141,9 @@ class CorrectionScreen extends React.Component {
                     { listOfItems }
                 </ScrollView>
                 <View style = {styles.subContainer2}>
-                    <Button onPress = {this.addItem} primary><Text>Add new item</Text></Button>
-                    <Button onPress = {this.onAddToDiary} primary><Text>Done</Text></Button>
+                    <View style = {styles.buttonWrapper}><Button onPress = {this.addItem}>Add new item</Button></View>
+                    
+                    <View style = {styles.buttonWrapper}><Button onPress = {this.onAddToDiary}>Done</Button></View>
                 </View>
             </View>
         )
@@ -163,5 +164,8 @@ const styles = StyleSheet.create({
         height: '10%',
         justifyContent: 'space-around',
         alignItems: 'center'
+    },
+    buttonWrapper: {
+        width: '35%'
     }
 })

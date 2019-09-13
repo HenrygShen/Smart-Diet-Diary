@@ -5,9 +5,6 @@ path = "C:/Users/Henry/Desktop/McDonalds mcchicken/"
 dirs = os.listdir(path)
 final_size = 600;
 
-print("hei")
-
-
 def resize_aspect_fit():
 	print("in function")
 	for item in dirs:
@@ -15,7 +12,6 @@ def resize_aspect_fit():
 		if item == '.DS_Store':
 			continue
 		if os.path.isfile(path+item):
-			print("heyo")
 			im = Image.open(path+item)
 			f, e = os.path.splitext(path+item)
 			size = im.size
