@@ -200,7 +200,7 @@ class EstimatorScreen extends React.Component {
                 <PickImage 
                     onImagePicked = {this.imagePickedHandler} 
                     processDisabled = {this.state.controls.image.value === null}
-                    saveDisabled = {this.state.answer === null}
+                    saveDisabled = {this.state.answer === null || this.state.answer === -1}
                     processImage = {this.processImage}
                     isProcessing = {this.props.isLoading}
                     saveToDiary = {this.saveToDiary}

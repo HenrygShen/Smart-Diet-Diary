@@ -58,6 +58,7 @@ class ProfileScreen extends React.Component {
         .then(rows => {
             const details = rows.item(0);
             this.setState(prevState => {
+                console.log(details)
                 return {
                     controls: {
                         age: details.Age.toString(),
@@ -117,10 +118,11 @@ class ProfileScreen extends React.Component {
     onSave = () => {
         const state = {
             ...this.state.controls,
-            gender: this.state.gender,
+            gender: this.state.details.gender,
             exercise: this.state.controls.activity.value
         }
         calorieIntake = calculateCalorieIntake(state);
+        console.log(state, calorieIntake);
         saveUserData(this.state.controls.weight, this.state.controls.height, this.state.controls.age, this.state.controls.activity.value, calorieIntake)
         .then(() => {
             this.onToggleEdit();
