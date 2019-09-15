@@ -38,7 +38,6 @@ app.post('/processImage', (req, res) => {
                 calories: 164
             }
         ]
-
     })
 });
 
