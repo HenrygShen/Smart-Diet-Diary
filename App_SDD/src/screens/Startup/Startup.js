@@ -120,7 +120,11 @@ class StartScreen extends React.Component {
                 <MainText>
                     For reference, your recommended daily calorie intake is { this.state.calorieIntake }
                 </MainText>
-                <Button onPress = { this.nextStep }>Next</Button>
+                <Button 
+                    textColor = 'white'
+                    style = {{ backgroundColor: '#115293'}}
+                    onPress = { this.nextStep }
+                >Next</Button>
             </View> 
         }
 

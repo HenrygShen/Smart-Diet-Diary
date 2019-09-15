@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 
 import MainText from '../../components/UI/MainText/MainText';
 import Button from '../../components/UI/Button/Button';
@@ -21,6 +21,8 @@ const askQuestions = (props) => {
             </MainText>
             <DefaultInput style = { props.inputStyle} placeholder = { `Age`} onChangeText = { (text) => { props.onInputChange(text, 'age')}} keyboardType ={'numeric'}/>
             <Button 
+                style = {styles.button}
+                textColor = 'white'
                 onPress = { () => { props.nextStep() }} 
                 disabled = { props.state.age === '' || props.state.age === null }
             >Next</Button>
@@ -40,7 +42,10 @@ const askQuestions = (props) => {
             initial={0}
             onPress={(value) => { props.onInputChange(value, 'gender')}}
             />
-            <Button onPress = { () => { props.nextStep() }}>Next</Button>
+            <Button 
+                style = {styles.button}
+                textColor = 'white'
+                onPress = { () => { props.nextStep() }}>Next</Button>
         </View>
     }
     else if (step === 4) {
@@ -51,6 +56,8 @@ const askQuestions = (props) => {
             </MainText>
             <DefaultInput style = { props.inputStyle} placeholder = { `Height in centimetres`} onChangeText =  { (text) => { props.onInputChange(text, 'height')}} keyboardType ={'numeric'}/>
             <Button 
+                style = {styles.button}
+                textColor = 'white'
                 onPress = { () => { props.nextStep() }} 
                 disabled = { props.state.height === '' || props.state.height === null }
             >Next</Button>
@@ -64,6 +71,8 @@ const askQuestions = (props) => {
             </MainText>
             <DefaultInput  style = { props.inputStyle} placeholder = { `Weight in kilograms`} onChangeText =  { (text) => { props.onInputChange(text, 'weight')}} keyboardType ={'numeric'}/>
             <Button 
+                style = {styles.button}
+                textColor = 'white'
                 onPress = { () => { props.nextStep() }} 
                 disabled = { props.state.weight === '' || props.state.weight === null }
             >Next</Button>
@@ -86,11 +95,19 @@ const askQuestions = (props) => {
             initial={0}
             onPress={(value) => { props.onInputChange(value, 'exercise')}}
             />
-            <Button onPress = { () => { props.nextStep() } }>Next</Button>
+            <Button 
+                textColor = 'white'
+                style = {styles.button}
+                onPress = { () => { props.nextStep() } }>Next</Button>
         </View>
     }
 
     return mainSection
 }
 
+const styles = StyleSheet.create({
+    button: {
+        backgroundColor: '#115293'
+    }
+})
 export default askQuestions;

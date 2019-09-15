@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import MainText from '../../components/UI/MainText/MainText';
 import Button from '../../components/UI/Button/Button';
 
@@ -15,9 +15,18 @@ const intro = (props) => {
             <MainText>
                 { text }
             </MainText>
-            <Button onPress = { () => { props.nextStep() }}>Next</Button>
+            <Button 
+                style = {styles.button}
+                textColor = 'white'
+                onPress = { () => { props.nextStep() }}>Next</Button>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    button: {
+        backgroundColor: '#115293'
+    }
+})
 
 export default intro;
