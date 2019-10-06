@@ -43,30 +43,14 @@ class CorrectionScreen extends React.Component {
         }
 
         this.state = {
-            items: itemArrayState,
-            keyboard: 'hidden'
+            items: itemArrayState
         }
-
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
-        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
     }
 
     componentDidMount() {
         this.props.getList();
     }
 
-    componentWillUnmount () {
-        this.keyboardDidShowListener.remove();
-        this.keyboardDidHideListener.remove();
-    }
-
-    _keyboardDidHide = () => {
-        this.setState({ keyboard: 'hidden'}); 
-    }
-
-    _keyboardDidShow = () => {
-        this.setState({ keyboard: 'show'});
-    }
 
     componentDidUpdate() {
         if (this.props.calorieResults !== null && this.props.resultsCleared === 0) {

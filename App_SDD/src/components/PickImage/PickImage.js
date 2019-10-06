@@ -48,7 +48,7 @@ class PickImage extends React.Component {
                     <TouchableNativeFeedback
                         onPress = {this.pickImageHandler}
                     >
-                        {(this.state.pickedImage) ?
+                        {(this.state.pickedImage !== null) ?
                             <Image source = {this.state.pickedImage} style = {styles.previewImage} />
                             :
                             <View style = {styles.icon}>

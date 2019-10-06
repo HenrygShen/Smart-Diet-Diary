@@ -12,15 +12,23 @@ class EditableEntry extends React.Component {
     constructor(props) {
         super(props);
         let list = [];
+        let massDisabled = false;
+        let index = 0;
         for (let i = 0; i < props.list.length; i++) {
+            if (props.list[i].name === this.props.name) {
+                index = i;
+                massDisabled = (props.list[i].shape === 'Fixed');  
+            }
             list.push({
-                label: props.list[i],
+                label: props.list[i].name,
+                shape: props.list[i].shape,
                 value: i
             })
         }
         this.state = {
             mode: 'default',
             editMode: 'default',
+            index: index,
             details: {
                 mass: this.props.mass,
                 name: this.props.name,
@@ -28,13 +36,13 @@ class EditableEntry extends React.Component {
             },
             type: this.props.type,
             controls: {
-                name: this.props.name,
-                mass: this.props.mass,
-                calories: this.props.calories
+                name: null,
+                mass: NaN,
+                calories: NaN
             },
-            list: list
+            list: list,
+            massDisabled: massDisabled
         }
-        
     }
 
     toggleMode = () => {
@@ -56,26 +64,22 @@ class EditableEntry extends React.Component {
     }
 
     onEditField = (text, key) => {
-        const prevControlState = this.state.controls;
-        let controlState = {};
-        if (key === 'calories' || key === 'mass') {
+        if (key === 'mass' || key === 'calories') {
             text = parseInt(text);
         }
-        controlState[key] = text;
-        let newControlState = Object.assign({}, prevControlState, controlState);
+
         this.setState(prevState => {
             return {
                 ...prevState,
                 controls: {
                     ...prevState.controls,
-                    ...newControlState
+                    [key]: text
                 }
             }
         })
     }
 
     saveEdit = (type) => {
-
         this.setState(prevState => {
             this.props.saveEdit({
                 ...prevState.controls,
@@ -98,20 +102,36 @@ class EditableEntry extends React.Component {
 
     onRadioInputChange = (value) => {
         this.setState(prevState => {
+            let massDisabled = false;
+            if (this.state.list[value].shape === 'Fixed') {
+                massDisabled = true;
+            }
             return {
                 ...prevState,
                 controls: {
                     ...prevState.controls,
                     name: this.state.list[value].label
-                }
+                },
+                massDisabled: massDisabled
             }
         })
     }
 
 
     render() {
-
         let mainSection;
+        let label;
+        if (this.state.type === 'list') {
+            if (this.state.massDisabled) {
+                label = <MainText>Fixed</MainText>;
+            }
+            else {
+                label = <MainText>Mass: {`${parseInt(this.state.details.mass).toFixed(0)}g`}</MainText>;
+            }
+        }
+        else {
+            label = <MainText>Calories: {`${parseInt(this.state.details.calories).toFixed(0)}kCal`}</MainText>;
+        }
         if (this.state.mode === 'default') {
             mainSection =
             <View style = {styles.inputContainer}>
@@ -119,12 +139,7 @@ class EditableEntry extends React.Component {
                     <MainText>Item: {this.state.details.name}</MainText>
                 </View>
                 <View style = {styles.subContainer}>
-                    {(this.state.type === 'list') ? 
-                    <MainText>Mass: {`${this.state.details.mass}g`}</MainText>
-                    :
-                    <MainText>Calories: {`${this.state.details.calories}kCal`}</MainText>
-                    }
-                    
+                    {label}
                 </View>
                 
             </View>
@@ -160,10 +175,11 @@ class EditableEntry extends React.Component {
                             radio_props={this.state.list}
                             buttonColor={'orange'}
                             selectedButtonColor = {'orange'}
-                            initial={0}
+                            initial={this.state.index}
                             onPress={(value) => { this.onRadioInputChange(value)}}
                             />
                         </ScrollView>
+                        {!this.state.massDisabled ?
                         <View>
                             <DefaultInput 
                                 style = {styles.input} 
@@ -172,9 +188,15 @@ class EditableEntry extends React.Component {
                                 keyboardType ={'numeric'}
                             />
                         </View>
+                        :
+                        <MainText>
+                            Fixed size
+                        </MainText>
+                        }
+  
 
                         <View>
-                            <Button onPress = { () => { this.saveEdit('list') }} >Save</Button>
+                            <Button onPress = { () => { this.saveEdit('list') }} disabled = {Number.isNaN(this.state.controls.mass) && !this.state.massDisabled}>Save</Button>
                         </View>
                     </View>
                 </Modal>
@@ -206,9 +228,9 @@ class EditableEntry extends React.Component {
                         <View style = {styles.buttonWrapper}><Button onPress = { () => { this.toggleMode(); this.setEditMode('default'); }}>Cancel edit</Button></View>
                         }
                         {(this.state.mode === 'default') ?
-                            <Button onPress = { () => { this.props.removeItem(this.props.itemIndex)}}>Remove item</Button>
+                            <View style = {styles.buttonWrapper}><Button onPress = { () => { this.props.removeItem(this.props.itemIndex)}}>Remove item</Button></View>
                             :
-                            <Button onPress = { () => { this.saveEdit('custom') }}>Save</Button>
+                            <View style = {styles.buttonWrapper}><Button onPress = { () => { this.saveEdit('custom') }}>Save</Button></View>
                         }
                         
                     </View>
@@ -257,6 +279,6 @@ const styles = StyleSheet.create({
         width: '40%'
     },
     buttonWrapper: {
-        width: '45%'
+        width: '38%'
     }
 })

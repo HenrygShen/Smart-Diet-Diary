@@ -16,7 +16,7 @@ const ResultSection = ({result, pushCorrectionScreen}) => {
                     Item: {object.name}
                 </MainText>
                 <MainText>
-                    Calories: {object.calories}
+                    Calories: {object.calories.toFixed(0)}
                 </MainText>
             </View>
             )
@@ -46,6 +46,18 @@ const ResultSection = ({result, pushCorrectionScreen}) => {
         mainContent = 
         <View>
             <Text>Coin not detected in image</Text>
+        </View>
+    }
+    else if (result === -2) {
+        mainContent = 
+        <View>
+            <Text>Food item not detected in image</Text>
+        </View>
+    }
+    else if (result === -3) {
+        mainContent = 
+        <View>
+            <Text>Nothing detected in image</Text>
         </View>
     }
     return (

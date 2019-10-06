@@ -54,10 +54,39 @@ def receive_and_process(data):
 
     food_volume_list = []
     answer_size = len(answer)
-    # When coin not detected
+
+    # If coin not detected
+    if answer_size > 0:
+        coin_found = False
+        for item in answer:
+            if item['name'] == "Coin":
+                coin_found = True
+                break
+        if not coin_found:
+            out = {
+                "code": -1
+            }
+            resp = json.dumps(out)
+            return resp
+
+    # If food not detected
+    if answer_size > 0:
+        food_found = False
+        for item['name'] in answer:
+            if not item == "Coin":
+                food_found = True
+                break
+        if not food_found:
+            out = {
+                "code": -2
+            }
+            resp = json.dumps(out)
+            return resp
+
+    # When nothing detected
     if answer_size == 0:
         out = {
-            "code": -1
+            "code": -3
         }
         resp = json.dumps(out)
         return resp
@@ -113,13 +142,17 @@ def receive_and_process(data):
 
 def get_list():
 
-    # Get working directory
-    working_dir = os.path.dirname(__file__)
-
-    # Read labels
-    with open(working_dir+"/labels.json", 'r') as file:
-        labels_dict = json.load(file)
-        labels = labels_dict['labels']
+    connection = sqlite3.connect("food.db")
+    cursor = connection.cursor()
+    cursor.execute("SELECT Name, Shape FROM Food")
+    labels = []
+    ans = cursor.fetchall()
+    for item in ans:
+        print(item)
+        labels.append({
+            'name': item[0],
+            'shape': item[1]
+        })
 
     output = {
         "code": 0,
@@ -135,21 +168,25 @@ def calculate_calories(data):
     list = data['list']
     connection = sqlite3.connect("food.db")
     cursor = connection.cursor()
-    finalList = []
+    final_list = []
     for item in list:
         if item['type'] == "list":
-            cursor.execute("SELECT Calories FROM Food WHERE Name= ?", [item['name']])
-            calories = cursor.fetchone()
-            calories = (calories[0]/100) * item['mass']
-            finalList.append({ "name": item['name'], "calories": calories })
+            cursor.execute("SELECT Shape, Calories FROM Food WHERE Name= ?", [item['name']])
+            row = cursor.fetchone()
+            shape = row[0]
+            if shape == "Fixed":
+                final_list.append({"name": item['name'], "calories": row[1] })
+            else:
+                calories = (row[1]/100) * int(item['mass'])
+                final_list.append({ "name": item['name'], "calories": calories })
         else:
-            finalList.append({ "name": item['name'], "calories": item['calories']})
+            final_list.append({ "name": item['name'], "calories": int(item['calories'])})
 
     cursor.close()
     connection.close()
     output = {
         "code": 0,
-        "list": finalList
+        "list": final_list
     }
     out = json.dumps(output)
     print(out)
