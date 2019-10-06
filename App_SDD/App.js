@@ -6,6 +6,7 @@ import Diary from './src/screens/Diary/Diary';
 import CorrectionScreen from './src/screens/CorrectionScreen/CorrectionScreen';
 import SideDrawer from './src/screens/SideDrawer/SideDrawer';
 import ProfileScreen from './src/screens/ProfileScreen/ProfileScreen';
+import HelpScreen from './src/screens/HelpScreen/HelpScreen';
 
 
 const EstimatorPage = createStackNavigator(
@@ -38,6 +39,12 @@ const DiaryStack = createStackNavigator(
 			screen: ProfileScreen,
 			navigationOptions: {
 				title: 'Profile'
+			}
+		},
+		HelpScreen: {
+			screen: HelpScreen,
+			navigationOptions: {
+				title: 'Help'
 			}
 		}
 	}

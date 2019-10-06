@@ -31,6 +31,10 @@ class SideDrawer extends React.Component {
         this.props.navigation.navigate('ProfileScreen');
     }
 
+    showHelp = () => {
+        this.props.navigation.navigate('HelpScreen');
+    }
+
     onSignOut = () => {
         Alert.alert(
             '',
@@ -61,6 +65,12 @@ class SideDrawer extends React.Component {
                     <View style = {styles.drawerItem}>
                         <Icon style = {styles.drawerItemIcon} name = { Platform.OS === 'android' ? 'md-person' : 'ios-person'} size = {30} color = '#bbb' />
                         <MainText>My Profile</MainText>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress = {this.showHelp}>
+                    <View style = {styles.drawerItem}>
+                        <Icon style = {styles.drawerItemIcon} name = { Platform.OS === 'android' ? 'md-help-circle' : 'ios-help-circle'} size = {30} color = '#bbb' />
+                        <MainText>Help</MainText>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress = {this.onSignOut}>
