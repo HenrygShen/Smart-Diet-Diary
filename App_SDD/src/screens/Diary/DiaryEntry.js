@@ -52,7 +52,7 @@ export class DiaryEntry extends React.Component {
                         Total calories for the day :
                     </MainText>
                     <MainText style = {{ color: calculateColor(recommendedCalories, total)}}>
-                    { `   ${total}`}
+                    { `   ${total.toFixed(0)}`}
                     </MainText>
                 </View>
                 { warning}
