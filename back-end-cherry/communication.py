@@ -70,10 +70,12 @@ def receive_and_process(data):
             return resp
 
     # If food not detected
+    print(answer)
+    print("nani")
     if answer_size > 0:
         food_found = False
-        for item['name'] in answer:
-            if not item == "Coin":
+        for item in answer:
+            if not item['name'] == "Coin":
                 food_found = True
                 break
         if not food_found:

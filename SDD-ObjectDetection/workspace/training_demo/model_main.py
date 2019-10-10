@@ -27,7 +27,7 @@ from __future__ import print_function
 #train mode for new training
 # python model_main.py --alsologtostderr --model_dir=training_rcnn/ --pipeline_config_path=training_rcnn/faster_rcnn_inception_v2_coco.config
 
-#tensorboard --logdir=training_rcnn2\ --host=localhost
+#tensorboard --logdir=training_rcnn\ --host=localhost
 
 """
 

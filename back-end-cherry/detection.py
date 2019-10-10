@@ -52,12 +52,13 @@ def detect_api(filename):
 
     # List of the strings that is used to add correct label for each box.
     # PATH_TO_LABELS = os.path.join('data', 'mscoco_label_map.pbtxt')
-    PATH_TO_LABELS = os.path.join('annotations', 'label_map.pbtxt')
+    PATH_TO_LABELS = "../SDD-ObjectDetection/workspace/training_demo/annotations/label_map.pbtxt"
 
     # Number of classes to detect
     NUM_CLASSES = 8
 
     # # Download Model
+
     # opener = urllib.request.URLopener()
     # opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
     # tar_file = tarfile.open(MODEL_FILE)

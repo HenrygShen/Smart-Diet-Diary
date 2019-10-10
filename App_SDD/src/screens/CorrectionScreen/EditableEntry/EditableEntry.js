@@ -108,6 +108,7 @@ class EditableEntry extends React.Component {
             }
             return {
                 ...prevState,
+                details: this.state.list[value].label,
                 controls: {
                     ...prevState.controls,
                     name: this.state.list[value].label
@@ -173,8 +174,8 @@ class EditableEntry extends React.Component {
                         <ScrollView style = {{ width: '60%', maxHeight: '50%'}}>
                             <RadioForm
                             radio_props={this.state.list}
-                            buttonColor={'orange'}
-                            selectedButtonColor = {'orange'}
+                            buttonColor={'#ADD8E6'}
+                            selectedButtonColor = {'#ADD8E6'}
                             initial={this.state.index}
                             onPress={(value) => { this.onRadioInputChange(value)}}
                             />

@@ -50,3 +50,7 @@ item {
 	id: 13
 	name: 'McDonalds filet-o-fish'
 }
+item {
+	id: 14
+	name: 'PizzaHut pizza'
+}

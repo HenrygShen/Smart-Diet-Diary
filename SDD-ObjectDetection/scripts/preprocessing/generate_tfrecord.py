@@ -83,6 +83,8 @@ def class_text_to_int(row_label):
         return 1
     elif row_label == 'McDonalds filet-o-fish':
         return 1
+    elif row_label == 'PizzaHut pizza':
+        return 1
     # elif row_label == 'pear':
     #   return 1
     # elif row_label == 'strawberry':

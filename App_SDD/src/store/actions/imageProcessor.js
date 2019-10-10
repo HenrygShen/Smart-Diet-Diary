@@ -23,7 +23,7 @@ export const processImage = (image) => (dispatch) => {
         else {
             dispatch({
                 type: IMAGE_RESULT_FAILED,
-                payload: -1
+                payload: res.code
             })
         }
     })

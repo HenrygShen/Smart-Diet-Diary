@@ -8,7 +8,62 @@ const ResultSection = ({result, pushCorrectionScreen}) => {
 
     let list;
     let mainContent;
-    if (result !== -1 && result !== null) {
+    if (result === -1) {
+        mainContent = 
+        <View>
+            <View style = {styles.subTextContainer}>
+                <MainText>
+                    Coin not detected in image.
+                </MainText>
+                <MainText>
+                    Incorrect classification or missing an item? 
+                </MainText>
+                <MainText>
+                    Click below
+                </MainText>
+                <View>
+                    <Button onPress = { () => {pushCorrectionScreen() }} info>More</Button>
+                </View>
+            </View>
+        </View>
+    }
+    else if (result === -2) {
+        mainContent = 
+        <View>
+            
+            <View style = {styles.subTextContainer}>
+                <MainText>
+                    Food item not detected in image.
+                </MainText>
+                <MainText>Incorrect classification or missing an item? </MainText>
+                <MainText>
+                    Click below
+                </MainText>
+                <View>
+                    <Button onPress = { () => {pushCorrectionScreen() }} info>More</Button>
+                </View>
+            </View>
+        </View>
+    }
+    else if (result === -3) {
+        mainContent = 
+        <View>
+            
+            <View style = {styles.subTextContainer}>
+                <MainText>
+                    Nothing detected in image.
+                </MainText>
+                <MainText>Incorrect classification or missing an item? </MainText>
+                <MainText>
+                    Click below
+                </MainText>
+                <View>
+                    <Button onPress = { () => {pushCorrectionScreen() }} info>More</Button>
+                </View>
+            </View>
+        </View>
+    }
+    else if (result !== null) {
         list = result.map((object, i) => { 
             return (
             <View key = {`${Math.random()} ${Math.random()}`}>
@@ -41,24 +96,6 @@ const ResultSection = ({result, pushCorrectionScreen}) => {
                 </View>
             </View>
         </View>;
-    }
-    else if (result === -1) {
-        mainContent = 
-        <View>
-            <Text>Coin not detected in image</Text>
-        </View>
-    }
-    else if (result === -2) {
-        mainContent = 
-        <View>
-            <Text>Food item not detected in image</Text>
-        </View>
-    }
-    else if (result === -3) {
-        mainContent = 
-        <View>
-            <Text>Nothing detected in image</Text>
-        </View>
     }
     return (
         <View style = {styles.container}>

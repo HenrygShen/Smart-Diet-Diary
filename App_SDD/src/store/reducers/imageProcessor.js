@@ -17,11 +17,13 @@ const reducer = (state = initialState, action) => {
         case IMAGE_RESULT_FAILED:
             return {
                 ...state,
+                result: null,
                 response: action.payload
             }
         case CLEAR_IMAGE_RESULT:
             return {
                 ...state,
+                result: null,
                 response: null
             }
         case RESET_APP_STATE:

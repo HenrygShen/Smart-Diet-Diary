@@ -61,9 +61,9 @@ class EstimatorScreen extends React.Component {
             this.setState({ answer: this.props.imageState.result })
             this.props.clearResult();
         }
-        else if (this.props.imageState.response === -1){
+        else if (this.props.imageState.response === -1 || this.props.imageState.response === -2 || this.props.imageState.response === -3){
             this.props.stopLoading();
-            this.setState({ answer: -1 });
+            this.setState({ answer: this.props.imageState.response });
             this.props.clearResult();
         }
     }
@@ -131,13 +131,15 @@ class EstimatorScreen extends React.Component {
 
     pushCorrectionScreen = () => {
         let itemArray = [];
-        const { result } =  this.props.imageState;
-        for (var i = 0; i < result.length; i++) {
-            itemArray.push({
-                name: result[i].name, 
-                calories: result[i].calories,
-                mass: result[i].mass
-            });
+        const result  =  this.state.answer;
+        if (result !== null) {
+            for (var i = 0; i < result.length; i++) {
+                itemArray.push({
+                    name: result[i].name, 
+                    calories: result[i].calories,
+                    mass: result[i].mass
+                });
+            }
         }
 
         this.props.navigation.push('CorrectionScreen', {
