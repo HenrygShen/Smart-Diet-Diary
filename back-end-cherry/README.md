@@ -12,7 +12,7 @@ Instructions:
 4. In Settings navigate to Project: back-end-cherry -> Project Interpreter.
 5. Click on the cog on the top right and add a new virtual environment using the **Python 3.6** base interpreter.
 6. In the terminal tab of the IDE, Run the command ```pip install -r requirements.txt```.
-7. Download the models folder from https://github.com/tensorflow/models and place it in back-end-cherry.
+7. Download the models folder [here](https://mega.nz/#F!VRkjDIZZ!wJilhfEkAafbm6qydoTKtA) (you only need models.zip) and place it in back-end-cherry.
 8. Add the location of ```<PATH_TO_PROJECT>\back-end-cherry\models\research\object_detection``` to the PYTHONPATH system variable in your computer's environment variables.
 9. In the terminal change directory to ```back-end-cherry\models\research```.
 10. Run the command ```python setup.py build```.
@@ -23,7 +23,7 @@ Instructions:
 15. Use the keyboard shortcut ```Shift + F10``` to run the server.
 
 ## Importing trained classifier
-1. Download the trained classifier [here](https://mega.nz/#F!VRkjDIZZ!wJilhfEkAafbm6qydoTKtA) (output_inference_graph_rcnnv14.pb.zip).
+1. Download the trained classifier [here](https://mega.nz/#F!VRkjDIZZ!wJilhfEkAafbm6qydoTKtA) (you only need output_inference_graph_rcnnv14.pb.zip).
 2. Go to the root of the repository and then access the ```SDD-ObjectDetection/workspace/training_demo/``` directory.
 3. Here create a new folder called **trained-inference-graphs**
 4. Extract the downloaded folder and put it in **trained-inference-graphs**.
