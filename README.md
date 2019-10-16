@@ -1,7 +1,7 @@
 # Smart-Diet-Diary
 
 This repository contains all of the code required to use the entire application.    
-**Note: All of the code in the \_legacy folder is not required to run the final application**
+**Note: All of the code in the \_legacy folder is not required to run the final application.**
 
 ## Folder structure
 
