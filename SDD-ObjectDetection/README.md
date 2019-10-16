@@ -6,8 +6,9 @@ This project consists of the machine learning training and evaluation code. To s
 The following  will guide you through the setup and workflow of the project.
 
 ## Setting up:
-**Note: If you want to use tensorflow-gpu, follow the instructions in https://www.youtube.com/watch?v=RplXYjxgZbw**
-Instructions:    
+**Note: If you want to use tensorflow-gpu, follow the instructions in https://www.youtube.com/watch?v=RplXYjxgZbw**    
+
+Instructions:
 1. Download the models folder from https://github.com/tensorflow/models and place it in SDD-ObjectDetection.
 2. Add the location of ```<PATH_TO_PROJECT>\SDD-ObjectDetection\models\research\object_detection``` to the PYTHONPATH system variable in your computer's environment variables.
 3. Open the project folder in Pycharm IDE.
