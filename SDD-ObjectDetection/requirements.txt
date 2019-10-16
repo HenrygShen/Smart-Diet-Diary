@@ -5,3 +5,5 @@ matplotlib
 opencv-python
 pandas
 tensorflow_gpu==1.11
+scikit-image
+cython
