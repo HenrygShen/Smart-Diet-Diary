@@ -21,3 +21,9 @@ Instructions:
 13. Run the command ```pip install -e .```.
 14. Restart Pycharm.
 15. Use the keyboard shortcut ```Shift + F10``` to run the server.
+
+## Importing trained classifier
+1. Download the trained classifier [here](https://mega.nz/#F!VRkjDIZZ!wJilhfEkAafbm6qydoTKtA) (output_inference_graph_rcnnv14.pb.zip).
+2. Go to the root of the repository and then access the ```SDD-ObjectDetection/workspace/training_demo/``` directory.
+3. Here create a new folder called **trained-inference-graphs**
+4. Extract the downloaded folder and put it in **trained-inference-graphs**.
