@@ -10,7 +10,7 @@ Setup:
 *If you want to use tensorflow-gpu, follow the instructions in https://www.youtube.com/watch?v=RplXYjxgZbw
 
 1. Download the models folder from https://github.com/tensorflow/models and place it in SDD-ObjectDetection.
-2. Add the location of ```models\research\object_detection``` to the PYTHONPATH system variable in your computer's environment variables.
+2. Add the location of ```<PATH_TO_PROJECT>\SDD-ObjectDetection\models\research\object_detection``` to the PYTHONPATH system variable in your computer's environment variables.
 3. Open the project folder in Pycharm IDE.
 4. Click File -> Settings.
 5. In Settings navigate to Project: SDD-ObjectDetection -> Project Interpreter.
