@@ -45,7 +45,7 @@ def detect_api(filename):
 
     # What model to download.
     # Models can bee found here: https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md
-    MODEL_NAME = '../SDD-ObjectDetection/workspace/training_demo/trained-inference-graphs/output_inference_graph_rcnnv8.pb'
+    MODEL_NAME = '../SDD-ObjectDetection/workspace/training_demo/trained-inference-graphs/output_inference_graph_rcnnv14.pb'
 
     # Path to frozen detection graph. This is the actual model that is used for the object detection.
     PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'

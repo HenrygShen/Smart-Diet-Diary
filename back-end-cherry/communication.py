@@ -71,7 +71,6 @@ def receive_and_process(data):
 
     # If food not detected
     print(answer)
-    print("nani")
     if answer_size > 0:
         food_found = False
         for item in answer:
