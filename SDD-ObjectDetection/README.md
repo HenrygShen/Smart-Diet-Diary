@@ -1,14 +1,13 @@
 # SDD-ObjectDetection
 
-Using Python 3.6.8 and Pycharm IDE.
 
-This project consists of the machine learning training and evaluation code.
-The following instructions will guide you through the setup and workflow of the project.
 
-Setup:
+This project consists of the machine learning training and evaluation code. To set up this module on your computer you will need **Python 3.6.8 and the Pycharm IDE.**
+The following  will guide you through the setup and workflow of the project.
 
-*If you want to use tensorflow-gpu, follow the instructions in https://www.youtube.com/watch?v=RplXYjxgZbw
-
+## Setting up:
+**Note: If you want to use tensorflow-gpu, follow the instructions in https://www.youtube.com/watch?v=RplXYjxgZbw**
+Instructions:    
 1. Download the models folder from https://github.com/tensorflow/models and place it in SDD-ObjectDetection.
 2. Add the location of ```<PATH_TO_PROJECT>\SDD-ObjectDetection\models\research\object_detection``` to the PYTHONPATH system variable in your computer's environment variables.
 3. Open the project folder in Pycharm IDE.
